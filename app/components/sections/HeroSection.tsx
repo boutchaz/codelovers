@@ -61,9 +61,13 @@ export function HeroSection() {
 
     window.addEventListener("resize", handleResize);
 
+    // Detect if mobile device for optimized frame loading
+    const isMobile = window.innerWidth < 768;
+    const frameFolder = isMobile ? "/frames-mobile" : "/frames";
+
     // Generate image URLs from extracted frames
     const currentFrame = (index: number) =>
-      `/frames/frame-${(index + 1).toString().padStart(3, "0")}.jpg`;
+      `${frameFolder}/frame-${(index + 1).toString().padStart(3, "0")}.jpg`;
 
     const images: HTMLImageElement[] = [];
     const currentFrameIndex = {
@@ -220,14 +224,13 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex min-h-screen w-full items-start justify-center px-4 sm:px-6 lg:px-8">
-        <div className="mt-24 w-full sm:mt-32 md:mt-40">
-          {/* Centered Content */}
-          <div
-            ref={contentRef}
-            className="mx-auto w-full max-w-4xl space-y-6 text-center sm:space-y-10"
-            style={{ transformStyle: "preserve-3d" }}
-          >
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1200px] items-center justify-center px-4 sm:px-6 lg:px-8">
+        {/* Centered Content */}
+        <div
+          ref={contentRef}
+          className="mx-auto w-full max-w-4xl space-y-6 text-center sm:space-y-10"
+          style={{ transformStyle: "preserve-3d" }}
+        >
             {/* Badge with enhanced styling */}
             <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-gradient-to-r from-white/10 to-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-200 shadow-lg shadow-rose-500/20 backdrop-blur-md transition-all hover:scale-105 hover:border-rose-400/50 hover:shadow-rose-500/30 sm:gap-3 sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-[0.3em]">
             <span className="relative flex h-2 w-2">
@@ -285,7 +288,6 @@ export function HeroSection() {
                 <p className="mt-2 text-xs text-slate-400 transition-colors group-hover:text-slate-300 sm:mt-3 sm:text-sm">{metric.label}</p>
               </div>
             ))}
-          </div>
           </div>
         </div>
 

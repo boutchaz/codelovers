@@ -74,7 +74,7 @@ export function DesignSection() {
         },
         "+=0.2"
       );
-    }, 500); // Increased delay to ensure HeroSection is fully initialized
+    }, 1000); // Increased delay to ensure HeroSection is fully initialized
 
     return () => {
       clearTimeout(initTimeout);
