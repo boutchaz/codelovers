@@ -1,0 +1,890 @@
+'use client';
+
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+
+const navigation = [
+  { label: "Services", href: "#services" },
+  { label: "Solutions", href: "#solutions" },
+  { label: "Works", href: "#works" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
+];
+
+const heroMetrics = [
+  { value: "13+", label: "Years designing digital products" },
+  { value: "600+", label: "Partners scaling with us" },
+  { value: "97%", label: "Long-term client retention" },
+];
+
+const heroCards = [
+  {
+    title: "Experience Blueprint",
+    description: "Journey mapping across every touchpoint.",
+    badge: "CX Lab",
+    className: "hero-card hero-card--top",
+  },
+  {
+    title: "Commerce Velocity",
+    description: "Modern storefronts that convert with intent.",
+    badge: "Growth Squad",
+    className: "hero-card hero-card--mid",
+  },
+  {
+    title: "Product Engineering",
+    description: "Cloud-native builds with measurable impact.",
+    badge: "Tech Guild",
+    className: "hero-card hero-card--bottom",
+  },
+];
+
+const services = [
+  {
+    title: "Strategy & Advisory",
+    description:
+      "We unlock new possibilities with brand, digital, and growth strategy informed by research and behavioural insights.",
+    tags: ["Brand North Star", "Customer Journeys", "Analytics"],
+  },
+  {
+    title: "Experience Design",
+    description:
+      "Our multidisciplinary team orchestrates UX, UI, and motion to deliver seamless experiences that feel engineered for humans.",
+    tags: ["Product UX", "Service Design", "Design Systems"],
+  },
+  {
+    title: "Product Engineering",
+    description:
+      "From architectures to launch, we craft fast, secure products with future-ready technology patterns and automation.",
+    tags: ["Cloud Native", "AI Acceleration", "DevOps"],
+  },
+  {
+    title: "Commerce & Growth",
+    description:
+      "We shape high-performing commerce ecosystems, optimised funnels, and data-driven campaigns that scale conversion.",
+    tags: ["Headless Commerce", "CRM Activation", "Performance Media"],
+  },
+  {
+    title: "Digital Transformation",
+    description:
+      "Enterprise-grade transformation programs that align teams, process, and platforms for rapid change and measurable ROI.",
+    tags: ["Platform Modernisation", "Change-Mgmt", "Data Fabric"],
+  },
+  {
+    title: "Managed Success",
+    description:
+      "Dedicated squads keep shipping momentum alive with optimisation, iteration, and insight-led growth experiments.",
+    tags: ["Embedded Teams", "Continuous Discovery", "CX Analytics"],
+  },
+];
+
+const capabilities = [
+  {
+    title: "Discover & Define",
+    description:
+      "Research, brand positioning, and product strategy aligned with customer truths and market opportunities.",
+    points: ["Insight-led workshops", "Competitive landscaping", "Value proposition crafting"],
+  },
+  {
+    title: "Design & Orchestrate",
+    description:
+      "Experience ecosystems that blend story, interaction, and accessibility to convert every touchpoint into trust.",
+    points: ["Omnichannel UX design", "Rapid prototyping", "Design system ops"],
+  },
+  {
+    title: "Build & Accelerate",
+    description:
+      "Engineering that delivers velocity without compromise, powered by automation, observability, and AI augmentation.",
+    points: ["Composable architectures", "AI-assisted workflows", "Performance optimisation"],
+  },
+];
+
+const caseStudies = [
+  {
+    title: "Caribou Coffee",
+    category: "Hospitality",
+    summary:
+      "Reimagined loyalty with a hyper-personalised mobile experience, merging ordering, rewards, and storytelling.",
+    result: "45%",
+    metric: "Surge in loyalty enrolment inside 3 months",
+    gradient: "from-amber-500/20 via-orange-500/10 to-rose-600/20",
+  },
+  {
+    title: "LuLu Hypermarket",
+    category: "Retail",
+    summary:
+      "Built a multi-country commerce stack with guided discovery, real-time inventory, and last-mile orchestration.",
+    result: "3.4x",
+    metric: "Increase in conversion across priority categories",
+    gradient: "from-red-500/20 via-rose-500/10 to-purple-500/20",
+  },
+  {
+    title: "Middlesex University",
+    category: "Education",
+    summary:
+      "Enabled digital admissions journeys with adaptive content, accessibility-first design, and data-led nurturing.",
+    result: "62%",
+    metric: "Boost in qualified enquiries for international programs",
+    gradient: "from-rose-500/20 via-amber-500/12 to-red-600/20",
+  },
+];
+
+const testimonials = [
+  {
+    quote:
+      "They translate ambition into experiences that deliver. Every sprint is sharp, guided, and spot-on with business outcomes.",
+    author: "Nandakumar K",
+    role: "CEO, LuLu Group International",
+  },
+  {
+    quote:
+      "From research to go-live, the team was an extension of ours. They challenge, refine, and obsess over every customer moment.",
+    author: "Antony Paul",
+    role: "Managing Director, Joyalukkas Exchange",
+  },
+  {
+    quote:
+      "Our transformation needed clarity, speed, and craft. Code Lovers gave us all three—and a growth engine that keeps evolving.",
+    author: "Aboobacker M",
+    role: "Director, Unicoin DCX",
+  },
+];
+
+const partners = ["LuLu Group", "Caribou", "IKEA", "Middlesex", "Joyalukkas", "Yalla Toys", "Medcare"];
+
+const videoHighlights = [
+  {
+    title: "Crafting Immersive Commerce",
+    description: "Designing a headless storefront experience that adapts to every market in real time.",
+    src: "https://cdn.coverr.co/videos/coverr-designer-working-on-computer-5072/1080p.mp4",
+    poster: "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=1200&q=80",
+    duration: "02:17",
+  },
+  {
+    title: "Strategy In Motion",
+    description: "Inside our CX lab where cross-functional squads prototype new customer journeys.",
+    src: "https://cdn.coverr.co/videos/coverr-late-night-coding-4802/1080p.mp4",
+    poster: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+    duration: "01:42",
+  },
+  {
+    title: "Engineering Velocity",
+    description: "From architecture to launch, a look at our automation-driven development rhythm.",
+    src: "https://cdn.coverr.co/videos/coverr-software-developers-writing-code-3962/1080p.mp4",
+    poster: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+    duration: "02:03",
+  },
+  {
+    title: "Growth Partners",
+    description: "Collaborating with marketing leaders to activate data-informed growth loops.",
+    src: "https://cdn.coverr.co/videos/coverr-team-discussing-marketing-plan-5691/1080p.mp4",
+    poster: "https://images.unsplash.com/photo-1521737116893-530c2ef3b954?auto=format&fit=crop&w=1200&q=80",
+    duration: "01:28",
+  },
+];
+
+export default function Home() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeVideo, setActiveVideo] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 16);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    document.querySelectorAll<HTMLElement>(".reveal-on-scroll").forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollCarousel = (direction: "next" | "prev") => {
+    const container = carouselRef.current;
+    if (!container) return;
+    const card = container.querySelector<HTMLElement>('[data-video-card]');
+    const cardWidth = card ? card.offsetWidth : container.clientWidth;
+    const gap = parseInt(getComputedStyle(container).columnGap || "0", 10) || 24;
+    const offset = cardWidth + gap;
+    container.scrollBy({
+      left: direction === "next" ? offset : -offset,
+      behavior: "smooth",
+    });
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 scroll-smooth">
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 ${
+          isScrolled
+            ? "border-b border-white/10 bg-[rgba(5,6,15,0.8)] backdrop-blur-xl"
+            : "border-b border-transparent bg-transparent"
+        }`}
+      >
+        <nav className="mx-auto flex h-20 w-full max-w-[1480px] items-center justify-between px-6 lg:px-8">
+          <Link href="/" className="flex items-center gap-4">
+            <span className="relative hidden h-12 w-12 md:block">
+              <Image src="/codelovers-logo.svg" alt="CodeLovers logo" fill priority sizes="48px" />
+            </span>
+            <div className="flex flex-col">
+              <span className="text-xl font-semibold tracking-tight text-white">
+                Code<span className="text-rose-400">Lovers</span>
+              </span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.5em] text-rose-300">
+                Innovating Excellence
+              </span>
+            </div>
+          </Link>
+
+          <div className="hidden items-center gap-8 md:flex">
+            {navigation.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <Link
+              href="#contact"
+              className="rounded-full border border-rose-400/40 bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-5 py-2 text-sm font-semibold tracking-wide text-white shadow-lg shadow-rose-500/30 transition hover:-translate-y-0.5 hover:shadow-rose-500/50"
+            >
+              Let&apos;s talk
+            </Link>
+          </div>
+        </nav>
+      </div>
+
+      <main className="relative">
+        <section className="hero-section relative isolate h-[100svh] min-h-[100svh] overflow-hidden pb-24 lg:pb-32">
+          <div className="hero-background" />
+          <div className="mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-16 px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+            <div className="space-y-10">
+              <div className="inline-flex items-center gap-3 rounded-full border border-rose-400/20 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                Global Digital Studio
+                <span className="h-1 w-1 rounded-full bg-rose-300" />
+                Since 2012
+              </div>
+
+              <div className="space-y-6">
+                <h1 className="text-balance text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl">
+                  Designing digital experiences that{" "}
+                  <span className="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">
+                    move businesses forward
+                  </span>
+                </h1>
+                <p className="max-w-2xl text-lg text-slate-300 sm:text-xl">
+                  We partner with ambitious teams to imagine bold futures, design distinctive experiences, and engineer
+                  products that outperform the market.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <Link
+                  href="#contact"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-10 py-4 text-base font-semibold transition hover:scale-[1.02] hover:shadow-2xl hover:shadow-rose-500/40"
+                >
+                  Start a project
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+                <Link
+                  href="#works"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-10 py-4 text-base font-semibold text-rose-200 transition hover:border-rose-400/60 hover:text-white"
+                >
+                  View our work
+                  <span className="transition-transform group-hover:translate-x-1">→</span>
+                </Link>
+              </div>
+
+              <div className="hero-metrics grid gap-6 sm:grid-cols-3">
+                {heroMetrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 p-6 shadow-[0_0_35px_rgba(225,29,72,0.18)]"
+                  >
+                    <p className="text-3xl font-semibold text-white sm:text-4xl">{metric.value}</p>
+                    <p className="mt-3 text-sm text-slate-400">{metric.label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative mx-auto w-full max-w-lg">
+              <div className="hero-orb" />
+              <div className="hero-shell relative overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.03] p-10">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(239,68,68,0.4),_transparent_55%)]" />
+                <div className="absolute inset-0 bg-grid-fade" />
+                <div className="relative space-y-6">
+                  <div className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+                    <p className="text-sm uppercase tracking-[0.4em] text-rose-200">Launch Velocity</p>
+                    <p className="mt-4 text-lg text-slate-200">
+                      Strategy, design, and engineering collaborating in orchestrated sprints to make every release
+                      meaningful.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-4 sm:flex-row">
+                    <div className="flex-1 rounded-3xl border border-white/10 bg-gradient-to-br from-rose-500/25 via-red-500/10 to-transparent p-6 backdrop-blur">
+                      <p className="text-4xl font-semibold text-white">48h</p>
+                      <p className="mt-3 text-sm text-slate-300">To unlock an actionable prototype</p>
+                    </div>
+                    <div className="flex-1 rounded-3xl border border-white/10 bg-gradient-to-br from-rose-500/20 via-orange-500/10 to-transparent p-6 backdrop-blur">
+                      <p className="text-4xl font-semibold text-white">6M</p>
+                      <p className="mt-3 text-sm text-slate-300">Customer touchpoints tested last year</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {heroCards.map((card) => (
+                <div key={card.title} className={card.className}>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200">
+                    {card.badge}
+                  </span>
+                  <h3 className="mt-4 text-lg font-semibold text-white">{card.title}</h3>
+                  <p className="mt-2 text-sm text-slate-300">{card.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="reveal-on-scroll bg-slate-950/70 py-28">
+          <div className="mx-auto w-full max-w-[1280px] space-y-12 px-6 lg:px-8">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl space-y-4">
+                <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                  Inside Code Lovers
+                </p>
+                <h2 className="text-4xl font-bold text-white sm:text-5xl">
+                  Experience how our teams design, build, and accelerate digital growth
+                </h2>
+                <p className="text-lg text-slate-300">
+                  A curated stream of moments from the studio—strategy labs, design sprints, engineering rituals, and
+                  growth experiments captured in motion.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 self-start lg:self-auto">
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("prev")}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
+                  aria-label="Scroll videos backward"
+                >
+                  <span>←</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel("next")}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
+                  aria-label="Scroll videos forward"
+                >
+                  <span>→</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div
+                ref={carouselRef}
+                className="grid auto-cols-[minmax(85vw,1fr)] grid-flow-col gap-6 overflow-x-auto pb-4 [scroll-snap-type:x_mandatory] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:auto-cols-[minmax(300px,360px)] lg:auto-cols-[minmax(320px,380px)]"
+                role="region"
+                aria-label="Studio highlight videos"
+              >
+                {videoHighlights.map((video, index) => (
+                  <article
+                    key={video.title}
+                    data-video-card
+                    className={`group relative flex flex-col overflow-hidden rounded-[32px] border border-white/10 bg-slate-900/70 transition duration-500 ease-out [scroll-snap-align:start] hover:-translate-y-2 hover:border-rose-400/45 hover:shadow-[0_25px_80px_rgba(244,63,94,0.18)] focus-within:-translate-y-2 focus-within:border-rose-400/45 focus-within:shadow-[0_25px_80px_rgba(244,63,94,0.18)] ${
+                      index === activeVideo ? "border-rose-400/60 shadow-[0_30px_90px_rgba(244,63,94,0.25)]" : ""
+                    }`}
+                  >
+                    <div className="relative mx-5 mt-5 overflow-hidden rounded-[28px] bg-slate-900/80">
+                      <video
+                        src={video.src}
+                        poster={video.poster}
+                        muted
+                        loop
+                        controls
+                        playsInline
+                        preload="metadata"
+                        onPlay={() => setActiveVideo(index)}
+                        onMouseEnter={(event) => {
+                          event.currentTarget.play().catch(() => {});
+                          setActiveVideo(index);
+                        }}
+                        onFocus={() => setActiveVideo(index)}
+                        onMouseLeave={(event) => event.currentTarget.pause()}
+                        className="h-full w-full rounded-[inherit] object-cover"
+                      >
+                        <track kind="captions" label={video.title} />
+                      </video>
+                      <span className="absolute bottom-4 right-4 rounded-full border border-white/20 bg-slate-900/75 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-50">
+                        {video.duration}
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-3 px-7 pb-8 pt-6">
+                      <h3 className="text-lg font-semibold text-white">{video.title}</h3>
+                      <p className="text-sm leading-relaxed text-slate-300">{video.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="reveal-on-scroll border-y border-white/5 bg-slate-950/60 py-14">
+          <div className="mx-auto flex w-full max-w-[1280px] flex-wrap items-center justify-center gap-8 px-6 text-sm uppercase tracking-[0.3em] text-slate-400 lg:px-8">
+            <span className="text-xs font-semibold text-rose-200">Trusted by teams that lead their markets</span>
+            <div className="h-3 w-px bg-white/10" />
+            {partners.map((partner) => (
+              <span key={partner} className="text-xs font-medium text-slate-300">
+                {partner}
+              </span>
+            ))}
+          </div>
+        </section>
+
+        <section id="solutions" className="reveal-on-scroll py-28">
+          <div className="mx-auto grid w-full max-w-[1200px] items-center gap-16 px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
+            <div className="space-y-6">
+              <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                Outcomes first
+              </p>
+              <h2 className="text-4xl font-bold text-white sm:text-5xl">
+                Solutions that align brand, experience, and engineering around measurable impact
+              </h2>
+              <p className="text-lg text-slate-300">
+                We help founders and enterprises translate ambition into validated roadmaps, orchestrated experiences,
+                and high-velocity product delivery.
+              </p>
+              <ul className="grid gap-4 text-sm text-slate-300">
+                <li className="rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur">
+                  <span className="text-rose-200">01.</span> Venture co-creation and market entry acceleration
+                </li>
+                <li className="rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur">
+                  <span className="text-rose-200">02.</span> Composable platform builds for omni-channel experiences
+                </li>
+                <li className="rounded-2xl border border-white/5 bg-white/5 p-5 backdrop-blur">
+                  <span className="text-rose-200">03.</span> Continuous optimisation squads plugged to your KPIs
+                </li>
+              </ul>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  href="#services"
+                  className="inline-flex items-center gap-2 rounded-full border border-rose-400/40 px-6 py-3 text-sm font-semibold text-rose-200 transition hover:border-rose-400 hover:text-white"
+                >
+                  Explore services
+                  <span>→</span>
+                </Link>
+                <Link
+                  href="#works"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
+                >
+                  Case studies
+                  <span>↗</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="solutions-panel rounded-[36px] border border-white/10 bg-white/[0.04] p-10">
+                <div className="solutions-grid grid gap-6">
+                  {capabilities.map((capability) => (
+                    <div
+                      key={capability.title}
+                      className="rounded-3xl border border-white/10 bg-gradient-to-br from-white/6 to-transparent p-6 backdrop-blur"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                        {capability.title}
+                      </p>
+                      <h3 className="mt-4 text-lg font-semibold text-white">{capability.description}</h3>
+                      <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                        {capability.points.map((point) => (
+                          <li key={point} className="flex items-start gap-2">
+                            <span className="mt-1 h-1.5 w-1.5 rounded-full bg-rose-300" />
+                            <span>{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="services" className="reveal-on-scroll bg-slate-950/70 py-28">
+          <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+            <div className="mb-16 space-y-4">
+              <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                Capabilities
+              </p>
+              <h2 className="text-4xl font-bold text-white sm:text-5xl">
+                End-to-end service lines that shape tomorrow&apos;s digital leaders
+              </h2>
+              <p className="max-w-3xl text-lg text-slate-300">
+                We assemble cross-functional squads across strategy, design, technology, and marketing—tailored to the
+                mission at hand.
+              </p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+              {services.map((service) => (
+                <div
+                  key={service.title}
+                  className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.04] p-8 transition-all hover:-translate-y-1 hover:border-rose-500/40 hover:bg-white/[0.06]"
+                >
+                  <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/20 via-red-400/15 to-orange-400/20 blur-3xl" />
+                  </div>
+                  <div className="relative space-y-6">
+                    <h3 className="text-2xl font-semibold text-white">{service.title}</h3>
+                    <p className="text-sm leading-relaxed text-slate-300">{service.description}</p>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {service.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wide text-rose-200"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="works" className="reveal-on-scroll py-28">
+          <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+            <div className="mb-16 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+              <div className="space-y-4">
+                <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                  Case studies
+                </p>
+                <h2 className="text-4xl font-bold text-white sm:text-5xl">
+                  Real-world transformations that redefine customer experience
+                </h2>
+                <p className="max-w-3xl text-lg text-slate-300">
+                  Every engagement is anchored in measurable change—shifting behaviours, expanding revenue, and building
+                  loyalty through craft.
+                </p>
+              </div>
+
+              <Link
+                href="#contact"
+                className="self-start rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
+              >
+                Share your challenge →
+              </Link>
+            </div>
+
+            <div className="grid gap-8 lg:grid-cols-3">
+              {caseStudies.map((study) => (
+                <div
+                  key={study.title}
+                  className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06]"
+                >
+                  <div className={`case-study-glow ${study.gradient}`} />
+                  <div className="relative flex h-full flex-col justify-between space-y-6">
+                    <div className="space-y-3">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                        {study.category}
+                      </span>
+                      <h3 className="text-2xl font-semibold text-white">{study.title}</h3>
+                      <p className="text-sm text-slate-300">{study.summary}</p>
+                    </div>
+                    <div>
+                      <p className="text-4xl font-semibold text-white">{study.result}</p>
+                      <p className="mt-2 text-xs uppercase tracking-[0.3em] text-rose-200">{study.metric}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="about" className="reveal-on-scroll bg-slate-950/70 py-28">
+          <div className="mx-auto grid w-full max-w-[1200px] gap-16 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+            <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(239,68,68,0.28),transparent_60%)]" />
+              <div className="absolute inset-0 bg-grid-fade" />
+              <div className="relative space-y-6">
+                <p className="inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                  Why we exist
+                </p>
+                <h2 className="text-3xl font-semibold text-white">
+                  Crafting meaningful brand and product stories through design, narrative, and technology.
+                </h2>
+                <p className="text-sm leading-relaxed text-slate-300">
+                  We partner with marketing leaders, product owners, and founders to orchestrate journeys that span
+                  acquisition, adoption, and advocacy. Our squads embed deep within your teams to share the same ambition
+                  and metrics.
+                </p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {[
+                    { value: "700+", label: "High-impact launches" },
+                    { value: "18", label: "Countries we’ve shipped in" },
+                    { value: "24/7", label: "Global delivery rhythm" },
+                    { value: "∞", label: "Curiosity for what’s next" },
+                  ].map((stat) => (
+                    <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                      <p className="text-3xl font-semibold text-white">{stat.value}</p>
+                      <p className="mt-3 text-xs uppercase tracking-[0.3em] text-rose-200">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-8 self-center">
+              <blockquote className="rounded-[32px] border border-white/10 bg-white/[0.05] p-10 text-lg text-slate-200">
+                “Every engagement is built on shared ownership. We move quickly, stay accountable, and deliver craft that
+                makes the complex feel effortless.”
+              </blockquote>
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+                  <h3 className="text-xl font-semibold text-white">Embedded squads</h3>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Multidisciplinary partners living inside your stand-ups, rituals, and roadmaps.
+                  </p>
+                </div>
+                <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+                  <h3 className="text-xl font-semibold text-white">Insight obsessed</h3>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Research, analytics, and experimentation loops that mature with every sprint.
+                  </p>
+                </div>
+                <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+                  <h3 className="text-xl font-semibold text-white">Design systems</h3>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Consistent, accessible, and scalable systems powering product ecosystems.
+                  </p>
+                </div>
+                <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+                  <h3 className="text-xl font-semibold text-white">Performance stacked</h3>
+                  <p className="mt-3 text-sm text-slate-300">
+                    Measurement frameworks that keep experiences evolving alongside KPIs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="reveal-on-scroll py-28">
+          <div className="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+            <div className="mb-16 flex flex-col gap-4 text-center">
+              <p className="mx-auto inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                Voices from partners
+              </p>
+              <h2 className="text-4xl font-bold text-white sm:text-5xl">Stories of ambition realised</h2>
+              <p className="mx-auto max-w-3xl text-lg text-slate-300">
+                We design for outcomes, but it&apos;s the relationships and trust we build that keep the work remarkable.
+              </p>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-3">
+              {testimonials.map((testimonial) => (
+                <div
+                  key={testimonial.author}
+                  className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] p-8 transition-all hover:-translate-y-2 hover:border-rose-500/30 hover:bg-white/[0.07]"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-rose-500/12 via-red-500/6 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                  <div className="relative space-y-6">
+                    <div className="flex gap-1 text-rose-300">
+                      {[...Array(5)].map((_, index) => (
+                        <span key={index}>★</span>
+                      ))}
+                    </div>
+                    <p className="text-base leading-relaxed text-slate-200">&ldquo;{testimonial.quote}&rdquo;</p>
+                    <div className="pt-4 text-sm">
+                      <p className="font-semibold text-white">{testimonial.author}</p>
+                      <p className="mt-1 text-slate-400">{testimonial.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="reveal-on-scroll py-28">
+          <div className="mx-auto w-full max-w-[1320px] px-6 text-center lg:px-8">
+            <div className="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-16 backdrop-blur">
+              <h2 className="text-4xl font-semibold text-white sm:text-5xl">
+                Ready to create the next market-defining experience?
+              </h2>
+              <p className="mt-6 text-lg text-slate-100">
+                Let&apos;s align on your ambition, detail the roadmap, and assemble a squad to make it real.
+              </p>
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Link
+                  href="#contact"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
+                >
+                  Book a working session
+                  <span>↗</span>
+                </Link>
+                <Link
+                  href="#services"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/40 px-8 py-3 text-sm font-semibold text-white transition hover:border-white hover:text-rose-200"
+                >
+                  Explore capabilities
+                  <span>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer
+        id="contact"
+        className="overflow-hidden border-t border-white/10 bg-slate-950/90 pt-[60px] pb-[60px] md:pt-[60px] md:pb-[40px] lg:pt-[80px] lg:pb-[80px] xl:pt-[140px] xl:pb-[80px]"
+      >
+        <div className="mx-auto w-full max-w-[1480px] px-6 lg:px-8">
+          <div className="flex flex-col gap-16">
+            <div className="flex flex-col gap-10 border-b border-white/10 pb-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:pb-20">
+              <div className="max-w-2xl space-y-6">
+                <p className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                  Let’s collaborate
+                </p>
+                <h2 className="text-4xl font-semibold text-white sm:text-5xl lg:text-6xl">
+                  Ready to build the next award-winning experience?
+                </h2>
+                <p className="text-base leading-relaxed text-slate-300 lg:text-lg">
+                  Share your challenge and we’ll assemble the strategy, design, engineering, and growth specialists to make
+                  it real.
+                </p>
+                <Link
+                  href="#contact"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-6 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-rose-500/40 sm:w-auto"
+                >
+                  Book a working session
+                  <span>↗</span>
+                </Link>
+              </div>
+
+              <div className="grid gap-6 rounded-[32px] border border-white/10 bg-white/[0.04] p-8 sm:grid-cols-2 lg:max-w-xl">
+                {[
+                  { label: "Global Studios", value: "Dubai · London · Kochi" },
+                  { label: "New enquiries", value: "hello@wearecodelovers.com" },
+                  { label: "Call the team", value: "+1 (234) 567-890" },
+                  { label: "Office hours", value: "Mon – Fri · 09:00 – 18:00" },
+                ].map((item) => (
+                  <div key={item.label} className="space-y-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
+                    <p className="text-xs uppercase tracking-[0.3em] text-rose-200">{item.label}</p>
+                    <p className="text-base font-medium text-white">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
+              <div className="space-y-6">
+                <Link href="/" className="text-2xl font-semibold">
+                  <span className="text-white">We Are</span>{" "}
+                  <span className="bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent">
+                    Code Lovers
+                  </span>
+                </Link>
+              <p className="max-w-md text-sm text-slate-300">
+                A global team of strategists, designers, engineers, and growth leaders crafting digital experiences that
+                shape the future of ambitious brands.
+              </p>
+                <div className="grid gap-3 text-sm text-slate-300">
+                  <a className="transition hover:text-white" href="mailto:hello@wearecodelovers.com">
+                    hello@wearecodelovers.com
+                  </a>
+                  <a className="transition hover:text-white" href="tel:+1234567890">
+                    +1 (234) 567-890
+                  </a>
+                </div>
+                <div className="flex flex-wrap items-center gap-4 pt-6">
+                  {["LinkedIn", "Dribbble", "Behance", "GitHub"].map((network) => (
+                    <a
+                      key={network}
+                      href="#"
+                      aria-label={network}
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200"
+                    >
+                      {network.charAt(0)}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-12 sm:grid-cols-2">
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">Navigation</h3>
+                  <ul className="mt-5 space-y-3 text-sm text-slate-300">
+                    {navigation.map((item) => (
+                      <li key={item.label}>
+                        <Link href={item.href} className="transition hover:text-white">
+                          {item.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">Service Lines</h3>
+                  <ul className="mt-5 space-y-3 text-sm text-slate-300">
+                    {services.slice(0, 5).map((service) => (
+                      <li key={service.title}>
+                        <Link href="#services" className="transition hover:text-white">
+                          {service.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} We Are Code Lovers. All rights reserved.</p>
+            <div className="flex flex-wrap items-center gap-4">
+              <Link href="#" className="transition hover:text-white">
+                Privacy Policy
+              </Link>
+              <span className="hidden text-white/30 sm:inline-block">•</span>
+              <Link href="#" className="transition hover:text-white">
+                Terms &amp; Conditions
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}

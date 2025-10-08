@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="320" viewBox="0 0 320 320" role="img" aria-labelledby="title desc">
+  <title id="title">Code Lovers Logo</title>
+  <desc id="desc">Two red braces forming a heart around a smaller heart with code brackets inside and the word CodeLovers underneath.</desc>
+  <g fill="none" fill-rule="evenodd">
+    <path d="M66 62c-19.882 13.43-32 45.378-32 74 0 28.623 12.118 60.571 32 74" stroke="#CB1F2A" stroke-width="18" stroke-linecap="round"/>
+    <path d="M254 62c19.882 13.43 32 45.378 32 74 0 28.623-12.118 60.571-32 74" stroke="#CB1F2A" stroke-width="18" stroke-linecap="round"/>
+    <path d="M102 121c0-31.471 25.529-57 57-57s57 25.529 57 57c0 47.667-57 91-57 91s-57-43.333-57-91z" stroke="#CB1F2A" stroke-width="18" stroke-linejoin="round" fill="none"/>
+    <path d="M159.82 130.23l-11.24-16.78 11.24-16.62" stroke="#CB1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M182.18 130.23l11.24-16.78-11.24-16.62" stroke="#CB1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M160 152l-16 16 16 16" stroke="#CB1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M182 152l16 16-16 16" stroke="#CB1F2A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="160" y="262" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="44" font-weight="600" fill="#FFFFFF">
+      CODE<tspan fill="#CB1F2A">LOVERS</tspan>
+    </text>
+    <text x="160" y="296" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" fill="#FFFFFF">Innovating Excellence</text>
+  </g>
+</svg>
