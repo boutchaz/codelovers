@@ -1,27 +1,26 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-type HTMLElementTag = keyof JSX.IntrinsicElements;
-
-type RevealTextProps = {
-  as?: HTMLElementTag;
+type RevealTextProps<T extends React.ElementType = "span"> = {
+  as?: T;
   children: React.ReactNode;
   className?: string;
   innerClassName?: string;
   delay?: number;
   style?: React.CSSProperties;
-} & Omit<React.HTMLAttributes<HTMLElement>, "children" | "className" | "style">;
+} & Omit<React.ComponentPropsWithoutRef<T>, "children" | "className" | "style">;
 
-export function RevealText({
-  as = "span",
+export function RevealText<T extends React.ElementType = "span">({
+  as,
   children,
   className,
   innerClassName,
   delay = 0,
   style,
   ...rest
-}: RevealTextProps) {
+}: RevealTextProps<T>) {
+  const Component = as || "span";
   const ref = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -44,11 +43,9 @@ export function RevealText({
     return () => observer.disconnect();
   }, []);
 
-  const Component = as as keyof JSX.IntrinsicElements;
-
   return (
     <Component
-      ref={ref as React.Ref<any>}
+      ref={ref}
       className={["reveal-text", className].filter(Boolean).join(" ")}
       style={{ ...(style ?? {}), "--reveal-delay": `${delay}ms` } as React.CSSProperties}
       {...rest}

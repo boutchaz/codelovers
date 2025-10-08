@@ -31,8 +31,8 @@ export function AboutSection() {
 
         <div className="space-y-8 self-center">
           <blockquote className="rounded-[32px] border border-white/10 bg-white/[0.05] p-10 text-lg text-slate-200">
-            "Every engagement is built on shared ownership. We move quickly, stay accountable, and deliver craft that
-            makes the complex feel effortless."
+            &ldquo;Every engagement is built on shared ownership. We move quickly, stay accountable, and deliver craft that
+            makes the complex feel effortless.&rdquo;
           </blockquote>
           <div className="grid gap-6 sm:grid-cols-2">
             {aboutFeatures.map((feature) => (
