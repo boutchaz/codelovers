@@ -242,7 +242,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="hero-section relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="hero-section relative flex min-h-screen items-center justify-center overflow-x-hidden overflow-y-visible"
       style={{ perspective: "1500px" }}
     >
       {/* Canvas for frame sequence animation */}
@@ -262,13 +262,13 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content */}
-      <div 
-        className="relative z-10 mx-auto flex h-screen w-full max-w-[1400px] items-center justify-center"
-        style={{ 
+      <div
+        className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center gap-10"
+        style={{
           paddingLeft: "clamp(1rem, 5vw, 3rem)",
           paddingRight: "clamp(1rem, 5vw, 3rem)",
-          paddingTop: "clamp(4rem, 10vh, 6rem)",
-          paddingBottom: "clamp(2rem, 5vh, 4rem)"
+          paddingTop: "clamp(2rem, 6vh, 4rem)",
+          paddingBottom: "clamp(1.5rem, 4vh, 3rem)",
         }}
       >
         {/* Centered Content */}
@@ -277,7 +277,7 @@ export function HeroSection() {
           className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center"
           style={{ 
             transformStyle: "preserve-3d",
-            gap: "clamp(1.5rem, 4vw, 2.5rem)"
+            gap: "clamp(1.25rem, 3vw, 2rem)"
           }}
         >
             {/* Badge with enhanced styling */}
@@ -327,7 +327,7 @@ export function HeroSection() {
             className="flex w-full flex-col items-center justify-center sm:flex-row"
             style={{ 
               gap: "clamp(0.75rem, 2vw, 1rem)",
-              marginTop: "clamp(1rem, 3vw, 1.5rem)"
+              marginTop: "clamp(0.75rem, 2vw, 1.25rem)"
             }}
           >
             <Button asChild size="lg" className="group relative overflow-hidden w-full sm:w-auto">
@@ -359,41 +359,42 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <div 
-            className="hero-metrics mx-auto grid w-full max-w-5xl sm:grid-cols-3"
-            style={{ 
-              gap: "clamp(0.75rem, 2vw, 1.5rem)",
-              marginTop: "clamp(1.5rem, 4vw, 2.5rem)"
-            }}
-          >
-            {heroMetrics.map((metric, index) => (
-              <div
-                key={metric.label}
-                className="group flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 shadow-[0_0_35px_rgba(225,29,72,0.18)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-rose-400/30 hover:shadow-[0_0_45px_rgba(225,29,72,0.25)] sm:rounded-2xl"
-                style={{
-                  transform: "translateZ(50px)",
-                  animationDelay: `${index * 100}ms`,
-                  padding: "clamp(1rem, 3vw, 1.5rem)"
+        </div>
+
+        <div 
+          className="hero-metrics mx-auto grid w-full max-w-5xl sm:grid-cols-3"
+          style={{ 
+            gap: "clamp(0.75rem, 2vw, 1.5rem)",
+            marginTop: "clamp(1rem, 3vw, 1.5rem)"
+          }}
+        >
+          {heroMetrics.map((metric, index) => (
+            <div
+              key={metric.label}
+              className="group flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 shadow-[0_0_35px_rgba(225,29,72,0.18)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-rose-400/30 hover:shadow-[0_0_45px_rgba(225,29,72,0.25)] sm:rounded-2xl"
+              style={{
+                transform: "translateZ(50px)",
+                animationDelay: `${index * 100}ms`,
+                padding: "clamp(1rem, 3vw, 1.5rem)"
+              }}
+            >
+              <p 
+                className="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text font-semibold text-transparent transition-all group-hover:scale-110"
+                style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+              >
+                {metric.value}
+              </p>
+              <p 
+                className="text-slate-400 transition-colors group-hover:text-slate-300"
+                style={{ 
+                  fontSize: "clamp(0.75rem, 1.5vw, 0.875rem)",
+                  marginTop: "clamp(0.5rem, 1.5vw, 0.75rem)"
                 }}
               >
-                <p 
-                  className="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text font-semibold text-transparent transition-all group-hover:scale-110"
-                  style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
-                >
-                  {metric.value}
-                </p>
-                <p 
-                  className="text-slate-400 transition-colors group-hover:text-slate-300"
-                  style={{ 
-                    fontSize: "clamp(0.75rem, 1.5vw, 0.875rem)",
-                    marginTop: "clamp(0.5rem, 1.5vw, 0.75rem)"
-                  }}
-                >
-                  {metric.label}
-                </p>
-              </div>
-            ))}
-          </div>
+                {metric.label}
+              </p>
+            </div>
+          ))}
         </div>
 
         {/* Floating Cards with 3D Parallax */}

@@ -58,6 +58,12 @@ export const metadata: Metadata = {
       "Full-stack development, SaaS engineering, IoT systems, E-Commerce builds, and DevOps infrastructure delivered by CodeLovers.",
     images: ["/logo.png"],
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+  },
 };
 
 export default function RootLayout({
