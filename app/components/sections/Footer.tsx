@@ -21,7 +21,9 @@ export function Footer() {
                 make it real.
               </p>
               <Link
-                href="#contact"
+                href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-rose-500/40 sm:w-auto"
               >
                 Book a working session

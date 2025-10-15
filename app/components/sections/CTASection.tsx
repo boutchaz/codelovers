@@ -23,7 +23,9 @@ export function CTASection() {
           </RevealText>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="#contact"
+              href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 sm:px-8 sm:py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
             >
               Book a working session
