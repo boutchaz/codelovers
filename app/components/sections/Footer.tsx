@@ -55,10 +55,10 @@ export function Footer() {
               </p>
               <div className="grid gap-3 text-sm text-slate-300">
                 <a className="transition hover:text-white" href="mailto:hello@wearecodelovers.com">
-                  hello@wearecodelovers.com
+                  zakaria.boutchamir@gmail.com
                 </a>
                 <a className="transition hover:text-white" href="tel:+1234567890">
-                  +1 (234) 567-890
+                  +212691870293
                 </a>
               </div>
               {/* <div className="flex flex-wrap items-center gap-4 pt-6">

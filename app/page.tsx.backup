@@ -797,7 +797,7 @@ export default function Home() {
                 {[
                   { label: "Global Studios", value: "Dubai · London · Kochi" },
                   { label: "New enquiries", value: "hello@wearecodelovers.com" },
-                  { label: "Call the team", value: "+1 (234) 567-890" },
+                  { label: "Call the team", value: "+212691870293" },
                   { label: "Office hours", value: "Mon – Fri · 09:00 – 18:00" },
                 ].map((item) => (
                   <div key={item.label} className="space-y-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
@@ -825,7 +825,7 @@ export default function Home() {
                     hello@wearecodelovers.com
                   </a>
                   <a className="transition hover:text-white" href="tel:+1234567890">
-                    +1 (234) 567-890
+                    +212691870293
                   </a>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 pt-6">
