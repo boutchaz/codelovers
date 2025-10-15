@@ -20,7 +20,7 @@ export function ServicesSection() {
           {services.map((service) => (
             <div
               key={service.title}
-              className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.04] p-8 transition-all hover:-translate-y-1 hover:border-rose-500/40 hover:bg-white/[0.06]"
+              className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.04] p-6 sm:p-8 lg:p-10 transition-all hover:-translate-y-1 hover:border-rose-500/40 hover:bg-white/[0.06]"
             >
               <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 <div className="absolute inset-0 bg-gradient-to-br from-rose-500/20 via-red-400/15 to-orange-400/20 blur-3xl" />
@@ -32,7 +32,7 @@ export function ServicesSection() {
                   {service.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wide text-rose-200"
+                      className="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 sm:px-4 text-xs font-medium uppercase tracking-wide text-rose-200"
                     >
                       {tag}
                     </span>

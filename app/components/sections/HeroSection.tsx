@@ -27,9 +27,18 @@ export function HeroSection() {
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    // Set canvas dimensions
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Set canvas dimensions with device pixel ratio for crisp rendering
+    const setCanvasSize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2); // Cap at 2x for performance
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      canvas.style.width = `${rect.width}px`;
+      canvas.style.height = `${rect.height}px`;
+      context.scale(dpr, dpr);
+    };
+
+    setCanvasSize();
 
     // Initial content animation - fade in and scale up
     gsap.fromTo(
@@ -49,20 +58,33 @@ export function HeroSection() {
       }
     );
 
-    // Handle window resize
+    // Handle window resize with debounce
+    let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      if (images[currentFrameIndex.frame]) {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(images[currentFrameIndex.frame], 0, 0, canvas.width, canvas.height);
-      }
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        setCanvasSize();
+        if (images[currentFrameIndex.frame]) {
+          const rect = canvas.getBoundingClientRect();
+          context.clearRect(0, 0, rect.width, rect.height);
+          context.drawImage(images[currentFrameIndex.frame], 0, 0, rect.width, rect.height);
+        }
+        ScrollTrigger.refresh();
+      }, 150);
     };
 
     window.addEventListener("resize", handleResize);
 
-    // Detect if mobile device for optimized frame loading
-    const isMobile = window.innerWidth < 768;
+    // Detect device type for optimized frame loading
+    const getDeviceType = () => {
+      const width = window.innerWidth;
+      if (width < 768) return 'mobile';
+      if (width < 1024) return 'tablet';
+      return 'desktop';
+    };
+
+    const deviceType = getDeviceType();
+    const isMobile = deviceType === 'mobile';
     const frameFolder = isMobile ? "/frames-mobile" : "/frames";
 
     // Generate image URLs from extracted frames
@@ -88,7 +110,16 @@ export function HeroSection() {
         // When all images are loaded, set up the animation
         if (loadedImages === frameCount) {
           // Draw the last frame (since we're playing in reverse)
-          context.drawImage(images[frameCount - 1], 0, 0, canvas.width, canvas.height);
+          const rect = canvas.getBoundingClientRect();
+          context.drawImage(images[frameCount - 1], 0, 0, rect.width, rect.height);
+
+          // Calculate responsive scroll distance
+          const getScrollDistance = () => {
+            const width = window.innerWidth;
+            if (width < 768) return "+=150%"; // Mobile: shorter scroll
+            if (width < 1024) return "+=175%"; // Tablet: medium scroll
+            return "+=200%"; // Desktop: full scroll
+          };
 
           // Create ScrollTrigger animation - plays frames in REVERSE
           gsap.to(currentFrameIndex, {
@@ -98,18 +129,20 @@ export function HeroSection() {
             scrollTrigger: {
               trigger: section,
               start: "top top",
-              end: "+=200%",
+              end: getScrollDistance(),
               scrub: 0.5,
               pin: true,
               pinSpacing: true,
               id: "hero-scroll",
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
             onUpdate: function () {
               // Render frames in REVERSE: counter goes 0→191, display goes 191→0
               const reverseFrame = frameCount - 1 - Math.round(currentFrameIndex.frame);
-              context.clearRect(0, 0, canvas.width, canvas.height);
-              context.drawImage(images[reverseFrame], 0, 0, canvas.width, canvas.height);
+              const rect = canvas.getBoundingClientRect();
+              context.clearRect(0, 0, rect.width, rect.height);
+              context.drawImage(images[reverseFrame], 0, 0, rect.width, rect.height);
             },
           });
         }
@@ -157,8 +190,11 @@ export function HeroSection() {
       }
     });
 
-    // Mouse move handler for 3D parallax effect on content
+    // Mouse move handler for 3D parallax effect on content (desktop only)
     const handleMouseMove = (e: MouseEvent) => {
+      // Disable 3D effects on mobile/tablet for better performance
+      if (window.innerWidth < 1024) return;
+
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
 
@@ -178,6 +214,8 @@ export function HeroSection() {
 
     // Reset on mouse leave
     const handleMouseLeave = () => {
+      if (window.innerWidth < 1024) return;
+
       gsap.to(content, {
         rotationY: 0,
         rotationX: 0,
@@ -204,7 +242,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="hero-section relative flex min-h-screen items-center justify-center overflow-hidden pt-16 sm:pt-20"
+      className="hero-section relative flex min-h-screen items-center justify-center overflow-hidden"
       style={{ perspective: "1500px" }}
     >
       {/* Canvas for frame sequence animation */}
@@ -224,12 +262,23 @@ export function HeroSection() {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1200px] items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div 
+        className="relative z-10 mx-auto flex h-screen w-full max-w-[1400px] items-center justify-center"
+        style={{ 
+          paddingLeft: "clamp(1rem, 5vw, 3rem)",
+          paddingRight: "clamp(1rem, 5vw, 3rem)",
+          paddingTop: "clamp(4rem, 10vh, 6rem)",
+          paddingBottom: "clamp(2rem, 5vh, 4rem)"
+        }}
+      >
         {/* Centered Content */}
         <div
           ref={contentRef}
-          className="mx-auto w-full max-w-4xl space-y-6 text-center sm:space-y-10"
-          style={{ transformStyle: "preserve-3d" }}
+          className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center"
+          style={{ 
+            transformStyle: "preserve-3d",
+            gap: "clamp(1.5rem, 4vw, 2.5rem)"
+          }}
         >
             {/* Badge with enhanced styling */}
             <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-gradient-to-r from-white/10 to-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-200 shadow-lg shadow-rose-500/20 backdrop-blur-md transition-all hover:scale-105 hover:border-rose-400/50 hover:shadow-rose-500/30 sm:gap-3 sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-[0.3em]">
@@ -237,55 +286,111 @@ export function HeroSection() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75"></span>
               <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-300"></span>
             </span>
-            Global Digital Studio
+            Global Product Engineering Studio
             <span className="h-1 w-1 rounded-full bg-rose-300/50" />
-            Since 2012
+            Since 2018
           </div>
 
-          <div className="space-y-4 sm:space-y-6">
-            <h1 className="text-balance text-3xl font-bold leading-[1.1] tracking-tight sm:text-5xl lg:text-7xl xl:text-8xl">
-              Designing digital experiences that{" "}
+          <div 
+            className="flex w-full flex-col items-center justify-center"
+            style={{ gap: "clamp(1rem, 3vw, 1.5rem)" }}
+          >
+            <h1 
+              className="text-balance font-bold leading-[1.1] tracking-tight text-white"
+              style={{ 
+                fontSize: "clamp(1.875rem, 6vw, 5rem)",
+                maxWidth: "95%"
+              }}
+            >
+              Building{" "}
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">
-                  move businesses forward
+                  full-stack, SaaS, IoT, and commerce products
                 </span>
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 opacity-30 blur-sm sm:-bottom-2 sm:h-1" />
-              </span>
+              </span>{" "}
+              that move businesses forward
             </h1>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-slate-300/90 sm:text-lg lg:text-xl">
-              We partner with ambitious teams to imagine bold futures, design distinctive experiences, and engineer
-              products that outperform the market.
+            <p 
+              className="mx-auto leading-relaxed text-slate-300/90"
+              style={{ 
+                fontSize: "clamp(0.9375rem, 2vw, 1.25rem)",
+                maxWidth: "min(90%, 42rem)",
+                lineHeight: "1.7"
+              }}
+            >
+              We partner with founders and enterprises to launch full-stack platforms, engineer SaaS ecosystems, connect IoT fleets, craft modern storefronts, and operate DevOps pipelines that outperform the market.
             </p>
           </div>
 
-          <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <Button asChild size="lg" className="group relative overflow-hidden">
-              <Link href="#contact">
+          <div 
+            className="flex w-full flex-col items-center justify-center sm:flex-row"
+            style={{ 
+              gap: "clamp(0.75rem, 2vw, 1rem)",
+              marginTop: "clamp(1rem, 3vw, 1.5rem)"
+            }}
+          >
+            <Button asChild size="lg" className="group relative overflow-hidden w-full sm:w-auto">
+              <Link 
+                href="#contact" 
+                style={{ 
+                  padding: "clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem)",
+                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)"
+                }}
+              >
                 <span className="relative z-10">Start a project</span>
                 <span className="relative z-10 ml-2 transition-transform group-hover:translate-x-1">→</span>
                 <span className="absolute inset-0 -z-0 bg-gradient-to-r from-rose-500 via-red-400 to-orange-300 opacity-0 transition-opacity group-hover:opacity-100" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="group">
-              <Link href="#works">
-                <span>View our work</span>
+            <Button asChild variant="outline" size="lg" className="group w-full sm:w-auto border-white/20 hover:border-white/40">
+              <Link 
+                href="https://blog.wearecodelovers.com/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                style={{ 
+                  padding: "clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem)",
+                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)"
+                }}
+              >
+                <span>Read our blog</span>
                 <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
               </Link>
             </Button>
           </div>
 
-          <div className="hero-metrics mx-auto grid max-w-4xl gap-4 pt-6 sm:grid-cols-3 sm:gap-6 sm:pt-8">
+          <div 
+            className="hero-metrics mx-auto grid w-full max-w-5xl sm:grid-cols-3"
+            style={{ 
+              gap: "clamp(0.75rem, 2vw, 1.5rem)",
+              marginTop: "clamp(1.5rem, 4vw, 2.5rem)"
+            }}
+          >
             {heroMetrics.map((metric, index) => (
               <div
                 key={metric.label}
-                className="group rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 p-4 shadow-[0_0_35px_rgba(225,29,72,0.18)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-rose-400/30 hover:shadow-[0_0_45px_rgba(225,29,72,0.25)] sm:rounded-2xl sm:p-6"
+                className="group flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 shadow-[0_0_35px_rgba(225,29,72,0.18)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-rose-400/30 hover:shadow-[0_0_45px_rgba(225,29,72,0.25)] sm:rounded-2xl"
                 style={{
                   transform: "translateZ(50px)",
-                  animationDelay: `${index * 100}ms`
+                  animationDelay: `${index * 100}ms`,
+                  padding: "clamp(1rem, 3vw, 1.5rem)"
                 }}
               >
-                <p className="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text text-2xl font-semibold text-transparent transition-all group-hover:scale-110 sm:text-3xl lg:text-4xl">{metric.value}</p>
-                <p className="mt-2 text-xs text-slate-400 transition-colors group-hover:text-slate-300 sm:mt-3 sm:text-sm">{metric.label}</p>
+                <p 
+                  className="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text font-semibold text-transparent transition-all group-hover:scale-110"
+                  style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
+                >
+                  {metric.value}
+                </p>
+                <p 
+                  className="text-slate-400 transition-colors group-hover:text-slate-300"
+                  style={{ 
+                    fontSize: "clamp(0.75rem, 1.5vw, 0.875rem)",
+                    marginTop: "clamp(0.5rem, 1.5vw, 0.75rem)"
+                  }}
+                >
+                  {metric.label}
+                </p>
               </div>
             ))}
           </div>
@@ -304,7 +409,7 @@ export function HeroSection() {
                 willChange: "transform",
               }}
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 sm:px-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-sm">
                 {card.badge}
               </span>
               <h3 className="mt-4 text-lg font-semibold text-white">{card.title}</h3>

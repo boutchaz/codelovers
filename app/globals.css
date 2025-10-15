@@ -42,32 +42,34 @@
 
     --radius: 1rem;
   }
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  background-color: var(--dark);
-  background-image:
-    radial-gradient(circle at 20% 22%, rgba(239, 68, 68, 0.16), transparent 55%),
-    radial-gradient(circle at 80% 14%, rgba(249, 115, 22, 0.12), transparent 55%),
-    radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.14), transparent 60%);
-  color: var(--light);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    background-color: var(--dark);
+    background-image:
+      radial-gradient(circle at 20% 22%, rgba(239, 68, 68, 0.16), transparent 55%),
+      radial-gradient(circle at 80% 14%, rgba(249, 115, 22, 0.12), transparent 55%),
+      radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.14), transparent 60%);
+    color: var(--light);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 .reveal-text {
@@ -117,18 +119,20 @@ a {
 
 .hero-section {
   position: relative;
-  padding-top: calc(var(--header-height) + env(safe-area-inset-top) + 3rem);
+  padding-top: calc(var(--header-height) + env(safe-area-inset-top) + 2rem);
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
 }
 
 @media (min-width: 768px) {
   .hero-section {
-    padding-top: calc(var(--header-height) + env(safe-area-inset-top) + 4rem);
+    padding-top: calc(var(--header-height) + env(safe-area-inset-top) + 3rem);
   }
 }
 
 @media (min-width: 1024px) {
   .hero-section {
-    padding-top: 80;
+    padding-top: calc(var(--header-height) + env(safe-area-inset-top) + 4rem);
   }
 }
 
@@ -185,8 +189,8 @@ a {
 
 .hero-card {
   position: absolute;
-  width: 200px;
-  padding: 16px;
+  width: 220px;
+  padding: 20px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(24, 10, 18, 0.78);
@@ -214,8 +218,8 @@ a {
 
 @media (min-width: 640px) {
   .hero-card {
-    width: 220px;
-    padding: 18px;
+    width: 240px;
+    padding: 24px;
     opacity: 0.7;
   }
 
@@ -237,8 +241,8 @@ a {
 
 @media (min-width: 1024px) {
   .hero-card {
-    width: 240px;
-    padding: 20px;
+    width: 264px;
+    padding: 28px;
     opacity: 0.7;
   }
 
@@ -327,11 +331,57 @@ section:hover .case-study-glow {
   }
 }
 
+/* Responsive optimizations for animations */
 @media (max-width: 1024px) {
   .hero-card {
     display: none;
   }
   .hero-orb {
     display: none;
+  }
+
+  /* Reduce motion on smaller devices for better performance */
+  .hero-section {
+    perspective: 1000px;
+  }
+
+  /* Optimize floating animations for tablets */
+  @keyframes float {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -8px, 0);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  /* Further reduce animations on mobile */
+  @keyframes pulse {
+    0% {
+      transform: scale(0.98);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1.02);
+      opacity: 0.9;
+    }
+  }
+
+  /* Simplify 3D transforms on mobile */
+  .hero-section {
+    perspective: none;
+  }
+}
+
+/* Prefers reduced motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -40,7 +40,7 @@ export function VideoHighlightsSection() {
             <button
               type="button"
               onClick={() => scrollCarousel("prev")}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
               aria-label="Scroll videos backward"
             >
               <span>←</span>
@@ -48,7 +48,7 @@ export function VideoHighlightsSection() {
             <button
               type="button"
               onClick={() => scrollCarousel("next")}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/10 text-lg text-white transition duration-300 hover:-translate-y-0.5 hover:border-rose-400/50 hover:bg-rose-500/20"
               aria-label="Scroll videos forward"
             >
               <span>→</span>
@@ -71,7 +71,7 @@ export function VideoHighlightsSection() {
                   index === activeVideo ? "border-rose-400/60 shadow-[0_30px_90px_rgba(244,63,94,0.25)]" : ""
                 }`}
               >
-                <div className="relative mx-5 mt-5 overflow-hidden rounded-[28px] bg-slate-900/80">
+                <div className="relative mx-6 mt-6 overflow-hidden rounded-[28px] bg-slate-900/80">
                   <video
                     src={video.src}
                     poster={video.poster}
@@ -91,11 +91,11 @@ export function VideoHighlightsSection() {
                   >
                     <track kind="captions" label={video.title} />
                   </video>
-                  <span className="absolute bottom-4 right-4 rounded-full border border-white/20 bg-slate-900/75 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-50">
+                  <span className="absolute bottom-4 right-4 rounded-full border border-white/20 bg-slate-900/75 px-4 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-slate-50">
                     {video.duration}
                   </span>
                 </div>
-                <div className="flex flex-col gap-3 px-7 pb-8 pt-6">
+                <div className="flex flex-col gap-3 px-8 pb-10 pt-7">
                   <h3 className="text-lg font-semibold text-white">{video.title}</h3>
                   <p className="text-sm leading-relaxed text-slate-300">{video.description}</p>
                 </div>

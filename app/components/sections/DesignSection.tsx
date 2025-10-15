@@ -25,17 +25,32 @@ export function DesignSection() {
       // Refresh to ensure all previous triggers are accounted for
       ScrollTrigger.refresh();
 
+      // Calculate responsive scroll distance and blur amount
+      const getScrollConfig = () => {
+        const width = window.innerWidth;
+        if (width < 768) {
+          return { end: "+=100%", blur: 15, stagger: 0.08, scrub: 0.8 };
+        }
+        if (width < 1024) {
+          return { end: "+=125%", blur: 18, stagger: 0.09, scrub: 0.9 };
+        }
+        return { end: "+=150%", blur: 20, stagger: 0.1, scrub: 1 };
+      };
+
+      const config = getScrollConfig();
+
       // Create timeline for the scroll animation
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=150%",
-          scrub: 1,
+          end: config.end,
+          scrub: config.scrub,
           pin: true,
           pinSpacing: true,
           id: "design-scroll",
           invalidateOnRefresh: true,
+          anticipatePin: 1,
         },
       });
 
@@ -45,7 +60,7 @@ export function DesignSection() {
           letter,
           {
             opacity: 0,
-            filter: "blur(20px)",
+            filter: `blur(${config.blur}px)`,
             scale: 0.8,
           },
           {
@@ -55,7 +70,7 @@ export function DesignSection() {
             duration: 0.3,
             ease: "power2.out",
           },
-          index * 0.1 // Stagger timing
+          index * config.stagger
         );
       });
 
@@ -64,7 +79,7 @@ export function DesignSection() {
         content,
         {
           opacity: 0,
-          y: 40,
+          y: window.innerWidth < 768 ? 30 : 40,
         },
         {
           opacity: 1,
@@ -117,7 +132,7 @@ export function DesignSection() {
           </p>
 
           <Button asChild size="lg">
-            <Link href="#services">Learn More</Link>
+            <Link href="#contact" style={{ padding: "0.75rem 2rem" }}>Get in Touch</Link>
           </Button>
         </div>
       </div>

@@ -20,7 +20,7 @@ export function CaseStudiesSection() {
 
           <Link
             href="#contact"
-            className="self-start rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
+            className="self-start rounded-full border border-white/15 px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
           >
             Share your challenge →
           </Link>
@@ -30,12 +30,12 @@ export function CaseStudiesSection() {
           {caseStudies.map((study) => (
             <div
               key={study.title}
-              className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06]"
+              className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 sm:p-12 lg:p-14 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06]"
             >
               <div className={`case-study-glow ${study.gradient}`} />
               <div className="relative flex h-full flex-col justify-between space-y-6">
                 <div className="space-y-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 sm:px-4 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
                     {study.category}
                   </span>
                   <h3 className="text-2xl font-semibold text-white">{study.title}</h3>

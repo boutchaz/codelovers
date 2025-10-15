@@ -5,7 +5,7 @@ export function AboutSection() {
   return (
     <section id="about" className="reveal-on-scroll bg-slate-950/70 py-28">
       <div className="mx-auto grid w-full max-w-[1200px] gap-16 px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10">
+        <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 sm:p-12 lg:p-14">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(239,68,68,0.28),transparent_60%)]" />
           <div className="absolute inset-0 bg-grid-fade" />
           <div className="relative space-y-6">
@@ -20,7 +20,7 @@ export function AboutSection() {
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {aboutStats.map((stat) => (
-                <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 lg:p-6">
                   <p className="text-3xl font-semibold text-white">{stat.value}</p>
                   <p className="mt-3 text-xs uppercase tracking-[0.3em] text-rose-200">{stat.label}</p>
                 </div>
@@ -30,13 +30,13 @@ export function AboutSection() {
         </div>
 
         <div className="space-y-8 self-center">
-          <blockquote className="rounded-[32px] border border-white/10 bg-white/[0.05] p-10 text-lg text-slate-200">
+          <blockquote className="rounded-[32px] border border-white/10 bg-white/[0.05] p-10 sm:p-12 lg:p-14 text-lg text-slate-200">
             &ldquo;Every engagement is built on shared ownership. We move quickly, stay accountable, and deliver craft that
             makes the complex feel effortless.&rdquo;
           </blockquote>
           <div className="grid gap-6 sm:grid-cols-2">
             {aboutFeatures.map((feature) => (
-              <div key={feature.title} className="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+              <div key={feature.title} className="rounded-[28px] border border-white/10 bg-white/[0.05] p-6 sm:p-8 lg:p-10">
                 <h3 className="text-xl font-semibold text-white">{feature.title}</h3>
                 <p className="mt-3 text-sm text-slate-300">{feature.description}</p>
               </div>

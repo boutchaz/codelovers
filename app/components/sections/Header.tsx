@@ -20,15 +20,22 @@ export function Header({ isScrolled }: HeaderProps) {
       style={{ margin: '0 auto' }}
     >
       <nav className="mx-auto flex h-16 w-full max-w-[1480px] items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8" style={{ margin: '0 auto' }}>
-        <Link href="/" className="flex items-center gap-2 sm:gap-4">
-          <span className="relative hidden h-8 w-8 sm:h-12 sm:w-12 md:block">
-            <Image src="/codelovers-logo.svg" alt="CodeLovers logo" fill priority sizes="48px" />
+        <Link href="/" className="flex items-center gap-2 sm:gap-3">
+          <span className="relative h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+            <Image
+              src="/logo.png"
+              alt="CodeLovers logo"
+              fill
+              priority
+              sizes="(max-width: 640px) 32px, (max-width: 1024px) 40px, 48px"
+              className="object-contain"
+            />
           </span>
           <div className="flex flex-col">
-            <span className="text-base font-semibold tracking-tight text-white sm:text-xl">
+            <span className="text-base font-semibold tracking-tight text-white sm:text-lg lg:text-xl">
               Code<span className="text-rose-400">Lovers</span>
             </span>
-            <span className="hidden text-[10px] font-semibold uppercase tracking-[0.5em] text-rose-300 sm:block">
+            <span className="hidden text-[9px] font-semibold uppercase tracking-[0.4em] text-rose-300 sm:block sm:text-[10px]">
               Innovating Excellence
             </span>
           </div>
@@ -41,6 +48,7 @@ export function Header({ isScrolled }: HeaderProps) {
                 key={item.label}
                 href={item.href}
                 className="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+                {...(item.href.startsWith('http') && { target: "_blank", rel: "noopener noreferrer" })}
               >
                 {item.label}
               </Link>
@@ -48,7 +56,9 @@ export function Header({ isScrolled }: HeaderProps) {
           </div>
 
           <Button asChild size="sm" className="text-xs sm:text-sm">
-            <Link href="#contact">Let&apos;s talk</Link>
+            <Link href="#contact" style={{ padding: "0.5rem 1rem" }}>
+              Let&apos;s talk
+            </Link>
           </Button>
         </div>
       </nav>

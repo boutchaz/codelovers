@@ -19,7 +19,7 @@ export function TestimonialsSection() {
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.author}
-              className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] p-8 transition-all hover:-translate-y-2 hover:border-rose-500/30 hover:bg-white/[0.07]"
+              className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] p-6 sm:p-8 lg:p-10 transition-all hover:-translate-y-2 hover:border-rose-500/30 hover:bg-white/[0.07]"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-rose-500/12 via-red-500/6 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
               <div className="relative space-y-6">
