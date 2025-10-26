@@ -225,9 +225,8 @@ export const aboutFeatures = [
 
 export const contactInfo = [
   { label: "Location", value: "Rabat · Morocco · Remote" },
-  { label: "Email", value: "zakaria.boutchamir@gmail.com" },
+  { label: "Email", value: "tech@wearecodelovers.com" },
   { label: "Phone", value: "+212 691 870 293" },
-  { label: "Availability", value: "Open to new opportunities" },
 ];
 
 export const socialNetworks = ["LinkedIn", "GitHub", "Portfolio", "Email"];
