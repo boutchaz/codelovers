@@ -55,7 +55,7 @@ export function Footer() {
               </p>
               <div className="grid gap-3 text-sm text-slate-300">
                 <a className="transition hover:text-white" href="mailto:hello@wearecodelovers.com">
-                  zakaria.boutchamir@gmail.com
+                  tech@wearecodelovers.com
                 </a>
                 <a className="transition hover:text-white" href="tel:+1234567890">
                   +212691870293
