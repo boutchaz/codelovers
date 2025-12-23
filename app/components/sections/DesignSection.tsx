@@ -29,12 +29,12 @@ export function DesignSection() {
       const getScrollConfig = () => {
         const width = window.innerWidth;
         if (width < 768) {
-          return { end: "+=100%", blur: 15, stagger: 0.08, scrub: 0.8 };
+          return { end: "+=100%", blur: 12, stagger: 0.08, scrub: 1.8 }; // Increased scrub for smoother mobile
         }
         if (width < 1024) {
-          return { end: "+=125%", blur: 18, stagger: 0.09, scrub: 0.9 };
+          return { end: "+=125%", blur: 16, stagger: 0.09, scrub: 1.5 }; // Increased scrub
         }
-        return { end: "+=150%", blur: 20, stagger: 0.1, scrub: 1 };
+        return { end: "+=150%", blur: 20, stagger: 0.1, scrub: 1.2 }; // Increased scrub
       };
 
       const config = getScrollConfig();
@@ -51,6 +51,7 @@ export function DesignSection() {
           id: "design-scroll",
           invalidateOnRefresh: true,
           anticipatePin: 1,
+          fastScrollEnd: true, // Improves performance on fast scrolling
         },
       });
 

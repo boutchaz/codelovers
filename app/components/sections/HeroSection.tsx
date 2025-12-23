@@ -121,6 +121,14 @@ export function HeroSection() {
             return "+=200%"; // Desktop: full scroll
           };
 
+          // Calculate responsive scrub value for smooth scrolling
+          const getScrubValue = () => {
+            const width = window.innerWidth;
+            if (width < 768) return 1.5; // Mobile: smoother, less jittery
+            if (width < 1024) return 1.2; // Tablet: balanced
+            return 0.8; // Desktop: more responsive
+          };
+
           // Create ScrollTrigger animation - plays frames in REVERSE
           gsap.to(currentFrameIndex, {
             frame: frameCount - 1,
@@ -130,12 +138,13 @@ export function HeroSection() {
               trigger: section,
               start: "top top",
               end: getScrollDistance(),
-              scrub: 0.5,
+              scrub: getScrubValue(),
               pin: true,
               pinSpacing: true,
               id: "hero-scroll",
               invalidateOnRefresh: true,
               anticipatePin: 1,
+              fastScrollEnd: true, // Improves performance on fast scrolling
             },
             onUpdate: function () {
               // Render frames in REVERSE: counter goes 0→191, display goes 191→0

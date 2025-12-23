@@ -35,7 +35,7 @@ export function Footer() {
               {contactInfo.map((item) => (
                 <div key={item.label} className="space-y-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0">
                   <p className="text-xs uppercase tracking-[0.3em] text-rose-200">{item.label}</p>
-                  <p className="text-base font-medium text-white">{item.value}</p>
+                  <p className="break-words text-base font-medium text-white">{item.value}</p>
                 </div>
               ))}
             </div>
@@ -54,11 +54,11 @@ export function Footer() {
                 shape the future of ambitious brands.
               </p>
               <div className="grid gap-3 text-sm text-slate-300">
-                <a className="transition hover:text-white" href="mailto:hello@wearecodelovers.com">
+                <a className="break-all transition hover:text-white" href="mailto:tech@wearecodelovers.com">
                   tech@wearecodelovers.com
                 </a>
-                <a className="transition hover:text-white" href="tel:+1234567890">
-                  +212691870293
+                <a className="transition hover:text-white" href="tel:+212691870293">
+                  +212 691 870 293
                 </a>
               </div>
               {/* <div className="flex flex-wrap items-center gap-4 pt-6">

@@ -52,7 +52,8 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Removed scroll-behavior: smooth to prevent conflicts with GSAP ScrollTrigger */
+    /* GSAP handles smooth scrolling more efficiently */
   }
 
   body {
@@ -64,6 +65,9 @@
     color: var(--light);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Improve scroll performance on mobile */
+    -webkit-overflow-scrolling: touch;
   }
 
   a {
@@ -331,6 +335,27 @@ section:hover .case-study-glow {
   }
 }
 
+/* GPU acceleration for smooth scrolling */
+canvas,
+.hero-section,
+.reveal-on-scroll,
+.reveal-text,
+[style*="will-change"] {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  -moz-perspective: 1000;
+  -ms-perspective: 1000;
+  perspective: 1000;
+}
+
 /* Responsive optimizations for animations */
 @media (max-width: 1024px) {
   .hero-card {
@@ -372,6 +397,16 @@ section:hover .case-study-glow {
   /* Simplify 3D transforms on mobile */
   .hero-section {
     perspective: none;
+  }
+
+  /* Optimize scroll performance on mobile */
+  body {
+    overscroll-behavior-y: none; /* Prevent pull-to-refresh jank */
+  }
+
+  /* Reduce blur effects on mobile for better performance */
+  .reveal-text::after {
+    filter: none;
   }
 }
 

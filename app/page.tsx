@@ -11,8 +11,16 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    let ticking = false;
+
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 16);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 16);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     onScroll();
@@ -21,7 +29,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 scroll-smooth">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
       <Header isScrolled={isScrolled} />
 
       <main className="relative">
