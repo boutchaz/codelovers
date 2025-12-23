@@ -168,7 +168,7 @@ export const testimonials = [
   },
 ];
 
-export const partners = ["4D Logiciel", "SWIBECO", "SQLI", "Groupe SEB", "Shopify", "Supabase", "AWS", "Frappe"];
+export const partners = ["4D Logiciel", "SWIBECO", "SQLI"];
 
 export const videoHighlights = [
   {

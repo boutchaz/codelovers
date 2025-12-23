@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { Header } from "@/app/components/sections/Header";
 import { HeroSection } from "@/app/components/sections/HeroSection";
+import { PartnersSection } from "@/app/components/sections/PartnersSection";
+import { SolutionsSection } from "@/app/components/sections/SolutionsSection";
+import { ServicesSection } from "@/app/components/sections/ServicesSection";
+import { CaseStudiesSection } from "@/app/components/sections/CaseStudiesSection";
+// import { TestimonialsSection } from "@/app/components/sections/TestimonialsSection";
 import { DesignSection } from "@/app/components/sections/DesignSection";
+import { AboutSection } from "@/app/components/sections/AboutSection";
+import { CTASection } from "@/app/components/sections/CTASection";
 import { Footer } from "@/app/components/sections/Footer";
 import { ScrollObserver } from "@/app/components/ui/ScrollObserver";
 
@@ -33,8 +40,32 @@ export default function Home() {
       <Header isScrolled={isScrolled} />
 
       <main className="relative">
+        {/* Hero - First impression */}
         <HeroSection />
+
+        {/* Trust & Credibility */}
+        <PartnersSection />
+
+        {/* Value Proposition */}
+        <SolutionsSection />
+
+        {/* What We Offer */}
+        <ServicesSection />
+
+        {/* Product Showcase */}
+        <CaseStudiesSection />
+
+        {/* Social Proof - TODO: Uncomment when real testimonials are ready */}
+        {/* <TestimonialsSection /> */}
+
+        {/* Creative Touch */}
         <DesignSection />
+
+        {/* About Us */}
+        <AboutSection />
+
+        {/* Final Call-to-Action */}
+        <CTASection />
       </main>
 
       <Footer />
