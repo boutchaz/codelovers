@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      className="flex flex-col items-center justify-center padding-16 overflow-hidden border-t border-white/10 bg-slate-950/90 py-16 sm:py-20 lg:py-24"
+      className="flex flex-col items-center justify-center overflow-hidden border-t border-white/10 bg-slate-950/90 py-16 sm:py-20 lg:py-24"
     >
       <div className="mx-auto w-full max-w-[1480px] px-6 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-16 lg:gap-20">
@@ -61,18 +61,33 @@ export function Footer() {
                   +212 691 870 293
                 </a>
               </div>
-              {/* <div className="flex flex-wrap items-center gap-4 pt-6">
-                {socialNetworks.map((network) => (
-                  <a
-                    key={network}
-                    href="#"
-                    aria-label={network}
-                    className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200"
-                  >
-                    {network.charAt(0)}
-                  </a>
-                ))}
-              </div> */}
+              <div className="flex flex-wrap items-center gap-4 pt-6">
+                <a
+                  href="https://www.linkedin.com/company/wearecodelovers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+                >
+                  L
+                </a>
+                <a
+                  href="https://github.com/code-lovers"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+                >
+                  G
+                </a>
+                <a
+                  href="mailto:tech@wearecodelovers.com"
+                  aria-label="Email"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+                >
+                  E
+                </a>
+              </div>
             </div>
 
             <div className="grid gap-12 sm:grid-cols-2">
@@ -111,11 +126,11 @@ export function Footer() {
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} We Are Code Lovers. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-4">
-            <Link href="#" className="transition hover:text-white">
+            <Link href="/privacy" className="transition hover:text-white">
               Privacy Policy
             </Link>
             <span className="hidden text-white/30 sm:inline-block">•</span>
-            <Link href="#" className="transition hover:text-white">
+            <Link href="/terms" className="transition hover:text-white">
               Terms &amp; Conditions
             </Link>
           </div>

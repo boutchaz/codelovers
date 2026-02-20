@@ -30,6 +30,18 @@ export const metadata: Metadata = {
     "CodeLovers",
     "software agency Morocco",
     "product engineering studio",
+    "React development agency Morocco",
+    "Next.js development Casablanca",
+    "SaaS development North Africa",
+    "IoT platform developer MENA",
+    "Shopify Hydrogen development",
+    "TypeScript development agency",
+    "web agency Casablanca",
+    "software studio Rabat",
+    "enterprise software Morocco",
+    "custom ERP development",
+    "headless e-commerce Morocco",
+    "cloud infrastructure Morocco",
   ],
   alternates: {
     canonical: "/",
@@ -76,6 +88,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[100] -translate-y-full rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition-transform focus:translate-y-0"
+        >
+          Skip to main content
+        </a>
         {children}
         <Script
           id="structured-data-organization"
@@ -96,16 +114,19 @@ export default function RootLayout({
                 addressCountry: "MA",
                 addressLocality: "Casablanca",
               },
-              areaServed: ["MA", "FR", "ES", "United Kingdom", "United States"],
-              telephone: "+1-234-567-890",
-              contactPoint: [
-                {
-                  "@type": "ContactPoint",
-                  contactType: "sales",
-                  telephone: "+1-234-567-890",
-                  email: "hello@wearecodelovers.com",
-                },
-              ],
+               areaServed: ["MA", "FR", "ES", "United Kingdom", "United States"],
+               telephone: "+212691870293",
+               foundingDate: "2018",
+               priceRange: "$$",
+               knowsLanguage: ["en", "fr", "ar"],
+               contactPoint: [
+                 {
+                   "@type": "ContactPoint",
+                   contactType: "sales",
+                   telephone: "+212691870293",
+                   email: "tech@wearecodelovers.com",
+                 },
+               ],
               sameAs: [
                 "https://www.linkedin.com/company/wearecodelovers",
                 "https://github.com/code-lovers",
