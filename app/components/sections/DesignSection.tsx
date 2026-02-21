@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsap } from "@/lib/gsap";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -18,7 +18,10 @@ export function DesignSection() {
 
       if (letters.length === 0 || !content) return;
 
-      ScrollTrigger.refresh();
+      // Set initial hidden state immediately so content is never
+      // visible before the scroll animation begins
+      gsap.set(letters, { opacity: 0, scale: 0.8, y: 20 });
+      gsap.set(content, { opacity: 0, y: 40 });
 
       const width = window.innerWidth;
       const config =
@@ -44,9 +47,8 @@ export function DesignSection() {
       });
 
       letters.forEach((letter, index) => {
-        tl.fromTo(
+        tl.to(
           letter,
-          { opacity: 0, scale: 0.8, y: 20 },
           {
             opacity: 1,
             scale: 1,
@@ -58,9 +60,8 @@ export function DesignSection() {
         );
       });
 
-      tl.fromTo(
+      tl.to(
         content,
-        { opacity: 0, y: width < 768 ? 30 : 40 },
         { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
         "+=0.2"
       );
@@ -74,7 +75,6 @@ export function DesignSection() {
     <section
       ref={sectionRef}
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950"
-      style={{ overflow: "hidden" }}
     >
       <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center justify-center overflow-hidden px-6 py-32 text-center">
         <h2 className="mb-12 flex flex-wrap justify-center gap-2 overflow-hidden">
@@ -85,13 +85,14 @@ export function DesignSection() {
                 lettersRef.current[index] = el;
               }}
               className="inline-block bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-[clamp(4rem,15vw,12rem)] font-bold leading-none text-transparent"
+              style={{ opacity: 0 }}
             >
               {letter}
             </span>
           ))}
         </h2>
 
-        <div ref={contentRef} className="max-w-2xl space-y-8 overflow-hidden">
+        <div ref={contentRef} className="max-w-2xl space-y-8 overflow-hidden" style={{ opacity: 0 }}>
           <p className="text-lg leading-relaxed text-slate-300 sm:text-xl">
             We craft digital experiences that blend creativity, technology, and human-centered design to create
             meaningful connections between brands and their audiences.

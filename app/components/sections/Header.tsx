@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { navigation } from "@/app/data/constants";
 
 const sectionLinks = [
-  { label: "Services", href: "#services" },
-  { label: "Work", href: "#works" },
-  { label: "About", href: "#about" },
+  { label: "Services", href: "/#services" },
+  { label: "Work", href: "/#works" },
+  { label: "About", href: "/#about" },
 ];
 
 const allNavLinks = [...sectionLinks, ...navigation];
