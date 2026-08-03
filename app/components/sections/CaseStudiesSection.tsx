@@ -19,7 +19,7 @@ export function CaseStudiesSection() {
           </div>
 
           <Link
-            href="#contact"
+            href="/#contact"
             className="self-start rounded-full border border-white/15 px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
           >
             Share your challenge →
@@ -27,27 +27,58 @@ export function CaseStudiesSection() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
-          {caseStudies.map((study) => (
-            <div
-              key={study.title}
-              className="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 sm:p-12 lg:p-14 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06]"
-            >
-              <div className={`case-study-glow ${study.gradient}`} />
-              <div className="relative flex h-full flex-col justify-between space-y-6">
-                <div className="space-y-3">
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 sm:px-4 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
-                    {study.category}
-                  </span>
-                  <h3 className="text-2xl font-semibold text-white">{study.title}</h3>
-                  <p className="text-sm text-slate-300">{study.summary}</p>
+          {caseStudies.map((study) => {
+            const card = (
+              <>
+                <div className={`case-study-glow ${study.gradient}`} />
+                <div className="relative flex h-full flex-col justify-between space-y-6">
+                  <div className="space-y-3">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200 sm:px-4">
+                      {study.category}
+                    </span>
+                    <h3 className="text-2xl font-semibold text-white">
+                      {study.title}
+                      {"href" in study && study.href ? (
+                        <span className="ml-2 text-base font-medium text-rose-300 transition group-hover:text-rose-200">
+                          ↗
+                        </span>
+                      ) : null}
+                    </h3>
+                    <p className="text-sm text-slate-300">{study.summary}</p>
+                  </div>
+                  <div>
+                    <p className="text-4xl font-semibold text-white">{study.result}</p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.3em] text-rose-200">
+                      {study.metric}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-4xl font-semibold text-white">{study.result}</p>
-                  <p className="mt-2 text-xs uppercase tracking-[0.3em] text-rose-200">{study.metric}</p>
-                </div>
+              </>
+            );
+
+            const className =
+              "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-12 lg:p-14";
+
+            if ("href" in study && study.href) {
+              return (
+                <a
+                  key={study.title}
+                  href={study.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`${className} block`}
+                >
+                  {card}
+                </a>
+              );
+            }
+
+            return (
+              <div key={study.title} className={className}>
+                {card}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

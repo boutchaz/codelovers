@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteShell } from "@/app/components/SiteShell";
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
   description: "Terms and Conditions for CodeLovers services and website usage.",
   alternates: { canonical: "/terms" },
+  openGraph: {
+    title: "Terms & Conditions | CodeLovers",
+    description: "Terms and Conditions for CodeLovers services and website usage.",
+    url: "https://wearecodelovers.com/terms",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "CodeLovers" }],
+  },
 };
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <main className="relative pb-24 pt-32 sm:pt-40">
+    <SiteShell>
+      <div className="pb-24 pt-32 sm:pt-40">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <Link
             href="/"
@@ -73,7 +80,7 @@ export default function TermsPage() {
               <h2 className="mb-4 text-xl font-semibold text-white">6. Governing Law</h2>
               <p>
                 These terms are governed by the laws of the Kingdom of Morocco. Any disputes shall
-                be resolved through the courts of Casablanca, Morocco.
+                be resolved through the courts of Rabat, Morocco.
               </p>
             </section>
 
@@ -92,7 +99,7 @@ export default function TermsPage() {
             </section>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </SiteShell>
   );
 }

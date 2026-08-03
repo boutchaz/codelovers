@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { heroMetrics, heroCards } from "@/app/data/constants";
+import { heroCards } from "@/app/data/constants";
 import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
@@ -99,6 +99,7 @@ export function HeroSection() {
                 scrub: getScrubValue(),
                 pin: true,
                 pinSpacing: true,
+                pinType: "fixed",
                 id: "hero-scroll",
                 invalidateOnRefresh: true,
                 anticipatePin: 1,
@@ -245,7 +246,7 @@ export function HeroSection() {
 
       {/* Hero Content */}
       <div
-        className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center gap-10"
+        className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center"
         style={{
           paddingLeft: "clamp(1rem, 5vw, 3rem)",
           paddingRight: "clamp(1rem, 5vw, 3rem)",
@@ -253,71 +254,71 @@ export function HeroSection() {
           paddingBottom: "clamp(1.5rem, 4vh, 3rem)",
         }}
       >
-        {/* Centered Content */}
         <div
           ref={contentRef}
-          className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center text-center"
-          style={{ 
+          className="mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center"
+          style={{
             transformStyle: "preserve-3d",
-            gap: "clamp(1.25rem, 3vw, 2rem)"
+            gap: "clamp(1rem, 2.5vw, 1.75rem)",
           }}
         >
-            {/* Badge with enhanced styling */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-gradient-to-r from-white/10 to-white/5 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-200 shadow-lg shadow-rose-500/20 backdrop-blur-md transition-all hover:scale-105 hover:border-rose-400/50 hover:shadow-rose-500/30 sm:gap-3 sm:px-5 sm:py-2.5 sm:text-xs sm:tracking-[0.3em]">
+          <p
+            className="font-semibold tracking-tight text-white"
+            style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}
+            aria-hidden="true"
+          >
+            Code<span className="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">Lovers</span>
+          </p>
+
+          <div className="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-gradient-to-r from-white/10 to-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-md sm:gap-3 sm:px-5 sm:py-2 sm:text-xs sm:tracking-[0.3em]">
             <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-300"></span>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-rose-300" />
             </span>
             Global Product Engineering Studio
             <span className="h-1 w-1 rounded-full bg-rose-300/50" />
             Since 2018
           </div>
 
-          <div 
+          <div
             className="flex w-full flex-col items-center justify-center"
-            style={{ gap: "clamp(1rem, 3vw, 1.5rem)" }}
+            style={{ gap: "clamp(0.75rem, 2vw, 1.25rem)" }}
           >
-            <h1 
-              className="text-balance font-bold leading-[1.1] tracking-tight text-white"
-              style={{ 
-                fontSize: "clamp(1.875rem, 6vw, 5rem)",
-                maxWidth: "95%"
+            <h1
+              className="text-balance font-bold leading-[1.15] tracking-tight text-white"
+              style={{
+                fontSize: "clamp(1.5rem, 4.5vw, 3.25rem)",
+                maxWidth: "42rem",
               }}
             >
               Building{" "}
-              <span className="relative inline-block">
-                <span className="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">
-                  full-stack, SaaS, IoT, and commerce products
-                </span>
-                <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 opacity-30 blur-sm sm:-bottom-2 sm:h-1" />
+              <span className="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">
+                full-stack, SaaS, IoT &amp; commerce
               </span>{" "}
-              that move businesses forward
+              products that move businesses forward
             </h1>
-            <p 
+            <p
               className="mx-auto leading-relaxed text-slate-300/90"
-              style={{ 
-                fontSize: "clamp(0.9375rem, 2vw, 1.25rem)",
-                maxWidth: "min(90%, 42rem)",
-                lineHeight: "1.7"
+              style={{
+                fontSize: "clamp(0.9375rem, 1.8vw, 1.125rem)",
+                maxWidth: "min(90%, 36rem)",
+                lineHeight: "1.65",
               }}
             >
-              We partner with founders and enterprises to launch full-stack platforms, engineer SaaS ecosystems, connect IoT fleets, craft modern storefronts, and operate DevOps pipelines that outperform the market.
+              We partner with founders and enterprises to launch platforms, engineer SaaS ecosystems, connect IoT fleets, and operate DevOps pipelines that outperform the market.
             </p>
           </div>
 
-          <div 
+          <div
             className="flex w-full flex-col items-center justify-center sm:flex-row"
-            style={{ 
-              gap: "clamp(0.75rem, 2vw, 1rem)",
-              marginTop: "clamp(0.75rem, 2vw, 1.25rem)"
-            }}
+            style={{ gap: "clamp(0.75rem, 2vw, 1rem)" }}
           >
-            <Button asChild size="lg" className="group relative overflow-hidden w-full sm:w-auto">
-              <Link 
-                href="#contact" 
-                style={{ 
+            <Button asChild size="lg" className="group relative w-full overflow-hidden sm:w-auto">
+              <Link
+                href="/#contact"
+                style={{
                   padding: "clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem)",
-                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)"
+                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
                 }}
               >
                 <span className="relative z-10">Start a project</span>
@@ -325,14 +326,12 @@ export function HeroSection() {
                 <span className="absolute inset-0 -z-0 bg-gradient-to-r from-rose-500 via-red-400 to-orange-300 opacity-0 transition-opacity group-hover:opacity-100" />
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="group w-full sm:w-auto border-white/20 hover:border-white/40">
-              <Link 
-                href="https://blog.wearecodelovers.com/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                style={{ 
+            <Button asChild variant="outline" size="lg" className="group w-full border-white/20 hover:border-white/40 sm:w-auto">
+              <Link
+                href="/blog"
+                style={{
                   padding: "clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem)",
-                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)"
+                  fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
                 }}
               >
                 <span>Read our blog</span>
@@ -340,46 +339,9 @@ export function HeroSection() {
               </Link>
             </Button>
           </div>
-
         </div>
 
-        <div 
-          className="hero-metrics mx-auto grid w-full max-w-5xl sm:grid-cols-3"
-          style={{ 
-            gap: "clamp(0.75rem, 2vw, 1.5rem)",
-            marginTop: "clamp(1rem, 3vw, 1.5rem)"
-          }}
-        >
-          {heroMetrics.map((metric, index) => (
-            <div
-              key={metric.label}
-              className="group flex flex-col items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-white/5 to-white/0 shadow-[0_0_35px_rgba(225,29,72,0.18)] backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:border-rose-400/30 hover:shadow-[0_0_45px_rgba(225,29,72,0.25)] sm:rounded-2xl"
-              style={{
-                transform: "translateZ(50px)",
-                animationDelay: `${index * 100}ms`,
-                padding: "clamp(1rem, 3vw, 1.5rem)"
-              }}
-            >
-              <p 
-                className="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text font-semibold text-transparent transition-all group-hover:scale-110"
-                style={{ fontSize: "clamp(1.5rem, 4vw, 2.5rem)" }}
-              >
-                {metric.value}
-              </p>
-              <p 
-                className="text-slate-400 transition-colors group-hover:text-slate-300"
-                style={{ 
-                  fontSize: "clamp(0.75rem, 1.5vw, 0.875rem)",
-                  marginTop: "clamp(0.5rem, 1.5vw, 0.75rem)"
-                }}
-              >
-                {metric.label}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        {/* Floating Cards with 3D Parallax */}
+        {/* Floating project hints — desktop only, low visual weight */}
         <div className="pointer-events-none absolute inset-0" aria-hidden="true">
           {heroCards.map((card, index) => (
             <div
@@ -388,14 +350,12 @@ export function HeroSection() {
                 cardsRef.current[index] = el;
               }}
               className={card.className}
-              style={{
-                willChange: "transform",
-              }}
+              style={{ willChange: "transform" }}
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 sm:px-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-sm sm:px-3">
                 {card.badge}
               </span>
-              <h3 className="mt-4 text-lg font-semibold text-white">{card.title}</h3>
+              <p className="mt-4 text-lg font-semibold text-white">{card.title}</p>
               <p className="mt-2 text-sm text-slate-300">{card.description}</p>
             </div>
           ))}

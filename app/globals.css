@@ -63,10 +63,10 @@
       radial-gradient(circle at 80% 14%, rgba(249, 115, 22, 0.12), transparent 55%),
       radial-gradient(circle at 50% 100%, rgba(244, 114, 182, 0.14), transparent 60%);
     color: var(--light);
-    overflow-x: hidden;
+    /* Keep overflow visible on body so GSAP can use position:fixed pins.
+       Horizontal clip lives on .site-shell instead. */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Improve scroll performance on mobile */
     -webkit-overflow-scrolling: touch;
   }
 
@@ -119,6 +119,10 @@
 
 .reveal-text.light-mask::after {
   background: rgba(255, 255, 255, 0.92);
+}
+
+.site-shell {
+  min-height: 100vh;
 }
 
 .hero-section {
@@ -196,12 +200,12 @@
   width: 220px;
   padding: 20px;
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(24, 10, 18, 0.78);
-  box-shadow: 0 24px 50px rgba(60, 10, 14, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(24, 10, 18, 0.55);
+  box-shadow: 0 24px 50px rgba(60, 10, 14, 0.3);
   backdrop-filter: blur(24px);
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.35;
 }
 
 .hero-card--top {
@@ -224,7 +228,7 @@
   .hero-card {
     width: 240px;
     padding: 24px;
-    opacity: 0.7;
+    opacity: 0.4;
   }
 
   .hero-card--top {
@@ -247,7 +251,7 @@
   .hero-card {
     width: 264px;
     padding: 28px;
-    opacity: 0.7;
+    opacity: 0.4;
   }
 
   .hero-card--top {
@@ -336,24 +340,18 @@ section:hover .case-study-glow {
 }
 
 /* GPU acceleration for smooth scrolling */
-canvas,
-.hero-section,
-.reveal-on-scroll,
-.reveal-text,
-[style*="will-change"] {
-  -webkit-transform: translateZ(0);
-  -moz-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  -o-transform: translateZ(0);
-  transform: translateZ(0);
+canvas {
   -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-perspective: 1000;
-  -moz-perspective: 1000;
-  -ms-perspective: 1000;
-  perspective: 1000;
+  will-change: contents;
+}
+
+/* Use will-change instead of translateZ(0) for elements that animate with transforms */
+.reveal-on-scroll,
+.reveal-text {
+  will-change: transform, opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 /* Responsive optimizations for animations */

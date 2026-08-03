@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteShell } from "@/app/components/SiteShell";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for CodeLovers - how we handle your data and protect your privacy.",
   alternates: { canonical: "/privacy" },
+  openGraph: {
+    title: "Privacy Policy | CodeLovers",
+    description: "How CodeLovers handles your data and protects your privacy.",
+    url: "https://wearecodelovers.com/privacy",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "CodeLovers" }],
+  },
 };
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <main className="relative pb-24 pt-32 sm:pt-40">
+    <SiteShell>
+      <div className="pb-24 pt-32 sm:pt-40">
         <div className="mx-auto max-w-3xl px-6 lg:px-8">
           <Link
             href="/"
@@ -92,7 +99,7 @@ export default function PrivacyPage() {
             </section>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </SiteShell>
   );
 }

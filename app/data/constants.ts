@@ -1,6 +1,6 @@
 export const navigation = [
-  { label: "Blog", href: "https://blog.wearecodelovers.com/" },
-  { label: "Contact", href: "#contact" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const heroMetrics = [
@@ -17,9 +17,9 @@ export const heroCards = [
     className: "hero-card hero-card--top",
   },
   {
-    title: "AgriTech Platform",
-    description: "Satellite imagery for precision agriculture.",
-    badge: "GIS · AgriTech",
+    title: "AgroGina",
+    description: "Intelligent farm management & agronomy platform.",
+    badge: "GIS · AgroGina",
     className: "hero-card hero-card--mid",
   },
   {
@@ -34,8 +34,8 @@ export const services = [
   {
     title: "Full-Stack Development",
     description:
-      "Enterprise-grade web and mobile applications using React, Next.js, TypeScript, and React Native. From MVP to production-ready systems.",
-    tags: ["React · Next.js", "TypeScript", "Node.js · Python"],
+      "Enterprise-grade web and mobile apps — framework-agnostic. TanStack for app products, Next when SEO/static matter, React Native for mobile. From MVP to production.",
+    tags: ["React · TanStack", "TypeScript", "Node.js · Python"],
   },
   {
     title: "SaaS Platform Engineering",
@@ -101,13 +101,14 @@ export const caseStudies = [
     gradient: "from-blue-500/20 via-cyan-500/10 to-indigo-600/20",
   },
   {
-    title: "AgriTech SaaS",
+    title: "AgroGina",
     category: "Agriculture · Satellite Analytics",
     summary:
       "Precision agriculture platform with satellite imagery analysis, crop monitoring via Google Earth Engine integration for NDVI indices, and multi-tenant geospatial analytics using Leaflet/OpenLayers.",
     result: "Real-time",
     metric: "Vegetation monitoring & insights",
     gradient: "from-emerald-500/20 via-teal-500/10 to-green-600/20",
+    href: "https://agrogina.com/",
   },
   {
     title: "WhatsApp Reservation Bot",
@@ -207,7 +208,7 @@ export const aboutStats = [
 export const aboutFeatures = [
   {
     title: "Full-Stack Expertise",
-    description: "7+ years of hands-on experience with React, Next.js, TypeScript, Node.js, Python, and modern cloud infrastructure.",
+    description: "7+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and modern cloud infrastructure.",
   },
   {
     title: "Enterprise-Ready",

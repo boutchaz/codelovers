@@ -75,7 +75,7 @@ export function Header({ isScrolled }: HeaderProps) {
           </div>
 
           <Button asChild size="sm" className="text-xs sm:text-sm">
-            <Link href="#contact" style={{ padding: "0.5rem 1rem" }}>
+            <Link href="/#contact" style={{ padding: "0.5rem 1rem" }}>
               Let&apos;s talk
             </Link>
           </Button>
@@ -122,7 +122,7 @@ export function Header({ isScrolled }: HeaderProps) {
             ))}
             <div className="mt-4 border-t border-white/10 pt-6">
               <Button asChild size="lg" className="w-full">
-                <Link href="#contact" onClick={closeMenu} style={{ padding: "0.75rem 2rem" }}>
+                <Link href="/#contact" onClick={closeMenu} style={{ padding: "0.75rem 2rem" }}>
                   Let&apos;s talk
                 </Link>
               </Button>
