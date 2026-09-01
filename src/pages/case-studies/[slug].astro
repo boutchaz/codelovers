@@ -1,0 +1,261 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import SiteShell from "@/layouts/SiteShell.astro";
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { SITE_URL } from "@/data/constants";
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection("case-studies");
+  return caseStudies.map((study) => ({
+    params: { slug: study.id },
+    props: { study },
+  }));
+}
+
+const { study } = Astro.props;
+const { Content } = await render(study);
+const { title, category, description, result, metric, gradient, externalUrl, stack, date } =
+  study.data;
+
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "long",
+}).format(date);
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Case Studies",
+      item: `${SITE_URL}/case-studies`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: `${SITE_URL}/case-studies/${study.id}`,
+    },
+  ],
+};
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description: description,
+  datePublished: date.toISOString(),
+  author: {
+    "@type": "Organization",
+    name: "CodeLovers",
+    url: SITE_URL,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "CodeLovers",
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE_URL}/logo.png`,
+    },
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": `${SITE_URL}/case-studies/${study.id}`,
+  },
+};
+---
+
+<SiteShell
+  title={`${title} Case Study`}
+  description={description}
+  canonical={`/case-studies/${study.id}`}
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbJsonLd)}
+    slot="head"
+  />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head"
+  />
+
+  <article class="pb-20 pt-32 sm:pt-40">
+    <div class="mx-auto max-w-4xl px-6 lg:px-8">
+      <SectionBadge>{category}</SectionBadge>
+      <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        {title}
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-slate-300">
+        {description}
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-6 text-sm text-slate-400">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        <span>•</span>
+        <span>By CodeLovers</span>
+        {
+          externalUrl && (
+            <>
+              <span>•</span>
+              <a
+                href={externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-rose-400 transition hover:text-rose-300"
+              >
+                Visit live site ↗
+              </a>
+            </>
+          )
+        }
+      </div>
+
+      <div
+        class={`mt-10 rounded-[36px] border border-white/10 bg-gradient-to-br ${gradient} p-8 sm:p-10`}
+      >
+        <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+          <div>
+            <p class="text-5xl font-semibold text-white">{result}</p>
+            <p class="mt-2 text-sm uppercase tracking-[0.3em] text-rose-200">
+              {metric}
+            </p>
+          </div>
+          {
+            stack.length > 0 && (
+              <div class="flex flex-wrap gap-2">
+                {stack.map((tech) => (
+                  <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </div>
+
+      <div class="prose prose-invert mt-12 max-w-none">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <section class="border-t border-white/5 py-24">
+    <div class="mx-auto max-w-[1200px] px-6 text-center lg:px-8">
+      <div
+        class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
+      >
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">
+          Ready to be our next success story?
+        </h2>
+        <p class="mt-4 text-lg text-slate-200">
+          Share your challenge and we&apos;ll assemble the right team.
+        </p>
+        <a
+          href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
+        >
+          Book a working session <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteShell>
+
+<style is:global>
+  .prose h2 {
+    margin-top: 3rem;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .prose h3 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .prose p {
+    margin-top: 1rem;
+    line-height: 1.75;
+    color: rgb(203 213 225);
+  }
+
+  .prose ul,
+  .prose ol {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: rgb(203 213 225);
+  }
+
+  .prose li {
+    line-height: 1.75;
+  }
+
+  .prose strong {
+    font-weight: 600;
+    color: white;
+  }
+
+  .prose code {
+    border-radius: 0.25rem;
+    background-color: rgb(255 255 255 / 0.1);
+    padding: 0.125rem 0.375rem;
+    font-family: "Geist Mono", monospace;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgb(251 207 232);
+  }
+
+  .prose pre {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+    border-radius: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background-color: rgb(15 23 42 / 0.5);
+    padding: 1rem;
+  }
+
+  .prose pre code {
+    background-color: transparent;
+    padding: 0;
+    color: rgb(203 213 225);
+  }
+
+  .prose a {
+    color: rgb(251 113 133);
+    text-decoration-line: none;
+    transition-property: color;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .prose a:hover {
+    color: rgb(244 114 182);
+  }
+
+  .prose hr {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    border-color: rgb(255 255 255 / 0.1);
+  }
+
+  .prose blockquote {
+    border-left-width: 4px;
+    border-left-color: rgb(244 63 94 / 0.5);
+    padding-left: 1rem;
+    font-style: italic;
+    color: rgb(148 163 184);
+  }
+</style>

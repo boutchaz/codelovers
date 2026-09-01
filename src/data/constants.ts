@@ -147,55 +147,33 @@ export const caseStudies = [
   },
 ] as const;
 
-export const testimonials = [
-  {
-    quote:
-      "Boutchaz and CodeLovers turned our IoT idea into a live blockchain prototype in record time.",
-    author: "Jeff",
-    role: "IoT Partner, Logintel",
-  },
-  {
-    quote:
-      "Their Web3 expertise helped us tokenize participation and automate investor rewards seamlessly.",
-    author: "Alex",
-    role: "DeFi Collaborator",
-  },
-  {
-    quote:
-      "They blend design, culture, and engineering to make tech accessible and meaningful.",
-    author: "Chloé",
-    role: "Product Designer, Partner",
-  },
-];
-
 export const partners = ["4D Logiciel", "SWIBECO", "SQLI"];
 
-export const videoHighlights = [
-  {
-    title: "Building the Future of Logistics",
-    description:
-      "From IoT sensors to Solana smart contracts, see how Logintel brings transparency to cold chains.",
-    src: "/videos/logintel.mp4",
-    poster: "/images/logintel-poster.jpg",
-    duration: "02:05",
-  },
-  {
-    title: "Empowering Local Wellness",
-    description:
-      "How Atay & Abs reshapes fitness for Moroccan women through community and culture.",
-    src: "/videos/atayabs.mp4",
-    poster: "/images/atayabs-poster.jpg",
-    duration: "01:48",
-  },
-  {
-    title: "Tokenized Crowdfunding",
-    description:
-      "A look at how NFTs and smart contracts can redefine collective ownership.",
-    src: "/videos/defi-crowdfunding.mp4",
-    poster: "/images/defi-crowdfunding.jpg",
-    duration: "02:10",
-  },
-];
+// Testimonials hidden until real partner quotes exist
+const SHOW_TESTIMONIALS = false;
+
+export const testimonials = SHOW_TESTIMONIALS
+  ? [
+      {
+        quote:
+          "Boutchaz and CodeLovers turned our IoT idea into a live blockchain prototype in record time.",
+        author: "Jeff",
+        role: "IoT Partner, Logintel",
+      },
+      {
+        quote:
+          "Their Web3 expertise helped us tokenize participation and automate investor rewards seamlessly.",
+        author: "Alex",
+        role: "DeFi Collaborator",
+      },
+      {
+        quote:
+          "They blend design, culture, and engineering to make tech accessible and meaningful.",
+        author: "Chloé",
+        role: "Product Designer, Partner",
+      },
+    ]
+  : [];
 
 export const aboutStats = [
   { value: "7+", label: "Years in software engineering" },

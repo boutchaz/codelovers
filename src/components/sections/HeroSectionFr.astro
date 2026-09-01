@@ -1,0 +1,103 @@
+---
+import { heroCardsFr } from "@/data/constants-fr";
+---
+
+<section
+  id="hero"
+  data-hero-section
+  class="hero-section relative flex min-h-screen items-center justify-center overflow-x-hidden overflow-y-visible"
+  style="perspective: 1500px"
+>
+  <canvas
+    data-hero-canvas
+    class="absolute inset-0 z-0 h-full w-full object-cover"
+    aria-hidden="true"
+  ></canvas>
+
+  <div class="absolute inset-0 z-[1] bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950/90"></div>
+
+  <div class="pointer-events-none absolute inset-0 z-[2] overflow-hidden">
+    <div
+      class="absolute -left-1/4 top-0 h-[500px] w-[500px] animate-pulse rounded-full bg-rose-500/10 blur-3xl"
+    ></div>
+    <div
+      class="absolute -right-1/4 bottom-0 h-[500px] w-[500px] animate-pulse rounded-full bg-orange-500/10 blur-3xl"
+      style="animation-delay: 1s"
+    ></div>
+  </div>
+
+  <div
+    class="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center"
+    style="padding-left: clamp(1rem, 5vw, 3rem); padding-right: clamp(1rem, 5vw, 3rem); padding-top: clamp(2rem, 6vh, 4rem); padding-bottom: clamp(1.5rem, 4vh, 3rem);"
+  >
+    <div
+      data-hero-content
+      class="mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center"
+      style="transform-style: preserve-3d; gap: clamp(1rem, 2.5vw, 1.75rem);"
+    >
+      <p
+        class="font-semibold tracking-tight text-white"
+        style="font-size: clamp(2rem, 5vw, 3.5rem)"
+        aria-hidden="true"
+      >
+        Code<span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >Lovers</span
+        >
+      </p>
+
+      <h1
+        class="font-bold leading-[1.1] tracking-tight text-white"
+        style="font-size: clamp(2.5rem, 7vw, 5rem)"
+      >
+        Ingénierie produit
+        <span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >qui résout des problèmes réels</span
+        >
+      </h1>
+
+      <p
+        class="max-w-2xl leading-relaxed text-slate-300"
+        style="font-size: clamp(1rem, 2vw, 1.25rem)"
+      >
+        De Rabat au monde entier — nous construisons des produits logiciels évolutifs pour des équipes ambitieuses.
+      </p>
+
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="/fr#contact"
+          class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-8 text-sm font-semibold leading-none text-white shadow-lg shadow-rose-500/30 transition-all hover:-translate-y-0.5 hover:shadow-rose-500/50 sm:h-14 sm:px-10 sm:text-base"
+        >
+          Parlons-en
+        </a>
+        <a
+          href="/case-studies"
+          class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-8 text-sm font-semibold leading-none text-white backdrop-blur transition-all hover:-translate-y-0.5 hover:border-rose-400/40 hover:bg-white/10 sm:h-14 sm:px-10 sm:text-base"
+        >
+          Voir nos projets
+        </a>
+      </div>
+    </div>
+
+    <div
+      data-hero-cards
+      class="relative mt-16 w-full"
+      style="transform-style: preserve-3d; max-width: min(90%, 1200px)"
+    >
+      {
+        heroCardsFr.map((card) => (
+          <div class={card.className} data-hero-card>
+            <span class="hero-card-badge">{card.badge}</span>
+            <h3 class="hero-card-title">{card.title}</h3>
+            <p class="hero-card-description">{card.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import "@/scripts/hero";
+</script>
