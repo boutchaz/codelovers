@@ -2,9 +2,9 @@
 FROM oven/bun:1 AS builder
 WORKDIR /app
 
-# Install dependencies (cached unless lockfile changes)
+# Install dependencies (fails the build if bun.lock is out of sync with package.json)
 COPY package.json bun.lock* ./
-RUN bun install --frozen-lockfile || bun install
+RUN bun install --frozen-lockfile
 
 # Build the site
 COPY . .

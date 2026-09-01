@@ -3,6 +3,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
     restart: unless-stopped
+    # No `ports`: Dokploy's Traefik owns host 80/443. It reaches the container
+    # over dokploy-network using the domain configured in the Domains tab.
+    expose:
+      - "80"
+    networks:
+      - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+
+networks:
+  dokploy-network:
+    external: true
