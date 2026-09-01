@@ -61,6 +61,13 @@
 
   html {
     /* GSAP ScrollTrigger handles smooth scrolling more efficiently */
+    scroll-behavior: smooth;
+  }
+
+  /* Fixed header clearance for hash targets (native jumps + scrollIntoView). */
+  :target,
+  [id] {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
   }
 
   body {
