@@ -18,11 +18,13 @@ services:
       - traefik.http.routers.cl-website-websecure.entrypoints=websecure
       - traefik.http.routers.cl-website-websecure.tls=true
       - traefik.http.routers.cl-website-websecure.tls.certresolver=letsencrypt
+      - traefik.http.routers.cl-website-websecure.service=cl-website
       - traefik.http.services.cl-website.loadbalancer.server.port=80
       # HTTP router: redirect everything to HTTPS
       - "traefik.http.routers.cl-website-web.rule=Host(`wearecodelovers.com`) || Host(`www.wearecodelovers.com`)"
       - traefik.http.routers.cl-website-web.entrypoints=web
       - traefik.http.routers.cl-website-web.middlewares=cl-website-redirect
+      - traefik.http.routers.cl-website-web.service=cl-website
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.permanent=true
 
