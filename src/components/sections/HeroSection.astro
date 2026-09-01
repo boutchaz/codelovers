@@ -1,0 +1,128 @@
+---
+import { heroCards } from "@/data/constants";
+---
+
+<section
+  id="hero"
+  data-hero-section
+  class="hero-section relative flex min-h-screen items-center justify-center overflow-x-hidden overflow-y-visible"
+  style="perspective: 1500px"
+>
+  <!-- Canvas for frame sequence animation -->
+  <canvas
+    data-hero-canvas
+    class="absolute inset-0 z-0 h-full w-full object-cover"
+    aria-hidden="true"
+  ></canvas>
+
+  <!-- Gradient overlay for better text readability -->
+  <div class="absolute inset-0 z-[1] bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950/90"></div>
+
+  <!-- Animated background effects -->
+  <div class="pointer-events-none absolute inset-0 z-[2] overflow-hidden">
+    <div
+      class="absolute -left-1/4 top-0 h-[500px] w-[500px] animate-pulse rounded-full bg-rose-500/10 blur-3xl"
+    ></div>
+    <div
+      class="absolute -right-1/4 bottom-0 h-[500px] w-[500px] animate-pulse rounded-full bg-orange-500/10 blur-3xl"
+      style="animation-delay: 1s"
+    ></div>
+  </div>
+
+  <!-- Hero Content -->
+  <div
+    class="relative z-10 mx-auto flex min-h-screen w-full max-w-[1400px] flex-col items-center justify-center"
+    style="padding-left: clamp(1rem, 5vw, 3rem); padding-right: clamp(1rem, 5vw, 3rem); padding-top: clamp(2rem, 6vh, 4rem); padding-bottom: clamp(1.5rem, 4vh, 3rem);"
+  >
+    <div
+      data-hero-content
+      class="mx-auto flex w-full max-w-4xl flex-col items-center justify-center text-center"
+      style="transform-style: preserve-3d; gap: clamp(1rem, 2.5vw, 1.75rem);"
+    >
+      <p
+        class="font-semibold tracking-tight text-white"
+        style="font-size: clamp(2rem, 5vw, 3.5rem)"
+        aria-hidden="true"
+      >
+        Code<span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >Lovers</span
+        >
+      </p>
+
+      <div
+        class="inline-flex items-center gap-2 rounded-full border border-rose-400/30 bg-gradient-to-r from-white/10 to-white/5 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-md sm:gap-3 sm:px-5 sm:py-2 sm:text-xs sm:tracking-[0.3em]"
+      >
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-rose-300"></span>
+        </span>
+        Global Product Engineering Studio
+        <span class="h-1 w-1 rounded-full bg-rose-300/50"></span>
+        Since 2018
+      </div>
+
+      <div class="flex w-full flex-col items-center justify-center" style="gap: clamp(0.75rem, 2vw, 1.25rem)">
+        <h1
+          class="text-balance font-bold leading-[1.15] tracking-tight text-white"
+          style="font-size: clamp(1.5rem, 4.5vw, 3.25rem); max-width: 42rem;"
+        >
+          Building
+          <span
+            class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+            >full-stack, SaaS, IoT &amp; commerce</span
+          >
+          products that move businesses forward
+        </h1>
+        <p
+          class="mx-auto leading-relaxed text-slate-300/90"
+          style="font-size: clamp(0.9375rem, 1.8vw, 1.125rem); max-width: min(90%, 36rem); line-height: 1.65;"
+        >
+          We partner with founders and enterprises to launch platforms, engineer SaaS ecosystems,
+          connect IoT fleets, and operate DevOps pipelines that outperform the market.
+        </p>
+      </div>
+
+      <div class="flex w-full flex-col items-center justify-center sm:flex-row" style="gap: clamp(0.75rem, 2vw, 1rem)">
+        <a
+          href="/#contact"
+          class="group relative inline-flex h-12 w-full items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 text-base font-semibold leading-none text-white shadow-lg shadow-rose-500/30 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ring))] hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-rose-500/50 sm:h-14 sm:w-auto sm:px-12 lg:h-14"
+          style="padding: clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem); font-size: clamp(0.875rem, 1.5vw, 1rem);"
+        >
+          <span class="relative z-10">Start a project</span>
+          <span class="relative z-10 ml-2 transition-transform group-hover:translate-x-1">→</span>
+          <span
+            class="absolute inset-0 -z-0 bg-gradient-to-r from-rose-500 via-red-400 to-orange-300 opacity-0 transition-opacity group-hover:opacity-100"
+          ></span>
+        </a>
+        <a
+          href="/blog"
+          class="group inline-flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full border border-white/20 bg-white/5 px-9 text-base font-semibold leading-none text-rose-200 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ring))] hover:-translate-y-0.5 hover:border-white/40 hover:text-white sm:h-14 sm:w-auto sm:px-12"
+          style="padding: clamp(0.625rem, 2vw, 0.875rem) clamp(1.5rem, 4vw, 2.5rem); font-size: clamp(0.875rem, 1.5vw, 1rem);"
+        >
+          <span>Read our blog</span>
+          <span class="ml-2 transition-transform group-hover:translate-x-1">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Floating project hints — desktop only, low visual weight -->
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      {
+        heroCards.map((card) => (
+          <div class={card.className} data-hero-card style="will-change: transform">
+            <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-rose-200 backdrop-blur-sm sm:px-3">
+              {card.badge}
+            </span>
+            <p class="mt-4 text-lg font-semibold text-white">{card.title}</p>
+            <p class="mt-2 text-sm text-slate-300">{card.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  import "@/scripts/hero";
+</script>

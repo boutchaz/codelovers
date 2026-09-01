@@ -1,0 +1,180 @@
+---
+// Scroll state (header background) + mobile menu toggle.
+// Inline module script runs once; no framework runtime needed.
+---
+
+<div
+  id="site-header"
+  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-500 border-b border-transparent bg-transparent"
+  style="margin: 0 auto"
+>
+  <nav
+    class="mx-auto flex h-16 w-full max-w-[1480px] items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8"
+    style="margin: 0 auto"
+  >
+    <a href="/" class="flex items-center gap-2 sm:gap-3">
+      <span class="relative h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12">
+        <img
+          src="/logo.png"
+          alt="CodeLovers logo"
+          class="h-full w-full object-contain"
+          width="48"
+          height="48"
+          loading="eager"
+        />
+      </span>
+      <div class="flex flex-col">
+        <span class="text-base font-semibold tracking-tight text-white sm:text-lg lg:text-xl">
+          Code<span class="text-rose-400">Lovers</span>
+        </span>
+        <span
+          class="hidden text-[9px] font-semibold uppercase tracking-[0.4em] text-rose-300 sm:block sm:text-[10px]"
+        >
+          Innovating Excellence
+        </span>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <div class="hidden items-center gap-6 md:flex lg:gap-8">
+        <a href="/#services" class="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+          >Services</a
+        >
+        <a href="/#works" class="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+          >Work</a
+        >
+        <a href="/#about" class="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+          >About</a
+        >
+        <a href="/blog" class="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+          >Blog</a
+        >
+        <a href="/#contact" class="text-sm font-medium text-slate-300 transition hover:text-rose-300"
+          >Contact</a
+        >
+      </div>
+
+      <a
+        href="/#contact"
+        class="inline-flex h-9 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-5 text-xs font-semibold leading-none text-white shadow-lg shadow-rose-500/30 transition-all hover:-translate-y-0.5 hover:shadow-rose-500/50 sm:h-10 sm:px-6 sm:text-sm"
+      >
+        Let&apos;s talk
+      </a>
+
+      <button
+        type="button"
+        id="mobile-menu-toggle"
+        class="flex h-10 w-10 items-center justify-center rounded-lg text-white transition hover:bg-white/10 md:hidden"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg id="menu-icon-open" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <svg id="menu-icon-closed" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="7" x2="20" y2="7"></line>
+          <line x1="4" y1="12" x2="20" y2="12"></line>
+          <line x1="4" y1="17" x2="20" y2="17"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 top-16 z-40 hidden bg-slate-950/95 backdrop-blur-xl sm:top-20 md:hidden"
+  >
+    <div class="flex flex-col gap-2 px-6 py-8">
+      <a
+        href="/#services"
+        data-mobile-link
+        class="rounded-xl px-4 py-3 text-lg font-medium text-slate-200 transition hover:bg-white/5 hover:text-rose-300"
+        >Services</a
+      >
+      <a
+        href="/#works"
+        data-mobile-link
+        class="rounded-xl px-4 py-3 text-lg font-medium text-slate-200 transition hover:bg-white/5 hover:text-rose-300"
+        >Work</a
+      >
+      <a
+        href="/#about"
+        data-mobile-link
+        class="rounded-xl px-4 py-3 text-lg font-medium text-slate-200 transition hover:bg-white/5 hover:text-rose-300"
+        >About</a
+      >
+      <a
+        href="/blog"
+        data-mobile-link
+        class="rounded-xl px-4 py-3 text-lg font-medium text-slate-200 transition hover:bg-white/5 hover:text-rose-300"
+        >Blog</a
+      >
+      <a
+        href="/#contact"
+        data-mobile-link
+        class="rounded-xl px-4 py-3 text-lg font-medium text-slate-200 transition hover:bg-white/5 hover:text-rose-300"
+        >Contact</a
+      >
+      <div class="mt-4 border-t border-white/10 pt-6">
+        <a
+          href="/#contact"
+          data-mobile-link
+          class="inline-flex h-14 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-12 text-base font-semibold leading-none text-white shadow-lg shadow-rose-500/30 transition-all hover:-translate-y-0.5 hover:shadow-rose-500/50"
+        >
+          Let&apos;s talk
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = document.getElementById("menu-icon-open");
+  const iconClosed = document.getElementById("menu-icon-closed");
+
+  // Scroll state
+  let ticking = false;
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (header) {
+          const isScrolled = window.scrollY > 16;
+          header.classList.toggle("border-b", isScrolled);
+          header.classList.toggle("border-white/10", isScrolled);
+          header.classList.toggle("bg-[rgba(5,6,15,0.8)]", isScrolled);
+          header.classList.toggle("backdrop-blur-xl", isScrolled);
+          header.classList.toggle("border-transparent", !isScrolled);
+          header.classList.toggle("bg-transparent", !isScrolled);
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Mobile menu
+  function setMenuOpen(open: boolean) {
+    if (!menu || !toggle || !iconOpen || !iconClosed) return;
+    menu.classList.toggle("hidden", !open);
+    iconOpen.classList.toggle("hidden", !open);
+    iconClosed.classList.toggle("hidden", open);
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = menu && !menu.classList.contains("hidden");
+    setMenuOpen(!isOpen);
+  });
+
+  document.querySelectorAll("[data-mobile-link]").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+</script>

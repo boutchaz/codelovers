@@ -1,0 +1,42 @@
+---
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { services } from "@/data/constants";
+---
+
+<section id="services" class="reveal-on-scroll bg-slate-950/70 py-28">
+  <div class="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+    <div class="mb-16 space-y-4">
+      <SectionBadge>Capabilities</SectionBadge>
+      <h2 class="text-4xl font-bold text-white sm:text-5xl">
+        End-to-end service lines that shape tomorrow&apos;s digital leaders
+      </h2>
+      <p class="max-w-3xl text-lg text-slate-300">
+        We assemble cross-functional squads across strategy, design, technology, and
+        marketing—tailored to the mission at hand.
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+      {
+        services.map((service) => (
+          <div class="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.04] p-6 transition-all hover:-translate-y-1 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-8 lg:p-10">
+            <div class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div class="absolute inset-0 bg-gradient-to-br from-rose-500/20 via-red-400/15 to-orange-400/20 blur-3xl" />
+            </div>
+            <div class="relative space-y-6">
+              <h3 class="text-2xl font-semibold text-white">{service.title}</h3>
+              <p class="text-sm leading-relaxed text-slate-300">{service.description}</p>
+              <div class="flex flex-wrap gap-2 pt-2">
+                {service.tags.map((tag) => (
+                  <span class="rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium uppercase tracking-wide text-rose-200 sm:px-4">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

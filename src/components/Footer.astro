@@ -1,0 +1,163 @@
+---
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { navigation, services } from "@/data/constants";
+
+const year = new Date().getFullYear();
+---
+
+<footer
+  id="contact"
+  class="flex flex-col items-center justify-center overflow-hidden border-t border-white/10 bg-slate-950/90 py-16 sm:py-20 lg:py-24"
+>
+  <div class="mx-auto w-full max-w-[1480px] px-6 sm:px-8 lg:px-12">
+    <div class="flex flex-col gap-16 lg:gap-20">
+      <div
+        class="flex flex-col gap-12 border-b border-white/10 pb-12 lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:pb-16"
+      >
+        <div class="max-w-2xl space-y-6 text-left">
+          <SectionBadge class="border-white/15 bg-white/10">Let&apos;s collaborate</SectionBadge>
+          <h2 class="text-4xl font-semibold text-white sm:text-5xl lg:text-6xl">
+            Ready to build the next award-winning experience?
+          </h2>
+          <p class="text-base leading-relaxed text-slate-300 lg:text-lg">
+            Share your challenge and we&apos;ll assemble the strategy, design, engineering, and
+            growth specialists to make it real.
+          </p>
+          <a
+            href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-rose-500/40 sm:w-auto"
+          >
+            Book a working session
+            <span>↗</span>
+          </a>
+        </div>
+
+        <div
+          class="grid w-full gap-6 rounded-[32px] border border-white/10 bg-white/[0.04] p-6 sm:grid-cols-2 sm:p-8 lg:max-w-xl lg:p-10"
+        >
+          {
+            [
+              { label: "Location", value: "Rabat · Morocco · Remote" },
+              { label: "Email", value: "tech@wearecodelovers.com" },
+              { label: "Phone", value: "+212 691 870 293" },
+            ].map((item) => (
+              <div
+                class="space-y-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0 last:col-span-2"
+              >
+                <p class="text-xs uppercase tracking-[0.3em] text-rose-200">{item.label}</p>
+                <p class="break-words text-base font-medium text-white">{item.value}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        <div class="space-y-6 text-left">
+          <a href="/" class="text-2xl font-semibold">
+            <span class="text-white">We Are</span>
+            <span
+              class="bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent"
+            >
+              Code Lovers
+            </span>
+          </a>
+          <p class="max-w-md text-sm text-slate-300">
+            A global team of strategists, designers, engineers, and growth leaders crafting digital
+            experiences that shape the future of ambitious brands.
+          </p>
+          <div class="grid gap-3 text-sm text-slate-300">
+            <a class="break-all transition hover:text-white" href="mailto:tech@wearecodelovers.com">
+              tech@wearecodelovers.com
+            </a>
+            <a class="transition hover:text-white" href="tel:+212691870293"> +212 691 870 293 </a>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 pt-6">
+            <a
+              href="https://www.linkedin.com/company/wearecodelovers"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+            >
+              L
+            </a>
+            <a
+              href="https://github.com/code-lovers"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+            >
+              G
+            </a>
+            <a
+              href="mailto:tech@wearecodelovers.com"
+              aria-label="Email"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+            >
+              E
+            </a>
+          </div>
+        </div>
+
+        <div class="grid gap-12 sm:grid-cols-2">
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">
+              Navigation
+            </h3>
+            <ul class="mt-5 space-y-3 text-sm text-slate-300">
+              {
+                navigation.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      class="transition hover:text-white"
+                      {...(item.href.startsWith("http")
+                        ? { target: "_blank", rel: "noopener noreferrer" }
+                        : {})}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))
+              }
+              <li>
+                <a href="/#services" class="transition hover:text-white">Services</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">
+              Service Lines
+            </h3>
+            <ul class="mt-5 space-y-3 text-sm text-slate-300">
+              {
+                services.slice(0, 5).map((service) => (
+                  <li>
+                    <a href="#contact" class="transition hover:text-white">
+                      {service.title}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} We Are Code Lovers. All rights reserved.</p>
+      <div class="flex flex-wrap items-center gap-4">
+        <a href="/privacy" class="transition hover:text-white">Privacy Policy</a>
+        <span class="hidden text-white/30 sm:inline-block">•</span>
+        <a href="/terms" class="transition hover:text-white">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>

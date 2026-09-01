@@ -1,0 +1,44 @@
+---
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  ogType?: "website" | "article";
+  ogImage?: string;
+  publishedTime?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType,
+  ogImage,
+  publishedTime,
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType={ogType} ogImage={ogImage} publishedTime={publishedTime}>
+  <slot name="head" slot="head" />
+  <div class="site-shell min-h-screen overflow-x-clip bg-slate-950 text-slate-100">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-rose-600 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="main-content" class="relative">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import "@/scripts/reveal";
+    </script>
+  </div>
+</BaseLayout>
