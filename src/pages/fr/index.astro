@@ -1,0 +1,90 @@
+---
+import SiteShell from "@/layouts/SiteShell.astro";
+import HeroSection from "@/components/sections/HeroSectionFr.astro";
+import PartnersSection from "@/components/sections/PartnersSection.astro";
+import SolutionsSection from "@/components/sections/SolutionsSectionFr.astro";
+import ServicesSection from "@/components/sections/ServicesSectionFr.astro";
+import CaseStudiesSection from "@/components/sections/CaseStudiesSectionFr.astro";
+import DesignSection from "@/components/sections/DesignSection.astro";
+import AboutSection from "@/components/sections/AboutSectionFr.astro";
+import CTASection from "@/components/sections/CTASectionFr.astro";
+import { SITE_URL } from "@/data/constants";
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_URL}/#organization`,
+      name: "CodeLovers",
+      url: `${SITE_URL}/`,
+      image: `${SITE_URL}/og-image.png`,
+      logo: `${SITE_URL}/logo.png`,
+      description:
+        "CodeLovers est un studio logiciel marocain offrant développement full-stack, ingénierie SaaS, systèmes IoT, solutions E-Commerce et infrastructure DevOps pour les marques ambitieuses.",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "MA",
+        addressLocality: "Rabat",
+      },
+      areaServed: ["MA", "FR", "ES", "United Kingdom", "United States"],
+      telephone: "+212691870293",
+      email: "tech@wearecodelovers.com",
+      foundingDate: "2018",
+      priceRange: "$$",
+      knowsLanguage: ["en", "fr", "ar"],
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: "+212691870293",
+          email: "tech@wearecodelovers.com",
+        },
+      ],
+      sameAs: [
+        "https://www.linkedin.com/company/wearecodelovers",
+        "https://github.com/code-lovers",
+      ],
+      serviceType: [
+        "Développement web et mobile full-stack",
+        "Ingénierie de plateformes SaaS",
+        "Systèmes IoT et temps réel",
+        "Conception de solutions E-Commerce",
+        "Infrastructure DevOps et cloud",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: `${SITE_URL}/`,
+      name: "CodeLovers",
+      description: "Studio d'ingénierie logicielle et SaaS full-stack basé à Rabat, Maroc.",
+      publisher: { "@id": `${SITE_URL}/#organization` },
+      inLanguage: "fr",
+    },
+  ],
+};
+---
+
+<SiteShell
+  title="CodeLovers | Studio d'ingénierie logicielle & SaaS Full-Stack"
+  description="CodeLovers est un studio produit basé à Rabat offrant développement full-stack, ingénierie SaaS, systèmes IoT, solutions E-Commerce et infrastructure DevOps pour équipes ambitieuses à travers MENA et Europe."
+  canonical="/fr"
+>
+  <script
+    is:inline
+    type="application/ld+json"
+    set:html={JSON.stringify(organizationJsonLd)}
+    slot="head"
+  />
+
+  <HeroSection />
+  <PartnersSection />
+  <SolutionsSection />
+  <ServicesSection />
+  <CaseStudiesSection />
+  <!-- TestimonialsSection masquée jusqu'à ce que de vraies voix de partenaires soient prêtes -->
+  <DesignSection />
+  <AboutSection />
+  <CTASection />
+</SiteShell>

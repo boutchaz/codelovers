@@ -1,0 +1,138 @@
+---
+import SiteShell from "@/layouts/SiteShell.astro";
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { SITE_URL, caseStudies } from "@/data/constants";
+
+type Study = (typeof caseStudies)[number];
+
+const slugMap: Record<string, string> = {
+  "LoginTel SaaS": "logintel-saas",
+  AgroGina: "agrogina",
+  "WhatsApp Reservation Bot": "whatsapp-reservation-bot",
+};
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+    { "@type": "ListItem", position: 2, name: "Case Studies", item: `${SITE_URL}/case-studies` },
+  ],
+};
+---
+
+<SiteShell
+  title="Case Studies"
+  description="Real-world transformations: IoT cold chain monitoring, AgroGina satellite analytics, SaaS automation, Shopify Hydrogen e-commerce, and enterprise ERP solutions by CodeLovers."
+  canonical="/case-studies"
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+
+  <section class="pb-20 pt-32 sm:pt-40">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-8">
+      <SectionBadge>Case studies</SectionBadge>
+      <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        Real-world transformations that redefine
+        <span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >customer experience</span
+        >
+      </h1>
+      <p class="mt-6 max-w-3xl text-lg leading-relaxed text-slate-300">
+        Every engagement is anchored in measurable change &mdash; shifting behaviours, expanding
+        revenue, and building loyalty through craft.
+      </p>
+    </div>
+  </section>
+
+  <section class="border-t border-white/5 py-24">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-2">
+        {
+          caseStudies.map((study: Study) => {
+            const slug = slugMap[study.title];
+            const internalUrl = slug ? `/case-studies/${slug}` : null;
+            const hasExternalLink = "href" in study && study.href;
+
+            const className =
+              "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-12 lg:p-14";
+
+            const content = (
+              <>
+                <div
+                  class={`absolute inset-0 bg-gradient-to-br ${study.gradient} opacity-0 transition-opacity group-hover:opacity-30`}
+                />
+                <div class="relative flex h-full flex-col justify-between space-y-6">
+                  <div class="space-y-4">
+                    <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
+                      {study.category}
+                    </span>
+                    <h2 class="text-2xl font-semibold text-white">
+                      {study.title}
+                      {internalUrl && (
+                        <span class="ml-2 text-base font-medium text-rose-300 transition group-hover:text-rose-200">
+                          →
+                        </span>
+                      )}
+                    </h2>
+                    <p class="text-sm leading-relaxed text-slate-300">{study.summary}</p>
+                  </div>
+                  <div class="flex items-end justify-between gap-4 border-t border-white/10 pt-6">
+                    <div>
+                      <p class="text-4xl font-semibold text-white">{study.result}</p>
+                      <p class="mt-2 text-xs uppercase tracking-[0.3em] text-rose-200">
+                        {study.metric}
+                      </p>
+                    </div>
+                    {hasExternalLink && (
+                      <a
+                        href={(study as any).href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-xs text-rose-300 transition hover:text-rose-200"
+                        onclick="event.stopPropagation()"
+                      >
+                        Live site ↗
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </>
+            );
+
+            return internalUrl ? (
+              <a href={internalUrl} class={`${className} block`}>
+                {content}
+              </a>
+            ) : (
+              <div class={className}>{content}</div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24">
+    <div class="mx-auto max-w-[1200px] px-6 text-center lg:px-8">
+      <div
+        class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
+      >
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">
+          Ready to be our next success story?
+        </h2>
+        <p class="mt-4 text-lg text-slate-200">
+          Share your challenge and we&apos;ll assemble the right team.
+        </p>
+        <a
+          href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
+        >
+          Book a working session <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteShell>

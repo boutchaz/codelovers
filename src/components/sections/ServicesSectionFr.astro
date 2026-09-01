@@ -1,0 +1,39 @@
+---
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { servicesFr } from "@/data/constants-fr";
+---
+
+<section id="services" class="reveal-on-scroll border-t border-white/5 py-28">
+  <div class="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+    <div class="mx-auto max-w-3xl text-center">
+      <SectionBadge>Services</SectionBadge>
+      <h2 class="mt-6 text-4xl font-bold text-white sm:text-5xl">
+        Ingénierie full-stack adaptée aux défis produit
+      </h2>
+      <p class="mt-6 text-lg text-slate-300">
+        Du MVP à l'échelle, nous livrons des logiciels qui résolvent de vrais problèmes.
+      </p>
+    </div>
+
+    <div class="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        servicesFr.map((service) => (
+          <div class="group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-8 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-10">
+            <div class="absolute inset-0 bg-gradient-to-br from-rose-500/10 via-red-500/5 to-orange-400/10 opacity-0 transition-opacity group-hover:opacity-100" />
+            <div class="relative space-y-6">
+              <h3 class="text-2xl font-semibold text-white">{service.title}</h3>
+              <p class="text-sm leading-relaxed text-slate-300">{service.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {service.tags.map((tag) => (
+                  <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-rose-200">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,68 @@
+---
+import { contactInfoFr } from "@/data/constants-fr";
+---
+
+<section id="contact" class="reveal-on-scroll border-t border-white/5 py-28">
+  <div class="mx-auto w-full max-w-[1080px] px-6 lg:px-8">
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-white sm:text-5xl">
+        Prêt à construire quelque chose
+        <span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >d'incroyable?</span
+        >
+      </h2>
+      <p class="mt-6 text-lg text-slate-300">
+        Parlons de votre projet. Nous répondons généralement en moins de 24 heures.
+      </p>
+    </div>
+
+    <div
+      class="mx-auto mt-16 max-w-2xl rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
+    >
+      <div class="space-y-8">
+        <div class="grid gap-6 sm:grid-cols-2">
+          {
+            contactInfoFr.map((info) => (
+              <div class="space-y-2">
+                <p class="text-sm font-semibold uppercase tracking-wider text-rose-200">{info.label}</p>
+                <p class="text-lg text-white">{info.value}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="border-t border-white/20 pt-8">
+          <a
+            href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
+          >
+            Réserver une session de travail <span>↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400">
+      <a
+        href="https://www.linkedin.com/company/wearecodelovers"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition hover:text-rose-300">LinkedIn</a
+      >
+      <span>•</span>
+      <a
+        href="https://github.com/code-lovers"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition hover:text-rose-300">GitHub</a
+      >
+      <span>•</span>
+      <a href="/blog" class="transition hover:text-rose-300">Blog</a>
+      <span>•</span>
+      <a href="/case-studies" class="transition hover:text-rose-300">Études de cas</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+// RevealText: CSS-driven text reveal on scroll (IntersectionObserver lives in
+// src/scripts/reveal.ts). Server-rendered — no client JS component needed.
+interface Props {
+  tag?: string;
+  class?: string;
+  innerClass?: string;
+  delay?: number;
+  [key: string]: unknown;
+}
+
+const { tag = "span", class: className, innerClass, delay = 0, ...rest } = Astro.props;
+const outerClass = ["reveal-text", className].filter(Boolean).join(" ");
+const innerClasses = ["reveal-text__inner", innerClass].filter(Boolean).join(" ");
+// Dynamic HTML tag (astro compiler resolves capitalized identifiers as elements).
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+const Tag = tag as any;
+---
+
+<Tag class={outerClass} style={`--reveal-delay: ${delay}ms;`} data-reveal {...rest}>
+  <span class={innerClasses}>
+    <slot />
+  </span>
+</Tag>

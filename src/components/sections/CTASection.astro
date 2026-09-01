@@ -1,0 +1,36 @@
+---
+import RevealText from "@/components/ui/RevealText.astro";
+---
+
+<section class="reveal-on-scroll py-28">
+  <div class="mx-auto w-full max-w-[1320px] px-6 text-center lg:px-8">
+    <div
+      class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-8 backdrop-blur sm:p-12 lg:p-16"
+    >
+      <RevealText tag="h2" class="block" innerClass="text-4xl font-semibold text-white sm:text-5xl">
+        Ready to create the next market-defining experience?
+      </RevealText>
+      <RevealText tag="p" class="mt-6 block" innerClass="text-lg text-slate-100" delay={160}>
+        Let&apos;s align on your ambition, detail the roadmap, and assemble a squad to make it real.
+      </RevealText>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100 sm:px-8 sm:py-3"
+        >
+          Book a working session
+          <span>↗</span>
+        </a>
+        <a
+          href="#services"
+          class="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-2.5 text-sm font-semibold text-white transition hover:border-white hover:text-rose-200 sm:px-8 sm:py-3"
+        >
+          Explore capabilities
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

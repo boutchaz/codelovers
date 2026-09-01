@@ -1,0 +1,53 @@
+---
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { aboutStatsFr, aboutFeaturesFr } from "@/data/constants-fr";
+---
+
+<section id="about" class="reveal-on-scroll border-t border-white/5 py-28">
+  <div class="mx-auto w-full max-w-[1280px] px-6 lg:px-8">
+    <div class="grid gap-16 lg:grid-cols-2 lg:gap-24">
+      <div class="space-y-8">
+        <div class="space-y-6">
+          <SectionBadge>À propos</SectionBadge>
+          <h2 class="text-4xl font-bold text-white sm:text-5xl">
+            Construit pour l'échelle, optimisé pour l'impact
+          </h2>
+          <p class="text-lg leading-relaxed text-slate-300">
+            CodeLovers est un studio d'ingénierie produit basé à Rabat, Maroc. Nous concevons et livrons
+            des plateformes logicielles évolutives pour les marques ambitieuses à travers MENA et l'Europe.
+          </p>
+          <p class="leading-relaxed text-slate-300">
+            Notre approche privilégie l'architecture adaptée au domaine, l'ingénierie multi-locataire robuste
+            et l'infrastructure prête pour la production. Nous sommes agnostiques au framework — la pile s'adapte
+            au produit, et non l'inverse.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+          {
+            aboutStatsFr.map((stat) => (
+              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                <p class="text-4xl font-semibold text-white">{stat.value}</p>
+                <p class="mt-2 text-sm text-slate-300">{stat.label}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        {
+          aboutFeaturesFr.map((feature) => (
+            <div class="group rounded-2xl border border-white/10 bg-white/[0.04] p-8 transition-all hover:-translate-y-1 hover:border-rose-500/40 hover:bg-white/[0.06]">
+              <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-rose-500/10 via-red-500/5 to-orange-400/10 opacity-0 transition-opacity group-hover:opacity-100" />
+              <div class="relative space-y-3">
+                <h3 class="text-xl font-semibold text-white">{feature.title}</h3>
+                <p class="text-sm leading-relaxed text-slate-300">{feature.description}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
