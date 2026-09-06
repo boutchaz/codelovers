@@ -70,8 +70,11 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Icons -->
+    <!-- Icons: Google Search needs a square ICO/PNG ≥48px (SVG alone is not supported). -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <slot name="head" />
   </head>
