@@ -28,14 +28,14 @@ We build enterprise-grade web and mobile applications with modern frameworks: Ta
 Multi-tenant snooker club management system in production with RFID member cards, live table scoring, café/billiard POS, and administrative dashboard.
 
 **Stack:** Next.js · Supabase · TypeScript  
-[Read case study](https://wearecodelovers.com/case-studies)
+[Read case study](https://wearecodelovers.com/case-studies/snookly/)
 
 ### Passion Fitness — Martial Arts Gym Platform
 
 Multi-tenant martial arts gym platform serving BJJ gyms in Morocco. Features class booking, Mon Parcours belt progression tracking, RollMap member connections, web dashboard, and native mobile app.
 
 **Stack:** Next.js · Supabase · Expo React Native · Paddle payments  
-[Read case study](https://wearecodelovers.com/case-studies)
+[Read case study](https://wearecodelovers.com/case-studies/passion-fitness/)
 
 ### AgroGina — Precision Agriculture Platform
 
