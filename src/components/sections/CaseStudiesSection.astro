@@ -73,8 +73,7 @@ const slugMap: Record<string, string> = {
                       href={(study as any).href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="text-xs text-rose-300 transition hover:text-rose-200"
-                      onclick="event.stopPropagation()"
+                      class="relative z-10 text-xs text-rose-300 transition hover:text-rose-200"
                     >
                       Live site ↗
                     </a>
@@ -84,12 +83,19 @@ const slugMap: Record<string, string> = {
             </>
           );
 
-          return internalUrl ? (
-            <a href={internalUrl} class={`${className} block`}>
+          return (
+            <div class={className}>
               {content}
-            </a>
-          ) : (
-            <div class={className}>{content}</div>
+              {internalUrl && (
+                <a
+                  href={internalUrl}
+                  class="absolute inset-0 z-0"
+                  aria-label={`View the ${study.title} case study`}
+                >
+                  <span class="sr-only">View the {study.title} case study</span>
+                </a>
+              )}
+            </div>
           );
         })
       }
