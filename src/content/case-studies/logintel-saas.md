@@ -2,8 +2,8 @@
 title: "LoginTel SaaS"
 category: "IoT · Cold Chain Monitoring"
 description: "Comprehensive cold chain monitoring platform with real-time IoT tracking, alerting systems, and compliance reporting for temperature-sensitive logistics."
-result: "99.9%"
-metric: "Uptime with real-time alerts"
+result: "Production"
+metric: "Real-time IoT fleet monitoring"
 gradient: "from-blue-500/20 via-cyan-500/10 to-indigo-600/20"
 stack: ["Next.js", "Strapi CMS", "Python FastAPI", "MQTT", "TCP/IP", "Prometheus", "Grafana", "PostgreSQL"]
 date: 2025-06-15
@@ -59,7 +59,7 @@ We designed a three-tier architecture optimizing for both real-time data ingesti
 
 The platform launched in Q2 2024 and has since monitored over **2 million shipments** across Morocco, France, and Spain:
 
-- **99.9% uptime** — Zero critical incidents in 18 months of production
+- **Production-grade reliability** — Stable operation over 18 months
 - **Sub-5-second alerts** — Average alert delivery time of 3.2 seconds from threshold violation to SMS
 - **100% audit compliance** — All clients passed FDA and HACCP audits using LoginTel-generated reports
 - **40% cost reduction** — Clients reduced spoilage-related losses by eliminating undetected temperature excursions

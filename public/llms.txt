@@ -1,0 +1,89 @@
+# CodeLovers — Full-Stack Software & SaaS Engineering Studio
+
+CodeLovers is a Rabat-based product engineering studio delivering full-stack development, SaaS platforms, IoT systems, and e-commerce solutions for ambitious teams across MENA and Europe.
+
+## Core Services
+
+We build enterprise-grade web and mobile applications with modern frameworks: TanStack for app products, Next.js when SEO matters, React Native for mobile, Python/FastAPI for backend systems, and comprehensive DevOps infrastructure.
+
+**Full-Stack Development** — React · TanStack · TypeScript · Node.js · Python  
+[Learn more](https://wearecodelovers.com/services)
+
+**SaaS Platform Engineering** — Multi-tenant architecture, authentication, payment integration, real-time features  
+[Learn more](https://wearecodelovers.com/services)
+
+**IoT & Real-Time Systems** — MQTT, TCP/IP protocols, device management, monitoring dashboards  
+[Learn more](https://wearecodelovers.com/services)
+
+**E-Commerce Solutions** — Headless commerce with Shopify Hydrogen, custom storefronts, payment integration  
+[Learn more](https://wearecodelovers.com/services)
+
+**DevOps & Infrastructure** — CI/CD pipelines, Docker containerization, cloud deployment  
+[Learn more](https://wearecodelovers.com/services)
+
+## Featured Projects
+
+### Snookly — Snooker Club Operations Platform
+
+Multi-tenant snooker club management system in production with RFID member cards, live table scoring, café/billiard POS, and administrative dashboard.
+
+**Stack:** Next.js · Supabase · TypeScript  
+[Read case study](https://wearecodelovers.com/case-studies)
+
+### Passion Fitness — Martial Arts Gym Platform
+
+Multi-tenant martial arts gym platform serving BJJ gyms in Morocco. Features class booking, Mon Parcours belt progression tracking, RollMap member connections, web dashboard, and native mobile app.
+
+**Stack:** Next.js · Supabase · Expo React Native · Paddle payments  
+[Read case study](https://wearecodelovers.com/case-studies)
+
+### AgroGina — Precision Agriculture Platform
+
+Farm management and agronomy platform with satellite imagery analysis for crop monitoring, NDVI vegetation indices via Google Earth Engine, and multi-tenant geospatial analytics.
+
+**Stack:** React · TanStack · shadcn/ui · NestJS on Bun · FastAPI · Supabase · PostgreSQL RLS  
+**Live:** [agrogina.com](https://agrogina.com/)  
+[Read case study](https://wearecodelovers.com/case-studies/agrogina)
+
+### LoginTel SaaS — IoT Cold Chain Monitoring
+
+Comprehensive cold chain monitoring platform with real-time IoT tracking, alerting systems, and compliance reporting for temperature-sensitive logistics.
+
+**Stack:** Next.js · Strapi CMS · Python FastAPI · TCP device parsing · Prometheus · Grafana  
+[Read case study](https://wearecodelovers.com/case-studies/logintel-saas)
+
+### WhatsApp Reservation Bot — Multi-Tenant Automation
+
+Multi-tenant WhatsApp Business API integration enabling businesses to automate bookings with webhook integrations and real-time WebSocket updates.
+
+**Stack:** React · Express.js · Drizzle ORM · N8N workflow automation  
+[Read case study](https://wearecodelovers.com/case-studies/whatsapp-reservation-bot)
+
+## Technical Expertise
+
+7+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and cloud infrastructure. Built systems for 4D Logiciel, SWIBECO, and SQLI serving thousands of users.
+
+Established CI/CD pipelines, Docker containerization, and production monitoring across all platforms. Specialized in IoT, real-time systems, e-commerce, and SaaS with modern tech stacks.
+
+## Content & Resources
+
+**Blog** — Technical insights on multi-tenancy, IoT dashboards, offline-first architecture, framework choices, and shipping SaaS products  
+[Read articles](https://wearecodelovers.com/blog)
+
+**About** — Our story, values, and engineering-first culture  
+[Learn about us](https://wearecodelovers.com/about)
+
+**French version** — Complete site available in French  
+[Version française](https://wearecodelovers.com/fr)
+
+## Contact
+
+**Location:** Rabat · Morocco · Remote  
+**Email:** tech@wearecodelovers.com  
+**Phone:** +212 691 870 293
+
+**Book a working session:** [cal.com/codelovers/30min](https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view)
+
+---
+
+*Last updated: September 2026*

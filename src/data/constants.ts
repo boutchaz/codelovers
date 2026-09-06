@@ -13,21 +13,21 @@ export const heroMetrics = [
 
 export const heroCards = [
   {
-    title: "LoginTel SaaS",
-    description: "IoT-powered cold chain monitoring platform.",
-    badge: "IoT · SaaS",
+    title: "Snookly",
+    description: "Snooker club ops: RFID cards, live scoring, café POS.",
+    badge: "SaaS · Production",
     className: "hero-card hero-card--top",
   },
   {
     title: "AgroGina",
-    description: "Intelligent farm management & agronomy platform.",
-    badge: "GIS · AgroGina",
+    description: "Farm management with satellite NDVI crop monitoring.",
+    badge: "AgTech · Live",
     className: "hero-card hero-card--mid",
   },
   {
-    title: "WhatsApp Bot",
-    description: "Automated reservation system via WhatsApp API.",
-    badge: "Automation · SaaS",
+    title: "Passion Fitness",
+    description: "Multi-tenant martial arts gym platform with mobile app.",
+    badge: "SaaS · Production",
     className: "hero-card hero-card--bottom",
   },
 ];
@@ -60,7 +60,7 @@ export const services = [
   {
     title: "DevOps & Infrastructure",
     description:
-      "CI/CD pipelines, Docker containerization, monitoring, and cloud deployment ensuring 99.9% uptime.",
+      "CI/CD pipelines, Docker containerization, production monitoring, and cloud deployment on AWS, DigitalOcean, and Vercel.",
     tags: ["GitHub Actions", "Docker · Nginx", "AWS · DigitalOcean"],
   },
   {
@@ -91,23 +91,41 @@ export const capabilities = [
 
 export const caseStudies = [
   {
-    title: "LoginTel SaaS",
-    category: "IoT · Cold Chain Monitoring",
+    title: "Snookly",
+    category: "SaaS · Sports Operations",
     summary:
-      "Comprehensive cold chain monitoring platform with real-time IoT tracking, alerting systems, and compliance reporting. Built with Next.js, Strapi CMS, Python FastAPI for TCP device parsing, and Prometheus/Grafana monitoring.",
-    result: "99.9%",
-    metric: "Uptime with real-time alerts",
-    gradient: "from-blue-500/20 via-cyan-500/10 to-indigo-600/20",
+      "Multi-tenant snooker club management system in production. RFID member cards, live table scoring, café/billiard POS, and administrative dashboard. Built with Next.js, Supabase, and TypeScript.",
+    result: "Production",
+    metric: "Multi-tenant club operations",
+    gradient: "from-purple-500/20 via-indigo-500/10 to-blue-600/20",
+  },
+  {
+    title: "Passion Fitness",
+    category: "SaaS · Fitness & Wellness",
+    summary:
+      "Multi-tenant martial arts gym platform serving BJJ gyms in Morocco. Class booking, Mon Parcours belt progression, RollMap member connections, Next.js web dashboard, Expo React Native mobile app, and Paddle payment integration.",
+    result: "Production",
+    metric: "Multi-tenant gym platform + mobile app",
+    gradient: "from-red-500/20 via-orange-500/10 to-amber-600/20",
   },
   {
     title: "AgroGina",
-    category: "Agriculture · Satellite Analytics",
+    category: "AgTech · Satellite Analytics",
     summary:
-      "Precision agriculture platform with satellite imagery analysis, crop monitoring via Google Earth Engine integration for NDVI indices, and multi-tenant geospatial analytics using Leaflet/OpenLayers.",
-    result: "Real-time",
-    metric: "Vegetation monitoring & insights",
+      "Precision agriculture platform with satellite imagery analysis. Bun monorepo: React/TanStack/shadcn frontend, NestJS API on Bun with Supabase Postgres RLS, FastAPI + Google Earth Engine for NDVI vegetation monitoring. Live at agrogina.com.",
+    result: "Live",
+    metric: "Real-time crop monitoring",
     gradient: "from-emerald-500/20 via-teal-500/10 to-green-600/20",
     href: "https://agrogina.com/",
+  },
+  {
+    title: "LoginTel SaaS",
+    category: "IoT · Cold Chain Monitoring",
+    summary:
+      "Cold chain monitoring platform with real-time IoT tracking, alerting systems, and compliance reporting. Built with Next.js, Strapi CMS, Python FastAPI for TCP device parsing, and Prometheus/Grafana monitoring.",
+    result: "Production",
+    metric: "Real-time IoT fleet monitoring",
+    gradient: "from-blue-500/20 via-cyan-500/10 to-indigo-600/20",
   },
   {
     title: "WhatsApp Reservation Bot",
@@ -119,30 +137,12 @@ export const caseStudies = [
     gradient: "from-rose-500/20 via-fuchsia-500/10 to-purple-600/20",
   },
   {
-    title: "Shopify Hydrogen Store",
-    category: "E-Commerce · Headless",
-    summary:
-      "High-performance headless e-commerce storefront with server-side rendering using Remix, Shopify GraphQL API, custom product filtering, cart management, and customer account features deployed on Oxygen.",
-    result: "Fast",
-    metric: "SSR shopping experience",
-    gradient: "from-violet-500/20 via-purple-500/10 to-indigo-600/20",
-  },
-  {
-    title: "Projeco ERP",
-    category: "Enterprise · Resource Planning",
-    summary:
-      "Custom ERPNext application built on Frappe Framework for enterprise resource planning and project management with automated workflows, MariaDB and Redis integration, containerized with Docker.",
-    result: "Complete",
-    metric: "Business process automation",
-    gradient: "from-orange-500/20 via-amber-500/10 to-yellow-600/20",
-  },
-  {
     title: "SWIBECO E-Commerce",
     category: "Retail · Platform Migration",
     summary:
-      "Successfully migrated v1 e-commerce platform from AngularJS to v2 using React, TypeScript, React-Hook-Form. Designed feature toggle system with gradual rollout for zero-downtime deployments.",
+      "Migrated v1 e-commerce platform from AngularJS to v2 using React, TypeScript, React-Hook-Form. Designed feature toggle system with gradual rollout for zero-downtime deployments.",
     result: "Seamless",
-    metric: "Migration with feature toggles",
+    metric: "Zero-downtime migration",
     gradient: "from-cyan-500/20 via-blue-500/10 to-indigo-600/20",
   },
 ] as const;
@@ -179,7 +179,7 @@ export const aboutStats = [
   { value: "7+", label: "Years in software engineering" },
   { value: "6+", label: "SaaS platforms launched" },
   { value: "20+", label: "Enterprise projects delivered" },
-  { value: "99.9%", label: "Infrastructure uptime" },
+  { value: "Production", label: "Infrastructure reliability" },
 ];
 
 export const aboutFeatures = [
@@ -196,7 +196,7 @@ export const aboutFeatures = [
   {
     title: "DevOps Excellence",
     description:
-      "Established CI/CD pipelines, Docker containerization, and monitoring achieving 99.9% uptime across all platforms.",
+      "Established CI/CD pipelines, Docker containerization, and production monitoring across all platforms.",
   },
   {
     title: "Innovation-Driven",
