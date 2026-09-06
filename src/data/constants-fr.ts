@@ -13,21 +13,21 @@ export const heroMetricsFr = [
 
 export const heroCardsFr = [
   {
-    title: "LoginTel SaaS",
-    description: "Plateforme de surveillance de la chaîne du froid alimentée par l'IoT.",
-    badge: "IoT · SaaS",
+    title: "Snookly",
+    description: "Gestion club snooker : cartes RFID, score live, POS café.",
+    badge: "SaaS · Production",
     className: "hero-card hero-card--top",
   },
   {
     title: "AgroGina",
-    description: "Plateforme intelligente de gestion agricole et d'agronomie.",
-    badge: "SIG · AgroGina",
+    description: "Gestion agricole avec surveillance satellite NDVI.",
+    badge: "AgTech · En ligne",
     className: "hero-card hero-card--mid",
   },
   {
-    title: "Bot WhatsApp",
-    description: "Système de réservation automatisé via l'API WhatsApp.",
-    badge: "Automation · SaaS",
+    title: "Passion Fitness",
+    description: "Plateforme multi-locataire arts martiaux avec app mobile.",
+    badge: "SaaS · Production",
     className: "hero-card hero-card--bottom",
   },
 ];
@@ -60,7 +60,7 @@ export const servicesFr = [
   {
     title: "DevOps & Infrastructure",
     description:
-      "Pipelines CI/CD, conteneurisation Docker, surveillance et déploiement cloud garantissant une disponibilité de 99,9 %.",
+      "Pipelines CI/CD, conteneurisation Docker, surveillance de production et déploiement cloud sur AWS, DigitalOcean et Vercel.",
     tags: ["GitHub Actions", "Docker · Nginx", "AWS · DigitalOcean"],
   },
   {
@@ -93,7 +93,7 @@ export const aboutStatsFr = [
   { value: "7+", label: "Années en ingénierie logicielle" },
   { value: "6+", label: "Plateformes SaaS lancées" },
   { value: "20+", label: "Projets d'entreprise livrés" },
-  { value: "99,9%", label: "Disponibilité de l'infrastructure" },
+  { value: "Production", label: "Fiabilité de l'infrastructure" },
 ];
 
 export const aboutFeaturesFr = [
@@ -110,7 +110,7 @@ export const aboutFeaturesFr = [
   {
     title: "Excellence DevOps",
     description:
-      "Pipelines CI/CD établis, conteneurisation Docker et surveillance atteignant une disponibilité de 99,9 % sur toutes les plateformes.",
+      "Pipelines CI/CD établis, conteneurisation Docker et surveillance de production sur toutes les plateformes.",
   },
   {
     title: "Axé sur l'innovation",
