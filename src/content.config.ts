@@ -24,6 +24,7 @@ const caseStudies = defineCollection({
     externalUrl: z.string().optional(),
     stack: z.array(z.string()).default([]),
     date: z.coerce.date(),
+    locale: z.string().optional(),
   }),
 });
 
