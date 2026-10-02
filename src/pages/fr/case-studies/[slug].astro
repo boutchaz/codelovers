@@ -6,11 +6,15 @@ import { SITE_URL } from "@/data/constants";
 
 export async function getStaticPaths() {
   const allCaseStudies = await getCollection("case-studies");
-  const enCaseStudies = allCaseStudies.filter(study => !study.data.locale || study.data.locale === "en");
-  return enCaseStudies.map((study) => ({
-    params: { slug: study.id },
-    props: { study },
-  }));
+  const frCaseStudies = allCaseStudies.filter(study => study.data.locale === "fr");
+  
+  return frCaseStudies.map((study) => {
+    const slugWithoutLocale = study.id.replace(/-fr$/, '');
+    return {
+      params: { slug: slugWithoutLocale },
+      props: { study },
+    };
+  });
 }
 
 const { study } = Astro.props;
@@ -18,7 +22,7 @@ const { Content } = await render(study);
 const { title, category, description, result, metric, gradient, externalUrl, stack, date } =
   study.data;
 
-const formattedDate = new Intl.DateTimeFormat("en-US", {
+const formattedDate = new Intl.DateTimeFormat("fr-FR", {
   year: "numeric",
   month: "long",
 }).format(date);
@@ -27,18 +31,18 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+    { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE_URL}/fr` },
     {
       "@type": "ListItem",
       position: 2,
-      name: "Case Studies",
-      item: `${SITE_URL}/case-studies`,
+      name: "Études de cas",
+      item: `${SITE_URL}/fr#works`,
     },
     {
       "@type": "ListItem",
       position: 3,
       name: title,
-      item: `${SITE_URL}/case-studies/${study.id}`,
+      item: `${SITE_URL}/fr/case-studies/${study.id.replace(/-fr$/, '')}`,
     },
   ],
 };
@@ -64,15 +68,17 @@ const articleJsonLd = {
   },
   mainEntityOfPage: {
     "@type": "WebPage",
-    "@id": `${SITE_URL}/case-studies/${study.id}`,
+    "@id": `${SITE_URL}/fr/case-studies/${study.id.replace(/-fr$/, '')}`,
   },
+  inLanguage: "fr",
 };
 ---
 
 <SiteShell
-  title={`${title} Case Study`}
+  title={`${title} · Étude de cas`}
   description={description}
-  canonical={`/case-studies/${study.id}`}
+  canonical={`/fr/case-studies/${study.id.replace(/-fr$/, '')}`}
+  lang="fr"
 >
   <script
     is:inline
@@ -96,7 +102,7 @@ const articleJsonLd = {
       <div class="mt-8 flex flex-wrap items-center gap-6 text-sm text-slate-400">
         <time datetime={date.toISOString()}>{formattedDate}</time>
         <span>•</span>
-        <span>By CodeLovers</span>
+        <span>Par CodeLovers</span>
         {
           externalUrl && (
             <>
@@ -107,7 +113,7 @@ const articleJsonLd = {
                 rel="noopener noreferrer"
                 class="text-rose-400 transition hover:text-rose-300"
               >
-                Visit live site ↗
+                Voir le site en ligne ↗
               </a>
             </>
           )
@@ -150,10 +156,10 @@ const articleJsonLd = {
         class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
       >
         <h2 class="text-3xl font-semibold text-white sm:text-4xl">
-          Ready to be our next success story?
+          Prêt à devenir notre prochaine success story ?
         </h2>
         <p class="mt-4 text-lg text-slate-200">
-          Share your challenge and we&apos;ll assemble the right team.
+          Partagez votre défi et nous assemblerons la bonne équipe.
         </p>
         <a
           href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
@@ -161,7 +167,7 @@ const articleJsonLd = {
           rel="noopener noreferrer"
           class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
         >
-          Book a working session <span>↗</span>
+          Réserver une session de travail <span>↗</span>
         </a>
       </div>
     </div>
