@@ -1,176 +1,125 @@
-import { gsap, ScrollTrigger } from "@/scripts/gsap";
+import { gsap } from "@/scripts/gsap";
 
-const HERO_FRAMES = 192;
-/** Max concurrent frame downloads — keeps bandwidth free for critical resources. */
-const LOAD_CONCURRENCY = 6;
-/** Start ScrollTrigger once this many frames are available (covers early scrub). */
-const MIN_FRAMES_BEFORE_SCRUB = 24;
+/**
+ * Load the hero video fully into memory: scrubbing seeks constantly, and seeking a
+ * streamed file stalls on network ranges (Safari won't seek reliably at all).
+ */
+async function loadVideoBlob(video: HTMLVideoElement): Promise<void> {
+  const source = Array.from(video.querySelectorAll("source")).find(
+    (s) => video.canPlayType(s.type) !== "",
+  );
+  if (!source) return;
+
+  try {
+    const response = await fetch(source.src);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    video.src = URL.createObjectURL(await response.blob());
+  } catch {
+    // Fall back to streaming the <source> elements.
+    video.preload = "auto";
+    video.load();
+  }
+}
+
+/** Pin the hero and map scroll progress onto the video timeline. */
+function scrubHeroVideo(section: HTMLElement): void {
+  const video = section.querySelector<HTMLVideoElement>("[data-hero-video]");
+  if (!video) return;
+
+  const scroll = { progress: 0 };
+  let ready = false;
+  let seeking = false;
+  let pendingTime: number | null = null;
+
+  // One seek at a time; fast scrolls jump to the latest target instead of queueing.
+  const seek = (time: number) => {
+    if (!ready) return;
+    if (seeking) {
+      pendingTime = time;
+      return;
+    }
+    seeking = true;
+    video.currentTime = time;
+  };
+
+  video.addEventListener("seeked", () => {
+    seeking = false;
+    if (pendingTime !== null) {
+      const next = pendingTime;
+      pendingTime = null;
+      seek(next);
+    }
+  });
+
+  const getScrollDistance = () => {
+    const width = window.innerWidth;
+    if (width < 768) return "+=150%";
+    if (width < 1024) return "+=175%";
+    return "+=200%";
+  };
+
+  const getScrubValue = () => {
+    const width = window.innerWidth;
+    if (width < 768) return 1.5;
+    if (width < 1024) return 1.2;
+    return 0.8;
+  };
+
+  // Stop just short of the end so the last frame is still painted.
+  const timeFor = (progress: number) => progress * Math.max(video.duration - 0.05, 0);
+
+  // Pin right away so the layout doesn't jump once the video arrives.
+  gsap.to(scroll, {
+    progress: 1,
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: getScrollDistance(),
+      scrub: getScrubValue(),
+      pin: true,
+      pinSpacing: true,
+      pinType: "fixed",
+      id: "hero-scroll",
+      invalidateOnRefresh: true,
+      anticipatePin: 1,
+      fastScrollEnd: true,
+    },
+    onUpdate: () => seek(timeFor(scroll.progress)),
+  });
+
+  video.addEventListener(
+    "loadedmetadata",
+    () => {
+      // iOS only paints seeked frames once the element has played at least once.
+      void video
+        .play()
+        .then(() => video.pause())
+        .catch(() => {})
+        .finally(() => {
+          ready = true;
+          seek(timeFor(scroll.progress));
+        });
+    },
+    { once: true },
+  );
+
+  void loadVideoBlob(video);
+}
 
 export function initHero(): void {
   const section = document.querySelector<HTMLElement>("[data-hero-section]");
   const content = document.querySelector<HTMLElement>("[data-hero-content]");
-  const canvas = document.querySelector<HTMLCanvasElement>("[data-hero-canvas]");
 
-  if (!section || !content || !canvas) return;
+  if (!section || !content) return;
 
-  const context = canvas.getContext("2d");
-  if (!context) return;
-
-  const setCanvasSize = () => {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
-    context.setTransform(dpr, 0, 0, dpr, 0, 0);
-  };
-
-  setCanvasSize();
+  scrubHeroVideo(section);
 
   gsap.fromTo(
     content,
     { opacity: 0, scale: 0.95, y: 30 },
     { opacity: 1, scale: 1, y: 0, duration: 1.2, delay: 0.3, ease: "power3.out" },
   );
-
-  const isMobile = window.innerWidth < 768;
-  const frameFolder = isMobile ? "/frames-mobile" : "/frames";
-
-  const frameUrl = (index: number) =>
-    `${frameFolder}/frame-${(index + 1).toString().padStart(3, "0")}.jpg`;
-
-  const images: (HTMLImageElement | null)[] = Array.from({ length: HERO_FRAMES }, () => null);
-  const loaded = new Set<number>();
-  const currentFrameIndex = { frame: 0 };
-  let scrubStarted = false;
-
-  const drawFrame = (index: number) => {
-    const img = images[index];
-    if (!img?.complete || !img.naturalWidth) return;
-    const rect = canvas.getBoundingClientRect();
-    context.clearRect(0, 0, rect.width, rect.height);
-    context.drawImage(img, 0, 0, rect.width, rect.height);
-  };
-
-  /** Prefer exact frame; otherwise nearest loaded neighbor (keeps scrub smooth while loading). */
-  const nearestLoaded = (target: number): number | null => {
-    if (loaded.has(target)) return target;
-    for (let d = 1; d < HERO_FRAMES; d++) {
-      if (loaded.has(target - d)) return target - d;
-      if (loaded.has(target + d)) return target + d;
-    }
-    return null;
-  };
-
-  const paintScrubFrame = () => {
-    const reverseFrame = HERO_FRAMES - 1 - Math.round(currentFrameIndex.frame);
-    const idx = nearestLoaded(reverseFrame);
-    if (idx !== null) drawFrame(idx);
-  };
-
-  const startScrub = () => {
-    if (scrubStarted) return;
-    scrubStarted = true;
-
-    const getScrollDistance = () => {
-      const width = window.innerWidth;
-      if (width < 768) return "+=150%";
-      if (width < 1024) return "+=175%";
-      return "+=200%";
-    };
-
-    const getScrubValue = () => {
-      const width = window.innerWidth;
-      if (width < 768) return 1.5;
-      if (width < 1024) return 1.2;
-      return 0.8;
-    };
-
-    gsap.to(currentFrameIndex, {
-      frame: HERO_FRAMES - 1,
-      snap: "frame",
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: getScrollDistance(),
-        scrub: getScrubValue(),
-        pin: true,
-        pinSpacing: true,
-        pinType: "fixed",
-        id: "hero-scroll",
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
-        fastScrollEnd: true,
-      },
-      onUpdate: paintScrubFrame,
-    });
-  };
-
-  const loadFrame = (index: number): Promise<void> => {
-    if (images[index]) return Promise.resolve();
-
-    return new Promise((resolve) => {
-      const img = new Image();
-      images[index] = img;
-
-      const finish = () => {
-        loaded.add(index);
-        resolve();
-      };
-
-      img.onload = finish;
-      img.onerror = () => {
-        console.error(`Failed to load frame: ${frameUrl(index)}`);
-        finish();
-      };
-      img.src = frameUrl(index);
-    });
-  };
-
-  /** Load indices with limited concurrency. Prefer high indices first (initial canvas = last frame). */
-  const loadQueue = async (indices: number[]) => {
-    let cursor = 0;
-
-    const worker = async () => {
-      while (cursor < indices.length) {
-        const i = indices[cursor++];
-        await loadFrame(i);
-        if (!scrubStarted && loaded.size >= MIN_FRAMES_BEFORE_SCRUB) {
-          startScrub();
-        }
-      }
-    };
-
-    const workers = Array.from({ length: Math.min(LOAD_CONCURRENCY, indices.length) }, () =>
-      worker(),
-    );
-    await Promise.all(workers);
-  };
-
-  // Initial paint uses the last frame (scroll progress 0 → reverse index HERO_FRAMES - 1)
-  const initialIndex = HERO_FRAMES - 1;
-
-  void (async () => {
-    await loadFrame(initialIndex);
-    drawFrame(initialIndex);
-
-    // Remaining frames: last→first so early scrub stays smooth as user starts scrolling
-    const rest = Array.from({ length: HERO_FRAMES - 1 }, (_, i) => HERO_FRAMES - 2 - i);
-
-    const scheduleRest = () => {
-      void loadQueue(rest).then(() => {
-        if (!scrubStarted) startScrub();
-      });
-    };
-
-    if ("requestIdleCallback" in window) {
-      requestIdleCallback(scheduleRest, { timeout: 1200 });
-    } else {
-      setTimeout(scheduleRest, 200);
-    }
-  })();
 
   document.querySelectorAll<HTMLElement>("[data-hero-card]").forEach((card, index) => {
     const cardIsMobile = window.innerWidth < 640;
@@ -203,17 +152,6 @@ export function initHero(): void {
       delay: index * 0.5,
     });
   });
-
-  let resizeTimeout: ReturnType<typeof setTimeout>;
-  const handleResize = () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      setCanvasSize();
-      paintScrubFrame();
-      ScrollTrigger.refresh();
-    }, 150);
-  };
-  window.addEventListener("resize", handleResize);
 
   const handleMouseMove = (e: MouseEvent) => {
     if (window.innerWidth < 1024) return;

@@ -18,7 +18,7 @@ bun run preview   # preview the production build
 | `bun run dev` | Start the Astro dev server |
 | `bun run build` | Build the static site to `dist/` |
 | `bun run preview` | Serve the production build locally |
-| `bun run extract-frames` | Extract video frames for the hero scroll animation |
+| `bun run encode-hero-video -- <video>` | Encode the hero background video (WebM, MP4, poster) |
 
 ## Deployment
 

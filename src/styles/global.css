@@ -354,13 +354,6 @@ section:hover .case-study-glow {
   }
 }
 
-/* GPU acceleration for smooth scrolling */
-canvas {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  will-change: contents;
-}
-
 /* Use will-change instead of translateZ(0) for elements that animate with transforms */
 .reveal-on-scroll,
 .reveal-text {

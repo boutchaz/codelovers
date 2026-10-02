@@ -8,11 +8,19 @@ import { heroCardsFr } from "@/data/constants-fr";
   class="hero-section relative flex min-h-screen items-center justify-center overflow-x-hidden overflow-y-visible"
   style="perspective: 1500px"
 >
-  <canvas
-    data-hero-canvas
-    class="absolute inset-0 z-0 h-full w-full object-cover"
+  <video
+    data-hero-video
+    muted
+    preload="none"
+    playsinline
+    disablepictureinpicture
+    poster="/hero/poster.webp"
+    class="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
     aria-hidden="true"
-  ></canvas>
+  >
+    <source src="/hero/hero.webm" type="video/webm" />
+    <source src="/hero/hero.mp4" type="video/mp4" />
+  </video>
 
   <div class="absolute inset-0 z-[1] bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950/90"></div>
 

@@ -9,8 +9,7 @@
     "preview": "astro preview",
     "lint": "eslint",
     "astro": "astro",
-    "extract-frames": "bash scripts/extract-frames.sh",
-    "extract-frames:help": "bash scripts/extract-frames.sh --help"
+    "encode-hero-video": "bash scripts/encode-hero-video.sh"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

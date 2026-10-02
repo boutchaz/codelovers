@@ -9,7 +9,7 @@ This is an **Astro 7** static website for **wearecodelovers**, a web agency. Bui
 - Tailwind CSS v4 (via `@tailwindcss/vite`, no `tailwind.config.js`)
 - Bun as package manager and script runner
 - Content collections for the markdown blog
-- GSAP + ScrollTrigger for the hero canvas scroll animation and design reveal
+- GSAP + ScrollTrigger for the scroll-scrubbed hero `<video>` and the design reveal
 - PostHog analytics (proxied through nginx `/ingest`)
 
 ## Development Commands
@@ -31,11 +31,11 @@ Outputs a fully static site to `dist/`.
 bun run preview
 ```
 
-**Extract frames from video (for scroll animations):**
+**Encode the hero background video:**
 ```bash
-bun run extract-frames
+bun run encode-hero-video -- path/to/master.mp4
 ```
-Extracts frames from `public/animate.mp4` to `public/frames/` for the GSAP scroll animation. See [scripts/README.md](scripts/README.md) for details.
+Writes scrub-ready (short-GOP, no audio) `hero.webm`, `hero.mp4` and `poster.webp` to `public/hero/`. See [scripts/README.md](scripts/README.md) for details.
 
 ## Architecture
 
@@ -45,12 +45,12 @@ Extracts frames from `public/animate.mp4` to `public/frames/` for the GSAP scrol
 - `src/layouts/SiteShell.astro` - Page shell: header, footer, skip link, reveal script
 - `src/components/` - `.astro` components (server-rendered, zero client JS)
 - `src/components/sections/` - Homepage sections
-- `src/scripts/` - Client-side TS: `hero.ts` (GSAP canvas), `design.ts` (GSAP reveal), `reveal.ts` (IntersectionObserver), `posthog.ts` (analytics)
+- `src/scripts/` - Client-side TS: `hero.ts` (GSAP scroll-scrubbed hero video), `design.ts` (GSAP reveal), `reveal.ts` (IntersectionObserver), `posthog.ts` (analytics)
 - `src/content/blog/` - Markdown blog posts (frontmatter: title, description, date, author, tags)
 - `src/content.config.ts` - Content collection schema (glob loader)
 - `src/data/constants.ts` - Shared content data (services, case studies, nav, etc.)
 - `src/styles/global.css` - Tailwind v4 + custom CSS (reveal animations, hero cards)
-- `public/` - Static assets (frames, videos, fonts fallback, og-image)
+- `public/` - Static assets (`hero/` video + poster, logos, favicons, og-image)
 - `deploy/nginx.conf` - Production nginx config (clean URLs, gzip, PostHog proxy)
 
 **Path Aliases:**
