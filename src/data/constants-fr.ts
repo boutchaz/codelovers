@@ -20,7 +20,7 @@ export const heroCardsFr = [
   },
   {
     title: "AgroGina",
-    description: "Gestion agricole avec surveillance satellite NDVI.",
+    description: "Voir la santé des cultures plus tôt, gérer la ferme sans cinq outils.",
     badge: "AgTech · En ligne",
     className: "hero-card hero-card--mid",
   },

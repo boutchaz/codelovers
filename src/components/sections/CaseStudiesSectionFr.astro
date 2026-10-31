@@ -39,7 +39,7 @@ const slugMap: Record<string, string> = {
       {
         caseStudies.slice(0, 3).map((study: Study) => {
           const slug = slugMap[study.title];
-          const internalUrl = slug ? `/case-studies/${slug}` : null;
+          const internalUrl = slug ? `/fr/case-studies/${slug}` : null;
           const hasExternalLink = "href" in study && study.href;
 
           const className =

@@ -20,7 +20,7 @@ export const heroCards = [
   },
   {
     title: "AgroGina",
-    description: "Farm management with satellite NDVI crop monitoring.",
+    description: "See crop health early, run the farm without juggling five tools.",
     badge: "AgTech · Live",
     className: "hero-card hero-card--mid",
   },
@@ -110,11 +110,11 @@ export const caseStudies = [
   },
   {
     title: "AgroGina",
-    category: "AgTech · Satellite Analytics",
+    category: "Agriculture · Live Product",
     summary:
-      "Precision agriculture platform with satellite imagery analysis. Bun monorepo: React/TanStack/shadcn frontend, NestJS API on Bun with Supabase Postgres RLS, FastAPI + Google Earth Engine for NDVI vegetation monitoring. Live at agrogina.com.",
-    result: "Live",
-    metric: "Real-time crop monitoring",
+      "One platform so Moroccan farms can see crop health early — and run the farm day to day without juggling five tools. Satellite vegetation views, parcels, teams, stock, and accounting that work including when connectivity is weak. Live at agrogina.com.",
+    result: "Live product",
+    metric: "In production at agrogina.com",
     gradient: "from-emerald-500/20 via-teal-500/10 to-green-600/20",
     href: "https://agrogina.com/",
   },

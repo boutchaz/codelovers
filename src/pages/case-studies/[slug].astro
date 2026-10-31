@@ -5,8 +5,9 @@ import SectionBadge from "@/components/ui/SectionBadge.astro";
 import { SITE_URL } from "@/data/constants";
 
 export async function getStaticPaths() {
-  const caseStudies = await getCollection("case-studies");
-  return caseStudies.map((study) => ({
+  const allCaseStudies = await getCollection("case-studies");
+  const enCaseStudies = allCaseStudies.filter(study => !study.data.locale || study.data.locale === "en");
+  return enCaseStudies.map((study) => ({
     params: { slug: study.id },
     props: { study },
   }));
