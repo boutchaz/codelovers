@@ -9,6 +9,11 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   integrations: [sitemap()],
+  // Inline the CSS into each page: removes the render-blocking stylesheet
+  // request, so the first paint needs only the HTML document.
+  build: {
+    inlineStylesheets: "always",
+  },
   vite: {
     plugins: [tailwindcss()],
   },

@@ -11,6 +11,7 @@ The homepage hero pins on scroll and scrubs a video (`src/scripts/hero.ts` maps 
 | `hero.webm` | VP9, used by Chrome, Edge and Firefox |
 | `hero.mp4` | H.264 with `+faststart`, fallback for Safari / iOS |
 | `poster.webp` | First frame, shown until the video has loaded |
+| `src/assets/hero-poster-placeholder.webp` | 48px first frame, inlined into the CSS so the first paint shows a blurred poster |
 
 Audio is stripped, and every encode uses a short GOP (a keyframe every few frames): each seek decodes from the previous keyframe, so long GOPs make scrubbing stutter.
 

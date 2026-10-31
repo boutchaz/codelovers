@@ -36,4 +36,11 @@ ffmpeg -v error -y -i "$INPUT" -an \
 echo "Extracting poster.webp..."
 ffmpeg -v error -y -i "$INPUT" -vframes 1 -c:v libwebp -quality 80 "$OUTPUT_DIR/poster.webp"
 
+# A ~250-byte copy of the first frame. Vite inlines it into the CSS, so the
+# first paint already shows a blurred version of the poster.
+PLACEHOLDER="src/assets/hero-poster-placeholder.webp"
+echo "Extracting $PLACEHOLDER..."
+mkdir -p "$(dirname "$PLACEHOLDER")"
+ffmpeg -v error -y -i "$INPUT" -vframes 1 -vf scale=48:-2 -c:v libwebp -quality 50 "$PLACEHOLDER"
+
 ls -lh "$OUTPUT_DIR"

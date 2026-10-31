@@ -1,4 +1,24 @@
 import { gsap } from "@/scripts/gsap";
+import { afterLoadIdle } from "@/scripts/idle";
+
+/**
+ * Run `callback` once, on the first scroll/touch/key from the user or once the
+ * page is loaded and idle, whichever comes first.
+ */
+function onFirstInteractionOrIdle(callback: () => void): void {
+  const events = ["scroll", "wheel", "touchstart", "pointerdown", "keydown"] as const;
+  let done = false;
+
+  const run = () => {
+    if (done) return;
+    done = true;
+    events.forEach((type) => window.removeEventListener(type, run));
+    callback();
+  };
+
+  events.forEach((type) => window.addEventListener(type, run, { passive: true }));
+  afterLoadIdle(run);
+}
 
 /**
  * Load the hero video fully into memory: scrubbing seeks constantly, and seeking a
@@ -104,7 +124,9 @@ function scrubHeroVideo(section: HTMLElement): void {
     { once: true },
   );
 
-  void loadVideoBlob(video);
+  // The video is 2 MB+ and only matters once the user scrolls: keep it off the
+  // critical path so it never competes with first paint.
+  onFirstInteractionOrIdle(() => void loadVideoBlob(video));
 }
 
 export function initHero(): void {
@@ -115,11 +137,8 @@ export function initHero(): void {
 
   scrubHeroVideo(section);
 
-  gsap.fromTo(
-    content,
-    { opacity: 0, scale: 0.95, y: 30 },
-    { opacity: 1, scale: 1, y: 0, duration: 1.2, delay: 0.3, ease: "power3.out" },
-  );
+  // The entrance animation is CSS (`hero-content-in` in global.css) so the copy
+  // is visible from first paint instead of waiting for this script.
 
   document.querySelectorAll<HTMLElement>("[data-hero-card]").forEach((card, index) => {
     const cardIsMobile = window.innerWidth < 640;
