@@ -1,8 +1,12 @@
 ---
 import SectionBadge from "@/components/ui/SectionBadge.astro";
 import { caseStudies } from "@/data/constants";
+import { caseStudiesFr } from "@/data/constants-fr";
 
-type Study = (typeof caseStudies)[number];
+const studies = caseStudies.slice(0, 3).map((study) => ({
+  ...study,
+  ...caseStudiesFr[study.title],
+}));
 
 const slugMap: Record<string, string> = {
   Snookly: "snookly",
@@ -28,7 +32,7 @@ const slugMap: Record<string, string> = {
       </div>
 
       <a
-        href="/fr#contact"
+        href="#contact"
         class="self-start rounded-full border border-white/15 px-6 py-3 sm:px-8 sm:py-3.5 text-sm font-semibold text-white transition hover:border-rose-400/40 hover:text-rose-200"
       >
         Partagez votre défi →
@@ -37,9 +41,9 @@ const slugMap: Record<string, string> = {
 
     <div class="grid gap-8 lg:grid-cols-3">
       {
-        caseStudies.slice(0, 3).map((study: Study) => {
+        studies.map((study) => {
           const slug = slugMap[study.title];
-          const internalUrl = slug ? `/case-studies/${slug}` : null;
+          const internalUrl = slug ? `/case-studies/${slug}/` : null;
           const hasExternalLink = "href" in study && study.href;
 
           const className =

@@ -1,8 +1,71 @@
 ---
 import SectionBadge from "@/components/ui/SectionBadge.astro";
-import { navigation, services } from "@/data/constants";
+import { contactInfo, navigation, services } from "@/data/constants";
+import { contactInfoFr, navigationFr, servicesFr } from "@/data/constants-fr";
 
+interface Props {
+  lang?: "en" | "fr";
+}
+
+const { lang = "en" } = Astro.props;
+const isFr = lang === "fr";
 const year = new Date().getFullYear();
+
+const t = isFr
+  ? {
+      badge: "Collaborons",
+      heading: "Prêt à livrer votre prochain système en production ?",
+      body: "Partagez votre défi : nous réunissons les spécialistes stratégie, design, ingénierie et croissance pour le concrétiser. Réponse en général sous 24 heures.",
+      cta: "Réserver une session de travail",
+      tagline:
+        "Une équipe de stratèges, designers, ingénieurs et experts de la croissance qui conçoit les expériences numériques des marques ambitieuses.",
+      navHeading: "Navigation",
+      servicesHeading: "Nos services",
+      rights: "Tous droits réservés.",
+      privacy: "Confidentialité",
+      terms: "Conditions générales",
+    }
+  : {
+      badge: "Let's collaborate",
+      heading: "Ready to ship the next production system?",
+      body: "Share your challenge and we'll assemble the strategy, design, engineering, and growth specialists to make it real.",
+      cta: "Book a working session",
+      tagline:
+        "A team of strategists, designers, engineers, and growth leaders crafting digital experiences that shape the future of ambitious brands.",
+      navHeading: "Navigation",
+      servicesHeading: "Service Lines",
+      rights: "All rights reserved.",
+      privacy: "Privacy Policy",
+      terms: "Terms & Conditions",
+    };
+
+const nav = isFr ? navigationFr : navigation;
+const contact = isFr ? contactInfoFr : contactInfo;
+const serviceLinks = services.slice(0, 5).map((service, i) => ({
+  label: isFr ? (servicesFr[i]?.title ?? service.title) : service.title,
+  href: isFr ? "/fr/#services" : `/services/#${service.slug}`,
+}));
+
+const socials = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/wearecodelovers",
+    external: true,
+    path: "M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/boutchaz",
+    external: true,
+    path: "M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z",
+  },
+  {
+    label: "Email",
+    href: "mailto:tech@wearecodelovers.com",
+    external: false,
+    path: "M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.3-.5 7.7 6.16L19.7 5H4.3ZM20 6.46l-7.38 5.9a1 1 0 0 1-1.24 0L4 6.46V18.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V6.46Z",
+  },
+];
 ---
 
 <footer
@@ -15,13 +78,12 @@ const year = new Date().getFullYear();
         class="flex flex-col gap-12 border-b border-white/10 pb-12 lg:flex-row lg:items-center lg:justify-between lg:gap-20 lg:pb-16"
       >
         <div class="max-w-2xl space-y-6 text-left">
-          <SectionBadge class="border-white/15 bg-white/10">Let&apos;s collaborate</SectionBadge>
+          <SectionBadge class="border-white/15 bg-white/10">{t.badge}</SectionBadge>
           <h2 class="text-4xl font-semibold text-white sm:text-5xl lg:text-6xl">
-            Ready to ship the next production system?
+            {t.heading}
           </h2>
           <p class="text-base leading-relaxed text-slate-300 lg:text-lg">
-            Share your challenge and we&apos;ll assemble the strategy, design, engineering, and
-            growth specialists to make it real.
+            {t.body}
           </p>
           <a
             href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
@@ -29,7 +91,7 @@ const year = new Date().getFullYear();
             rel="noopener noreferrer"
             class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-7 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:shadow-2xl hover:shadow-rose-500/40 sm:w-auto"
           >
-            Book a working session
+            {t.cta}
             <span>↗</span>
           </a>
         </div>
@@ -38,11 +100,7 @@ const year = new Date().getFullYear();
           class="grid w-full gap-6 rounded-[32px] border border-white/10 bg-white/[0.04] p-6 sm:grid-cols-2 sm:p-8 lg:max-w-xl lg:p-10"
         >
           {
-            [
-              { label: "Location", value: "Rabat · Morocco · Remote" },
-              { label: "Email", value: "tech@wearecodelovers.com" },
-              { label: "Phone", value: "+212 691 870 293" },
-            ].map((item) => (
+            contact.map((item) => (
               <div
                 class="space-y-2 border-b border-white/10 pb-4 last:border-b-0 last:pb-0 last:col-span-2"
               >
@@ -56,7 +114,7 @@ const year = new Date().getFullYear();
 
       <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div class="space-y-6 text-left">
-          <a href="/" class="text-2xl font-semibold">
+          <a href={isFr ? "/fr/" : "/"} class="text-2xl font-semibold">
             <span class="text-white">We Are</span>
             <span
               class="bg-gradient-to-r from-rose-400 to-orange-400 bg-clip-text text-transparent"
@@ -65,8 +123,7 @@ const year = new Date().getFullYear();
             </span>
           </a>
           <p class="max-w-md text-sm text-slate-300">
-            A team of strategists, designers, engineers, and growth leaders crafting digital
-            experiences that shape the future of ambitious brands.
+            {t.tagline}
           </p>
           <div class="grid gap-3 text-sm text-slate-300">
             <a class="break-all transition hover:text-white" href="mailto:tech@wearecodelovers.com">
@@ -75,70 +132,50 @@ const year = new Date().getFullYear();
             <a class="transition hover:text-white" href="tel:+212691870293"> +212 691 870 293 </a>
           </div>
           <div class="flex flex-wrap items-center gap-4 pt-6">
-            <a
-              href="https://www.linkedin.com/company/wearecodelovers"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
-            >
-              L
-            </a>
-            <a
-              href="https://github.com/boutchaz"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
-            >
-              G
-            </a>
-            <a
-              href="mailto:tech@wearecodelovers.com"
-              aria-label="Email"
-              class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-sm font-medium text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
-            >
-              E
-            </a>
+            {
+              socials.map((social) => (
+                <a
+                  href={social.href}
+                  aria-label={social.label}
+                  {...(social.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  class="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.05] text-white transition hover:-translate-y-0.5 hover:border-rose-400/40 hover:text-rose-200 sm:h-11 sm:w-11"
+                >
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d={social.path} />
+                  </svg>
+                </a>
+              ))
+            }
           </div>
         </div>
 
         <div class="grid gap-12 sm:grid-cols-2">
           <div>
             <h3 class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">
-              Navigation
+              {t.navHeading}
             </h3>
             <ul class="mt-5 space-y-3 text-sm text-slate-300">
               {
-                navigation.map((item) => (
+                nav.map((item) => (
                   <li>
-                    <a
-                      href={item.href}
-                      class="transition hover:text-white"
-                      {...(item.href.startsWith("http")
-                        ? { target: "_blank", rel: "noopener noreferrer" }
-                        : {})}
-                    >
+                    <a href={item.href} class="transition hover:text-white">
                       {item.label}
                     </a>
                   </li>
                 ))
               }
-              <li>
-                <a href="/#services" class="transition hover:text-white">Services</a>
-              </li>
             </ul>
           </div>
           <div>
             <h3 class="text-sm font-semibold uppercase tracking-[0.3em] text-rose-200">
-              Service Lines
+              {t.servicesHeading}
             </h3>
             <ul class="mt-5 space-y-3 text-sm text-slate-300">
               {
-                services.slice(0, 5).map((service) => (
+                serviceLinks.map((service) => (
                   <li>
-                    <a href="#contact" class="transition hover:text-white">
-                      {service.title}
+                    <a href={service.href} class="transition hover:text-white">
+                      {service.label}
                     </a>
                   </li>
                 ))
@@ -152,11 +189,11 @@ const year = new Date().getFullYear();
     <div
       class="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-slate-300 sm:flex-row sm:items-center sm:justify-between"
     >
-      <p>© {year} We Are Code Lovers. All rights reserved.</p>
+      <p>© {year} We Are Code Lovers. {t.rights}</p>
       <div class="flex flex-wrap items-center gap-4">
-        <a href="/privacy" class="transition hover:text-white">Privacy Policy</a>
+        <a href="/privacy/" class="transition hover:text-white">{t.privacy}</a>
         <span class="hidden text-white/30 sm:inline-block">•</span>
-        <a href="/terms" class="transition hover:text-white">Terms &amp; Conditions</a>
+        <a href="/terms/" class="transition hover:text-white">{t.terms}</a>
       </div>
     </div>
   </div>

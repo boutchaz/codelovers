@@ -51,7 +51,7 @@ const articleJsonLd = {
 <SiteShell
   title={post.data.title}
   description={post.data.description}
-  canonical={`/blog/${post.id}`}
+  canonical={`/blog/${post.id}/`}
   ogType="article"
   publishedTime={post.data.date.toISOString()}
 >
@@ -60,7 +60,7 @@ const articleJsonLd = {
   <article class="pb-24 pt-32 sm:pt-40">
     <div class="mx-auto max-w-[760px] px-6 lg:px-8">
       <a
-        href="/blog"
+        href="/blog/"
         class="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
       >
         <span aria-hidden="true">←</span> All posts
@@ -117,7 +117,7 @@ const articleJsonLd = {
               {related.map((item) => (
                 <li>
                   <a
-                    href={`/blog/${item.id}`}
+                    href={`/blog/${item.id}/`}
                     class="text-lg font-medium text-white transition hover:text-rose-200"
                   >
                     {item.data.title}

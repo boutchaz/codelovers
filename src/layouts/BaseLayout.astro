@@ -25,6 +25,7 @@ const {
 
 const siteUrl = Astro.site ?? new URL("https://wearecodelovers.com");
 const canonicalUrl = canonical ? new URL(canonical, siteUrl) : undefined;
+const hasTranslation = ["/", "/fr/"].includes(canonicalUrl?.pathname ?? "");
 const fullTitle = title.includes("CodeLovers")
   ? title
   : `${title} | CodeLovers Product Engineering`;
@@ -45,10 +46,16 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
     <meta name="description" content={description} />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
-    <!-- hreflang alternate links -->
-    <link rel="alternate" hreflang="en" href={`${siteUrl}/`} />
-    <link rel="alternate" hreflang="fr" href={`${siteUrl}/fr/`} />
-    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/`} />
+    <!-- hreflang: only the homepages have a translated counterpart -->
+    {
+      hasTranslation && (
+        <>
+          <link rel="alternate" hreflang="en" href={new URL("/", siteUrl)} />
+          <link rel="alternate" hreflang="fr" href={new URL("/fr/", siteUrl)} />
+          <link rel="alternate" hreflang="x-default" href={new URL("/", siteUrl)} />
+        </>
+      )
+    }
 
     <meta
       name="robots"
@@ -57,7 +64,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
 
     <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
     <meta property="og:site_name" content="CodeLovers" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

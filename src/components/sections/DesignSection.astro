@@ -1,6 +1,21 @@
 ---
 // CSS sticky holds the panel; GSAP ScrollTrigger only scrubs the reveal.
 // Avoids GSAP pin/transform ghosts under the fixed header.
+interface Props {
+  lang?: "en" | "fr";
+}
+
+const { lang = "en" } = Astro.props;
+const copy =
+  lang === "fr"
+    ? {
+        body: "Nous concevons des expériences numériques qui allient créativité, technologie et design centré sur l'humain pour créer des liens forts entre les marques et leurs publics.",
+        cta: "Contactez-nous",
+      }
+    : {
+        body: "We craft digital experiences that blend creativity, technology, and human-centered design to create meaningful connections between brands and their audiences.",
+        cta: "Get in Touch",
+      };
 ---
 
 <section data-design-section class="relative h-[200vh] bg-slate-950">
@@ -25,16 +40,15 @@
 
       <div data-design-content class="max-w-2xl space-y-6" style="opacity: 0">
         <p class="text-base leading-relaxed text-slate-300 sm:text-lg">
-          We craft digital experiences that blend creativity, technology, and human-centered design
-          to create meaningful connections between brands and their audiences.
+          {copy.body}
         </p>
 
         <a
-          href="/#contact"
+          href="#contact"
           class="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-gradient-to-r from-rose-600 via-red-500 to-orange-400 px-9 text-base font-semibold leading-none text-white shadow-lg shadow-rose-500/30 transition-all hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-rose-500/50 sm:h-14 sm:px-12"
           style="padding: 0.75rem 2rem"
         >
-          Get in Touch
+          {copy.cta}
         </a>
       </div>
     </div>

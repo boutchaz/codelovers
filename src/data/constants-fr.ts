@@ -1,8 +1,11 @@
 export const SITE_URL_FR = "https://wearecodelovers.com/fr";
 
+// No FR sub-pages exist yet: sections link into /fr/, the blog stays English.
 export const navigationFr = [
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/fr#contact" },
+  { label: "Services", href: "/fr/#services" },
+  { label: "Études de cas", href: "/fr/#works" },
+  { label: "À propos", href: "/fr/#about" },
+  { label: "Blog", href: "/blog/" },
 ];
 
 export const heroMetricsFr = [
@@ -36,7 +39,7 @@ export const servicesFr = [
   {
     title: "Développement Full-Stack",
     description:
-      "Applications web et mobiles de niveau entreprise — agnostiques au framework. TanStack pour les produits d'application, Next pour le SEO/statique, React Native pour le mobile. Du MVP à la production.",
+      "Applications web et mobiles de niveau entreprise, avec TanStack par défaut pour les produits applicatifs, Astro ou Next quand le SEO et le statique priment, React Native pour le mobile. Du MVP à la production.",
     tags: ["React · TanStack", "TypeScript", "Node.js · Python"],
   },
   {
@@ -118,6 +121,34 @@ export const aboutFeaturesFr = [
       "Spécialisé dans l'IoT, les systèmes temps réel, l'e-commerce et les plateformes SaaS avec des stacks technologiques de pointe.",
   },
 ];
+
+// Keyed by caseStudies[].title; fields missing here fall back to English.
+export const caseStudiesFr: Record<
+  string,
+  { category: string; summary: string; result: string; metric: string }
+> = {
+  Snookly: {
+    category: "SaaS · Gestion sportive",
+    summary:
+      "Système multi-locataire de gestion de clubs de snooker en production. Cartes membres RFID, score des tables en direct, caisse café/billard et tableau de bord administratif. Construit avec Next.js, Supabase et TypeScript.",
+    result: "Production",
+    metric: "Gestion multi-clubs",
+  },
+  "Passion Fitness": {
+    category: "SaaS · Fitness & bien-être",
+    summary:
+      "Plateforme multi-locataire pour salles d'arts martiaux, au service des salles de JJB au Maroc. Réservation de cours, progression de ceinture Mon Parcours, connexions entre membres RollMap, tableau de bord web Next.js, application mobile Expo React Native et paiements Paddle.",
+    result: "Production",
+    metric: "Plateforme multi-salles + app mobile",
+  },
+  AgroGina: {
+    category: "AgTech · Analyse satellite",
+    summary:
+      "Plateforme d'agriculture de précision avec analyse d'imagerie satellite. Monorepo Bun : frontend React/TanStack/shadcn, API NestJS sur Bun avec Supabase Postgres RLS, FastAPI + Google Earth Engine pour le suivi de la végétation (NDVI). En ligne sur agrogina.com.",
+    result: "En ligne",
+    metric: "Suivi des cultures en temps réel",
+  },
+};
 
 export const contactInfoFr = [
   { label: "Localisation", value: "Rabat · Maroc · À distance" },

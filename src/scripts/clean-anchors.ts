@@ -5,6 +5,8 @@
 // 2. Arriving with a hash (cross-page nav, back/forward) scrolls to the target
 //    and cleans the hash from the URL.
 
+export {};
+
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

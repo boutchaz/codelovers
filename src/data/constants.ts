@@ -1,8 +1,10 @@
 export const SITE_URL = "https://wearecodelovers.com";
 
 export const navigation = [
-  { label: "Blog", href: "/blog" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Services", href: "/services/" },
+  { label: "Case studies", href: "/case-studies/" },
+  { label: "About", href: "/about/" },
+  { label: "Blog", href: "/blog/" },
 ];
 
 export const heroMetrics = [
@@ -34,36 +36,42 @@ export const heroCards = [
 
 export const services = [
   {
+    slug: "full-stack-development",
     title: "Full-Stack Development",
     description:
-      "Enterprise-grade web and mobile apps — framework-agnostic. TanStack for app products, Next when SEO/static matter, React Native for mobile. From MVP to production.",
+      "Enterprise-grade web and mobile apps on a TanStack-first default for app products, Astro or Next when SEO and static matter, React Native for mobile. From MVP to production.",
     tags: ["React · TanStack", "TypeScript", "Node.js · Python"],
   },
   {
+    slug: "saas-platform-engineering",
     title: "SaaS Platform Engineering",
     description:
       "Complete SaaS architecture with multi-tenant support, authentication, payment integration, and real-time features.",
     tags: ["Stripe · Clerk", "WebSocket · APIs", "PostgreSQL · Redis"],
   },
   {
+    slug: "iot-real-time-systems",
     title: "IoT & Real-Time Systems",
     description:
       "IoT data pipelines, device management, real-time monitoring with MQTT, TCP/IP protocols and analytics dashboards.",
     tags: ["FastAPI · MQTT", "Prometheus · Grafana", "Docker"],
   },
   {
+    slug: "e-commerce-solutions",
     title: "E-Commerce Solutions",
     description:
       "Headless e-commerce with Shopify Hydrogen, custom storefronts, and payment integration for modern shopping experiences.",
     tags: ["Shopify · Hydrogen", "Remix · GraphQL", "Cart · Checkout"],
   },
   {
+    slug: "devops-infrastructure",
     title: "DevOps & Infrastructure",
     description:
       "CI/CD pipelines, Docker containerization, production monitoring, and cloud deployment on AWS, DigitalOcean, and Vercel.",
     tags: ["GitHub Actions", "Docker · Nginx", "AWS · DigitalOcean"],
   },
   {
+    slug: "enterprise-systems",
     title: "Enterprise Systems",
     description:
       "Custom ERP solutions, workflow automation, and business process digitalization using modern frameworks.",

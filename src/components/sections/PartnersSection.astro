@@ -1,12 +1,22 @@
 ---
 import { heroMetrics, partners } from "@/data/constants";
+import { heroMetricsFr } from "@/data/constants-fr";
+
+interface Props {
+  lang?: "en" | "fr";
+}
+
+const { lang = "en" } = Astro.props;
+const metrics = lang === "fr" ? heroMetricsFr : heroMetrics;
+const trustedBy =
+  lang === "fr" ? "Ils nous font confiance" : "Trusted by teams that lead their markets";
 ---
 
 <section class="reveal-on-scroll border-y border-white/5 bg-slate-950/60 py-12 sm:py-14">
   <div class="mx-auto flex w-full max-w-[1280px] flex-col gap-10 px-6 lg:px-8">
     <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6">
       {
-        heroMetrics.map((metric) => (
+        metrics.map((metric) => (
           <div class="flex flex-col items-center text-center sm:items-start sm:text-left">
             <p class="bg-gradient-to-br from-white via-rose-100 to-rose-200 bg-clip-text text-2xl font-semibold text-transparent sm:text-3xl">
               {metric.value}
@@ -21,7 +31,7 @@ import { heroMetrics, partners } from "@/data/constants";
       class="flex flex-wrap items-center justify-center gap-8 text-sm uppercase tracking-[0.3em] text-slate-400"
     >
       <span class="text-xs font-semibold text-rose-200">
-        Trusted by teams that lead their markets
+        {trustedBy}
       </span>
       <div class="hidden h-3 w-px bg-white/10 sm:block"></div>
       {

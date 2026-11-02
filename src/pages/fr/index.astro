@@ -7,7 +7,6 @@ import ServicesSection from "@/components/sections/ServicesSectionFr.astro";
 import CaseStudiesSection from "@/components/sections/CaseStudiesSectionFr.astro";
 import DesignSection from "@/components/sections/DesignSection.astro";
 import AboutSection from "@/components/sections/AboutSectionFr.astro";
-import CTASection from "@/components/sections/CTASectionFr.astro";
 import { SITE_URL } from "@/data/constants";
 
 const organizationJsonLd = {
@@ -69,7 +68,7 @@ const organizationJsonLd = {
 <SiteShell
   title="CodeLovers | Studio d'ingénierie logicielle & SaaS Full-Stack"
   description="CodeLovers est un studio produit basé à Rabat offrant développement full-stack, ingénierie SaaS, systèmes IoT, solutions E-Commerce et infrastructure DevOps pour équipes ambitieuses à travers MENA et Europe."
-  canonical="/fr"
+  canonical="/fr/"
   lang="fr"
 >
   <script
@@ -80,12 +79,11 @@ const organizationJsonLd = {
   />
 
   <HeroSection />
-  <PartnersSection />
+  <PartnersSection lang="fr" />
   <SolutionsSection />
   <ServicesSection />
   <CaseStudiesSection />
   <!-- TestimonialsSection masquée jusqu'à ce que de vraies voix de partenaires soient prêtes -->
-  <DesignSection />
+  <DesignSection lang="fr" />
   <AboutSection />
-  <CTASection />
 </SiteShell>

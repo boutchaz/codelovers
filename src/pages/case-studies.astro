@@ -26,7 +26,7 @@ const breadcrumbJsonLd = {
 <SiteShell
   title="Case Studies"
   description="Real-world transformations: IoT cold chain monitoring, AgroGina satellite analytics, SaaS automation, Shopify Hydrogen e-commerce, and enterprise ERP solutions by CodeLovers."
-  canonical="/case-studies"
+  canonical="/case-studies/"
 >
   <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
 
@@ -52,7 +52,7 @@ const breadcrumbJsonLd = {
         {
           caseStudies.map((study: Study) => {
             const slug = slugMap[study.title];
-            const internalUrl = slug ? `/case-studies/${slug}` : null;
+            const internalUrl = slug ? `/case-studies/${slug}/` : null;
             const hasExternalLink = "href" in study && study.href;
 
             const className =
