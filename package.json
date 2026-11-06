@@ -12,6 +12,7 @@
     "encode-hero-video": "bash scripts/encode-hero-video.sh"
   },
   "dependencies": {
+    "@astrojs/markdown-remark": "^7",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/geist": "^5.3.0",
@@ -22,6 +23,7 @@
     "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",
     "posthog-js": "^1.310.1",
+    "rehype-sanitize": "^6",
     "tailwindcss": "^4.1.16"
   },
   "devDependencies": {

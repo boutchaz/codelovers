@@ -25,3 +25,6 @@ yarn-error.log*
 # Extracted video frames
 public/frames/
 public/frames-mobile/
+
+# Local publishing receipt; never contains credentials.
+.erp-publish-manifest.json

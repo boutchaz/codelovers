@@ -7,8 +7,8 @@ const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 );
 
-function formatPostDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
+function formatPostDate(date: Date, language: string): string {
+  return date.toLocaleDateString(language === "fr" ? "fr-FR" : "en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -48,8 +48,9 @@ function formatPostDate(date: Date): string {
             <article class="rounded-[28px] border border-white/10 bg-white/[0.03] p-8 transition hover:border-rose-500/30 hover:bg-white/[0.05] sm:p-10">
               <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.25em] text-rose-200">
                 <time datetime={post.data.date.toISOString()}>
-                  {formatPostDate(post.data.date)}
+                  {formatPostDate(post.data.date, post.data.language)}
                 </time>
+                <span lang={post.data.language}>{post.data.language === "fr" ? "Français" : "English"}</span>
                 {post.data.tags[0] ? (
                   <>
                     <span class="text-white/20">·</span>
@@ -67,7 +68,7 @@ function formatPostDate(date: Date): string {
                 href={`/blog/${post.id}/`}
                 class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-rose-300 transition hover:text-rose-200"
               >
-                Read article <span aria-hidden="true">→</span>
+                {post.data.language === "fr" ? "Lire l’article" : "Read article"} <span aria-hidden="true">→</span>
               </a>
             </article>
           ))

@@ -1,0 +1,33 @@
+name: Publish approved website articles
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: erp-website-publishing
+  cancel-in-progress: false
+jobs:
+  publish:
+    # Enable only after deploying the ERP app and configuring all three secrets.
+    if: vars.ERP_PUBLISHING_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ERP_URL: https://erp.boutchaz.dev
+      ERP_API_KEY: ${{ secrets.ERP_API_KEY }}
+      ERP_API_SECRET: ${{ secrets.ERP_API_SECRET }}
+      DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bun test scripts/publish-erp-blog.test.mjs
+      - name: Check configuration
+        run: test -n "$ERP_API_KEY" && test -n "$ERP_API_SECRET" && test -n "$DEPLOY_WEBHOOK_URL"
+      - run: bun scripts/publish-erp-blog.mjs prepare
+      - run: bun run build
+      - run: bun scripts/publish-erp-blog.mjs publish

@@ -12,15 +12,16 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const french = post.data.language === "fr";
 const { Content } = await render(post);
 
 const related = (await getCollection("blog"))
-  .filter((item) => item.id !== post.id)
+  .filter((item) => item.id !== post.id && item.data.language === post.data.language)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 2);
 
 function formatPostDate(date: Date): string {
-  return date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString(french ? "fr-FR" : "en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -30,6 +31,7 @@ function formatPostDate(date: Date): string {
 const articleJsonLd = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
+  inLanguage: post.data.language,
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
@@ -49,13 +51,16 @@ const articleJsonLd = {
 ---
 
 <SiteShell
+  lang={post.data.language}
   title={post.data.title}
   description={post.data.description}
   canonical={`/blog/${post.id}/`}
   ogType="article"
   publishedTime={post.data.date.toISOString()}
 >
-  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} slot="head" />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd).replace(/</g, "\\u003c")} slot="head" />
+
+  {post.data.erpRevision && <meta slot="head" name="codelovers-content-revision" content={post.data.erpRevision} />}
 
   <article class="pb-24 pt-32 sm:pt-40">
     <div class="mx-auto max-w-[760px] px-6 lg:px-8">
@@ -63,7 +68,7 @@ const articleJsonLd = {
         href="/blog/"
         class="inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white"
       >
-        <span aria-hidden="true">←</span> All posts
+        <span aria-hidden="true">←</span> {french ? "Tous les articles" : "All posts"}
       </a>
 
       <header class="mt-8 space-y-5 border-b border-white/10 pb-10">
@@ -94,16 +99,15 @@ const articleJsonLd = {
       <div
         class="mt-14 rounded-[28px] border border-white/10 bg-gradient-to-r from-rose-600/25 via-red-500/15 to-orange-400/20 p-8 sm:p-10"
       >
-        <h2 class="text-2xl font-semibold text-white">Build with CodeLovers</h2>
+        <h2 class="text-2xl font-semibold text-white">{french ? "Construisez avec CodeLovers" : "Build with CodeLovers"}</h2>
         <p class="mt-3 text-slate-200">
-          Have a product challenge? We will assemble strategy, design, and engineering around your
-          outcomes.
+          {french ? "Un projet en tête ? Réunissons stratégie, design et ingénierie pour le concrétiser." : "Have a product challenge? We will assemble strategy, design, and engineering around your outcomes."}
         </p>
         <a
           href="/#contact"
           class="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
         >
-          Start a project <span aria-hidden="true">→</span>
+          {french ? "Parlons de votre projet" : "Start a project"} <span aria-hidden="true">→</span>
         </a>
       </div>
 
@@ -111,7 +115,7 @@ const articleJsonLd = {
         related.length > 0 ? (
           <aside class="mt-16 border-t border-white/10 pt-12">
             <p class="text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
-              More from the studio
+              {french ? "À lire aussi" : "More from the studio"}
             </p>
             <ul class="mt-6 space-y-4">
               {related.map((item) => (

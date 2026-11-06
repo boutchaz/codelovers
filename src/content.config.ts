@@ -8,6 +8,9 @@ const blog = defineCollection({
     description: z.string().default(""),
     date: z.coerce.date(),
     author: z.string().default("CodeLovers"),
+    language: z.enum(["en", "fr"]).default("en"),
+    erpId: z.string().optional(),
+    erpRevision: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     tags: z.array(z.string()).default([]),
   }),
 });
