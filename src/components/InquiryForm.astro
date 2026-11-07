@@ -1,18 +1,18 @@
 ---
-const {lang = 'en'} = Astro.props;
+const {lang = 'en', defaultOffering = ''} = Astro.props;
 const fr = lang === 'fr';
 const enabled = import.meta.env.PUBLIC_INQUIRY_ENABLED === 'true';
 const inputClass = 'mt-2 w-full rounded-xl border border-white/20 bg-slate-950 px-4 py-3 text-white focus:border-rose-400 focus:outline-none';
 ---
-{enabled && <section class="mb-12 rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+{enabled && <section id="project-inquiry" class="scroll-mt-28 mb-12 rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
   <h3 class="text-2xl font-semibold text-white">{fr ? 'Parlons de votre projet' : 'Tell us about your project'}</h3>
   <p class="mt-3 text-slate-300">{fr ? 'Une question sur nos services ou une démo de nos produits ? Envoyez-nous votre demande.' : 'Looking for a service engagement or a product demo? Send us your inquiry.'}</p>
-  <form method="post" action="/api/inquiry" data-inquiry-form data-language={lang} class="mt-6 grid gap-5 sm:grid-cols-2">
+  <form method="post" action="/api/inquiry" data-inquiry-form data-language={lang} data-default-offering={defaultOffering} class="mt-6 grid gap-5 sm:grid-cols-2">
     <label class="text-sm text-slate-200">{fr ? 'Votre nom' : 'Your name'}<input class={inputClass} name="full_name" autocomplete="name" maxlength="120" required /></label>
     <label class="text-sm text-slate-200">Email<input class={inputClass} name="email" type="email" autocomplete="email" maxlength="254" required /></label>
     <label class="text-sm text-slate-200">{fr ? 'Organisation (facultatif)' : 'Organization (optional)'}<input class={inputClass} name="organization" autocomplete="organization" maxlength="140" /></label>
     <label class="text-sm text-slate-200">{fr ? 'Votre intérêt' : 'I am interested in'}<select class={inputClass} name="product">
-      <option value="">{fr ? 'À définir' : 'Not sure yet'}</option><option value="services">{fr ? 'Services Codelovers' : 'Codelovers services'}</option>
+      <option value="" selected={defaultOffering === ''}>{fr ? 'À définir' : 'Not sure yet'}</option><option value="services" selected={defaultOffering === 'services'}>{fr ? 'Services Codelovers' : 'Codelovers services'}</option>
       <option value="agrogina">AgroGina</option><option value="passion-fitness">Passion Fitness</option><option value="snookly">Snookly</option>
     </select></label>
     <label class="text-sm text-slate-200 sm:col-span-2">{fr ? 'Votre demande' : 'Your inquiry'}<textarea class={inputClass} name="message" rows="4" maxlength="4000" required></textarea></label>

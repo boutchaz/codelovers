@@ -6,15 +6,11 @@ The first operational connection is website inquiry → ERP lead + inquiry recei
 
 Migrate the updated Codelovers app. It adds the private `Codelovers Website Inquiry` DocType and authenticated POST endpoint `codelovers.inquiries.create`. CRM/Marketing pages link to the inquiry inbox. Each submission has a UUID receipt so retries do not create duplicate messages/tasks. Existing leads are reused by email and company without overwriting their product history; the specific offering and attribution stay on the inquiry record.
 
-In the site's configuration set:
+In **System Settings → Codelovers Website Lead Capture**, choose company `codelovers`, owner `Administrator` and enable capture only when the website backend is ready. These browser-editable settings override the older site-config enable flag. Existing deployments may still use `codelovers_website_intake_enabled`, `codelovers_inquiry_owner` and `codelovers_inquiry_company` as fallbacks.
 
-```
-codelovers_website_intake_enabled: true
-codelovers_inquiry_owner: Administrator
-codelovers_inquiry_company: codelovers
-```
+Migration installs **Codelovers Website Intake**, with only read/create on Lead, read/create/write on Website Inquiry, read on Product. Follow-up creation uses Frappe’s existing own-task permissions; no role-wide task-reading privilege is added. It does not grant email, billing or administrative access. Native permission APIs preserve other roles; existing customizations of this integration role are retained. Create the approved dedicated user `website-intake@wearecodelovers.com`, assign only this role, suppress the welcome email and restrict its Company User Permission to `codelovers`. API-key generation and deployment-secret entry must be completed securely by the operator. Do not use Administrator's API key.
 
-These represent site config keys, not literal YAML to paste into site_config.json. Use the deployment's `bench --site SITE set-config KEY VALUE` commands (use `--parse` for the boolean value `true`). Create a dedicated enabled integration user with API credentials and the necessary Sales User access; restrict its company access to codelovers. It needs create/read on inquiries and Lead, read on Codelovers Product, and create on ToDo. Do not use Administrator's API key. Test link permissions for the assigned owner on the deployed site.
+Create the **Codelovers services** offering (type Service, active, company codelovers) on the site. The service-client case-study form defaults to this offering; its inquiry and new lead retain the service link. Public case-study calls to action open the form on the same page, preserving the referring case study. When intake is disabled, the action opens the company's email address instead of an unavailable form.
 
 ## Deploy the website
 

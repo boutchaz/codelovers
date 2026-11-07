@@ -113,7 +113,7 @@ const socials = [
         </div>
       </div>
 
-      <InquiryForm lang={lang} />
+      <InquiryForm lang={lang} defaultOffering={Astro.url.pathname.startsWith("/case-studies") ? "services" : ""} />
 
       <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div class="space-y-6 text-left">

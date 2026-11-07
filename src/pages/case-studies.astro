@@ -1,4 +1,5 @@
 ---
+import ProjectCTA from "@/components/ProjectCTA.astro";
 import SiteShell from "@/layouts/SiteShell.astro";
 import SectionBadge from "@/components/ui/SectionBadge.astro";
 import { SITE_URL, caseStudies } from "@/data/constants";
@@ -114,26 +115,5 @@ const breadcrumbJsonLd = {
     </div>
   </section>
 
-  <section class="py-24">
-    <div class="mx-auto max-w-[1200px] px-6 text-center lg:px-8">
-      <div
-        class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
-      >
-        <h2 class="text-3xl font-semibold text-white sm:text-4xl">
-          Ready to be our next success story?
-        </h2>
-        <p class="mt-4 text-lg text-slate-200">
-          Share your challenge and we&apos;ll assemble the right team.
-        </p>
-        <a
-          href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
-        >
-          Book a working session <span>↗</span>
-        </a>
-      </div>
-    </div>
-  </section>
+  <ProjectCTA />
 </SiteShell>
