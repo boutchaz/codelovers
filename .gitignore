@@ -28,3 +28,5 @@ public/frames-mobile/
 
 # Local publishing receipt; never contains credentials.
 .erp-publish-manifest.json
+
+!.env.example

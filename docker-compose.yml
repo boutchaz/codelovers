@@ -3,6 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PUBLIC_INQUIRY_ENABLED: ${PUBLIC_INQUIRY_ENABLED:-false}
+        PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
+    depends_on:
+      - inquiry
     restart: unless-stopped
     # No `ports`: Dokploy's Traefik owns host 80/443. It reaches the container
     # over dokploy-network; routing is declared via the labels below.
@@ -10,6 +15,7 @@ services:
       - "80"
     networks:
       - dokploy-network
+      - inquiry-private
     labels:
       - traefik.enable=true
       - traefik.docker.network=dokploy-network
@@ -28,6 +34,20 @@ services:
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.permanent=true
 
+  inquiry:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    restart: unless-stopped
+    environment:
+      ERP_URL: ${ERP_URL:-https://erp.boutchaz.dev}
+      ERP_INTAKE_API_KEY: ${ERP_INTAKE_API_KEY:-}
+      ERP_INTAKE_API_SECRET: ${ERP_INTAKE_API_SECRET:-}
+    networks:
+      - inquiry-private
+  # The intake service has no public port or Traefik route.
+
 networks:
+  inquiry-private:
   dokploy-network:
     external: true

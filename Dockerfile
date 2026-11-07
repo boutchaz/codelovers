@@ -9,6 +9,10 @@ RUN bun install --frozen-lockfile
 # Build the site
 COPY . .
 ENV NODE_ENV=production
+ARG PUBLIC_INQUIRY_ENABLED=false
+ARG PUBLIC_POSTHOG_KEY
+ENV PUBLIC_INQUIRY_ENABLED=$PUBLIC_INQUIRY_ENABLED
+ENV PUBLIC_POSTHOG_KEY=$PUBLIC_POSTHOG_KEY
 RUN bun run build
 
 # Serve the static output with nginx
