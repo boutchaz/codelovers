@@ -68,33 +68,47 @@ async function prepare(api) {
   console.log(`Prepared ${posts.length} approved website article(s)`);
 }
 
-async function publish(api) {
-  const posts = JSON.parse(await readFile(MANIFEST, 'utf8'));
+const defaultGit = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+
+// Dependencies are injectable so the deploy-once behaviour can be tested without git or a network.
+export async function publish(api, io = {}) {
+  const { git = defaultGit, request = fetch, read = readFile, env = process.env, attempts = 30, delay = 15000,
+    sleep = ms => new Promise(resolve => setTimeout(resolve, ms)) } = io;
+  const posts = JSON.parse(await read(MANIFEST, 'utf8'));
   if (!posts.length) return;
-  const hook = new URL(process.env.DEPLOY_WEBHOOK_URL || '');
+  const hook = new URL(env.DEPLOY_WEBHOOK_URL || '');
   if (hook.protocol !== 'https:') throw new Error('An HTTPS deployment webhook is required');
   const current = await due(api);
   for (const post of posts) {
     if (!current.some(row => row.name === post.name && row.revision === post.revision)) throw new Error('Approval changed during build; nothing was pushed');
-    const disk = await readFile(post.path, 'utf8');
+    const disk = await read(post.path, 'utf8');
     if (disk !== current.find(row => row.name === post.name).markdown) throw new Error('Built article differs from approval');
   }
-  const git = (...args) => execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   git('add', '--', ...posts.map(post => post.path));
+  let pushed = false;
   if (git('diff', '--cached', '--name-only').trim()) {
     git('config', 'user.name', 'Codelovers publisher');
     git('config', 'user.email', 'publisher@wearecodelovers.com');
     git('commit', '-m', 'Publish approved Codelovers website articles');
     git('push', 'origin', 'HEAD:main');
+    pushed = true;
   }
   const reference = git('rev-parse', 'HEAD').trim();
-  const deployed = await fetch(hook, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000) });
-  if (!deployed.ok) throw new Error(`Deployment request failed (${deployed.status})`);
+  // Request a deployment only for a commit this run pushed, or when an operator asks for one.
+  // A later scheduled run that finds the article committed but not live just keeps checking:
+  // redeploying every 15 minutes would hammer a slow or broken build.
+  const redeploy = env.FORCE_REDEPLOY === 'true';
+  if (pushed || redeploy) {
+    const deployed = await request(hook, { method: 'POST', redirect: 'error', signal: AbortSignal.timeout(30000) });
+    if (!deployed.ok) throw new Error(`Deployment request failed (${deployed.status}). The article is committed; rerun this workflow with "Redeploy" checked, or deploy the website main branch in Dokploy.`);
+  } else {
+    console.log('No new commit: checking the earlier deployment instead of requesting another one');
+  }
   const remaining = new Map(posts.map(post => [post.name, post]));
-  for (let attempt = 0; attempt < 30 && remaining.size; attempt++) {
-    for (const post of remaining.values()) {
+  for (let attempt = 0; attempt < attempts && remaining.size; attempt++) {
+    for (const post of [...remaining.values()]) {
       try {
-        const response = await fetch(`${post.url}?revision=${post.revision}`, { redirect: 'error', signal: AbortSignal.timeout(15000), headers: { 'Cache-Control': 'no-cache' } });
+        const response = await request(`${post.url}?revision=${post.revision}`, { redirect: 'error', signal: AbortSignal.timeout(15000), headers: { 'Cache-Control': 'no-cache' } });
         if (!response.ok || !hasRevision(await response.text(), post.revision)) continue;
       } catch { continue; }
       // The ERP rejects stale confirmations; never turn a failed delivery into Published.
@@ -103,9 +117,9 @@ async function publish(api) {
       remaining.delete(post.name);
       console.log(`Confirmed ${post.name}`);
     }
-    if (remaining.size) await new Promise(resolve => setTimeout(resolve, 15000));
+    if (remaining.size) await sleep(delay);
   }
-  if (remaining.size) throw new Error('Live revisions are not confirmed yet; approved posts will be retried next run');
+  if (remaining.size) throw new Error(`Live revisions are not confirmed yet. ${pushed || redeploy ? 'A deployment was requested in this run: check its status in Dokploy.' : 'No new deployment was requested.'} Later scheduled runs keep checking without redeploying; to deploy again, run this workflow manually with "Redeploy" checked.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

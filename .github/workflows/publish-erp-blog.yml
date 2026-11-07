@@ -1,6 +1,11 @@
 name: Publish approved website articles
 on:
   workflow_dispatch:
+    inputs:
+      redeploy:
+        description: Request a new website deployment even if no article was committed in this run
+        type: boolean
+        default: false
   schedule:
     - cron: '*/15 * * * *'
 permissions:
@@ -19,6 +24,7 @@ jobs:
       ERP_API_KEY: ${{ secrets.ERP_API_KEY }}
       ERP_API_SECRET: ${{ secrets.ERP_API_SECRET }}
       DEPLOY_WEBHOOK_URL: ${{ secrets.DEPLOY_WEBHOOK_URL }}
+      FORCE_REDEPLOY: ${{ inputs.redeploy }}
     steps:
       - uses: actions/checkout@v6
         with:
