@@ -4,6 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
+        PUBLIC_NEWSLETTER_ENABLED: ${PUBLIC_NEWSLETTER_ENABLED:-false}
         PUBLIC_INQUIRY_ENABLED: ${PUBLIC_INQUIRY_ENABLED:-false}
         PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
     depends_on:
@@ -40,6 +41,12 @@ services:
       dockerfile: server/Dockerfile
     restart: unless-stopped
     environment:
+      NEWSLETTER_ENABLED: ${NEWSLETTER_ENABLED:-false}
+      BREVO_API_KEY: ${BREVO_API_KEY:-}
+      BREVO_NEWSLETTER_LIST_EN: ${BREVO_NEWSLETTER_LIST_EN:-}
+      BREVO_NEWSLETTER_LIST_FR: ${BREVO_NEWSLETTER_LIST_FR:-}
+      BREVO_DOI_TEMPLATE_EN: ${BREVO_DOI_TEMPLATE_EN:-}
+      BREVO_DOI_TEMPLATE_FR: ${BREVO_DOI_TEMPLATE_FR:-}
       ERP_URL: ${ERP_URL:-https://erp.boutchaz.dev}
       ERP_INTAKE_API_KEY: ${ERP_INTAKE_API_KEY:-}
       ERP_INTAKE_API_SECRET: ${ERP_INTAKE_API_SECRET:-}

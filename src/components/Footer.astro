@@ -1,5 +1,6 @@
 ---
 import SectionBadge from "@/components/ui/SectionBadge.astro";
+import NewsletterForm from "./NewsletterForm.astro";
 import InquiryForm from "./InquiryForm.astro";
 import { contactInfo, navigation, services } from "@/data/constants";
 import { contactInfoFr, navigationFr, servicesFr } from "@/data/constants-fr";
@@ -113,6 +114,7 @@ const socials = [
         </div>
       </div>
 
+      <NewsletterForm lang={lang} />
       <InquiryForm lang={lang} defaultOffering={Astro.url.pathname.startsWith("/case-studies") ? "services" : ""} />
 
       <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">

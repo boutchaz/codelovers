@@ -1,0 +1,20 @@
+---
+const {lang='en'}=Astro.props;
+const fr=lang==='fr';
+const enabled=import.meta.env.PUBLIC_NEWSLETTER_ENABLED==='true';
+---
+{enabled && <section id="newsletter" class="mb-12 rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8" aria-labelledby="newsletter-heading">
+  <p class="text-xs font-semibold uppercase tracking-[0.2em] text-rose-400">Codelovers / {fr ? 'Les notes du studio' : 'Studio notes'}</p>
+  <h3 id="newsletter-heading" class="mt-3 text-2xl font-semibold text-white">{fr ? 'Ce que nous apprenons en construisant.' : 'What we learn while building.'}</h3>
+  <p class="mt-3 max-w-2xl text-slate-300">{fr ? 'Une fois par mois : une leçon concrète, les coulisses d’un produit et une idée à essayer. AgroGina, Passion Fitness, Snookly et nos projets clients.' : 'Once a month: a practical lesson, a look inside a product and an idea to try. From AgroGina, Passion Fitness, Snookly and our client work.'}</p>
+  <form action="/api/newsletter" method="post" data-newsletter-form data-language={lang} class="mt-6 grid gap-4 sm:grid-cols-[2fr_1fr_auto]">
+    <label class="text-sm text-slate-200">Email<input name="email" type="email" required maxlength="254" autocomplete="email" class="mt-2 w-full rounded-xl border border-white/20 bg-slate-950 px-4 py-3 text-white focus:outline-rose-400" /></label>
+    <label class="text-sm text-slate-200">{fr ? 'Langue des emails' : 'Email language'}<select name="language" class="mt-2 w-full rounded-xl border border-white/20 bg-slate-950 px-4 py-3 text-white"><option value="en" selected={!fr}>English</option><option value="fr" selected={fr}>Français</option></select></label>
+    <button type="submit" class="self-end rounded-full bg-rose-600 px-6 py-3 font-semibold text-white disabled:opacity-50">{fr ? 'M’inscrire' : 'Subscribe'}</button>
+    <div hidden aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+    <label class="flex items-start gap-3 text-sm text-slate-300 sm:col-span-3"><input type="checkbox" name="consent" required class="mt-1" /><span>{fr ? 'Je souhaite recevoir la newsletter Codelovers. Je confirmerai mon email et pourrai me désinscrire à tout moment.' : 'I want to receive the Codelovers newsletter. I will confirm my email and can unsubscribe at any time.'} <a href="/privacy/#newsletter-privacy" class="underline">{fr ? 'Confidentialité' : 'Privacy'}</a></span></label>
+    <p data-newsletter-result role="status" aria-live="polite" class="text-sm text-slate-200 sm:col-span-3"></p>
+    <noscript><p>{fr ? 'JavaScript est requis pour vous inscrire.' : 'JavaScript is required to subscribe.'}</p></noscript>
+  </form>
+</section>}
+<script>import '@/scripts/newsletter';</script>

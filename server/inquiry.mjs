@@ -1,9 +1,12 @@
+import {makeNewsletterSignup} from './newsletter.mjs';
 import { pathToFileURL } from 'node:url';
 const ORIGINS = new Set(['https://wearecodelovers.com', 'https://www.wearecodelovers.com']);
 const json = (value, status=200) => new Response(JSON.stringify(value), {status, headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
 export function makeHandler(env=process.env, requestFetch=fetch) {
+  const signup=makeNewsletterSignup(env,requestFetch);
   return async function handle(request) {
-    if (new URL(request.url).pathname !== '/api/inquiry') return json({error:'Not found'},404);
+    const path=new URL(request.url).pathname;
+    if (!['/api/inquiry','/api/newsletter'].includes(path)) return json({error:'Not found'},404);
     if (request.method !== 'POST') return json({error:'Method not allowed'},405);
     if (!ORIGINS.has(request.headers.get('origin'))) return json({error:'Invalid origin'},403);
     if (!request.headers.get('content-type')?.startsWith('application/json')) return json({error:'JSON required'},415);
@@ -18,6 +21,7 @@ export function makeHandler(env=process.env, requestFetch=fetch) {
     } catch { return json({error:'Invalid inquiry'},400); }
     if (!input || typeof input !== 'object' || Array.isArray(input)) return json({error:'Invalid inquiry'},400);
     if (input.website) return json({accepted:true}); // Quietly discard honeypot submissions.
+    if(path==='/api/newsletter') return signup(input);
     if (!env.ERP_INTAKE_API_KEY || !env.ERP_INTAKE_API_SECRET) return json({error:'Contact form unavailable; please email us.'},503);
     let base;
     try { base=new URL(env.ERP_URL || 'https://erp.boutchaz.dev'); } catch { return json({error:'Contact form unavailable'},503); }
