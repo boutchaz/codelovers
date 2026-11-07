@@ -1,4 +1,5 @@
 import { afterLoadIdle } from "@/scripts/idle";
+import { posthogConfig } from "@/scripts/posthog-config";
 import { classifyClick, productFromPath } from "@/scripts/track";
 
 const key = import.meta.env.PUBLIC_POSTHOG_KEY;
@@ -9,17 +10,7 @@ const key = import.meta.env.PUBLIC_POSTHOG_KEY;
 if (key) {
   afterLoadIdle(() => {
     void import("posthog-js").then(({ default: posthog }) => {
-      posthog.init(key, {
-        api_host: "/ingest",
-        ui_host: "https://eu.posthog.com",
-        defaults: "2025-05-24",
-        capture_exceptions: true,
-        autocapture: false,
-        disable_session_recording: true,
-        capture_pageview: false,
-        capture_pageleave: false,
-        debug: import.meta.env.DEV,
-      });
+      posthog.init(key, posthogConfig(import.meta.env.DEV));
       posthog.capture('$pageview', {$current_url: location.origin + location.pathname});
       document.addEventListener('codelovers:inquiry-recorded', event => {
         const detail = (event as CustomEvent<{language:string;product:string}>).detail;
