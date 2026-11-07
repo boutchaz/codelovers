@@ -50,6 +50,7 @@ services:
       ERP_URL: ${ERP_URL:-https://erp.boutchaz.dev}
       ERP_INTAKE_API_KEY: ${ERP_INTAKE_API_KEY:-}
       ERP_INTAKE_API_SECRET: ${ERP_INTAKE_API_SECRET:-}
+      CAL_WEBHOOK_SECRET: ${CAL_WEBHOOK_SECRET:-}
     networks:
       - inquiry-private
   # The intake service has no public port or Traefik route.

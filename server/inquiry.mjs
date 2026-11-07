@@ -1,13 +1,17 @@
 import {makeNewsletterSignup} from './newsletter.mjs';
+import {makeBookingHandler,BOOKING_LIMIT} from './booking.mjs';
 import { pathToFileURL } from 'node:url';
 const ORIGINS = new Set(['https://wearecodelovers.com', 'https://www.wearecodelovers.com']);
 const json = (value, status=200) => new Response(JSON.stringify(value), {status, headers:{'Content-Type':'application/json','Cache-Control':'no-store'}});
 export function makeHandler(env=process.env, requestFetch=fetch) {
   const signup=makeNewsletterSignup(env,requestFetch);
+  const booking=makeBookingHandler(env,requestFetch);
   return async function handle(request) {
     const path=new URL(request.url).pathname;
-    if (!['/api/inquiry','/api/newsletter'].includes(path)) return json({error:'Not found'},404);
+    if (!['/api/inquiry','/api/newsletter','/api/cal-webhook'].includes(path)) return json({error:'Not found'},404);
     if (request.method !== 'POST') return json({error:'Method not allowed'},405);
+    // Server-to-server from Cal.com: no browser Origin, authenticated by HMAC signature instead.
+    if (path==='/api/cal-webhook') return booking(request);
     if (!ORIGINS.has(request.headers.get('origin'))) return json({error:'Invalid origin'},403);
     if (!request.headers.get('content-type')?.startsWith('application/json')) return json({error:'JSON required'},415);
     let input;
@@ -42,5 +46,6 @@ export function makeHandler(env=process.env, requestFetch=fetch) {
   };
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(process.argv[1]).href) {
-  Bun.serve({port:8080,maxRequestBodySize:24576,fetch:makeHandler()});
+  // Each route enforces its own smaller limit; the server cap only has to admit the largest (booking webhooks).
+  Bun.serve({port:8080,maxRequestBodySize:BOOKING_LIMIT,fetch:makeHandler()});
 }

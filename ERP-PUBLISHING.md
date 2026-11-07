@@ -12,7 +12,7 @@ The starter setup contains six blog drafts (three products × English/French), w
 
 ## Deployment and activation
 
-ERP repository: `boutchaz/codeprojects`. Install/migrate the updated portable Codelovers app. Keep Server Scripts enabled; the app seeds the **Codelovers - Content Approval Guard**. The publisher refuses operation when that guard is disabled. App updates preserve existing Server Script edits, so review a locally customized guard when deploying updated validation rules.
+ERP repository: `boutchaz/codeprojects`. Install/migrate the updated portable Codelovers app. Keep Server Scripts enabled; the app seeds the **Codelovers - Content Approval Guard**. The publisher refuses operation when that guard is disabled. A migration upgrades the guard when the site still has an unmodified earlier release (keeping it enabled or disabled as you left it). If someone edited the script on the site it is left alone and an Error Log entry titled **Content approval guard not updated** asks you to merge the newer rules from `templates/content/validate.py`.
 
 Website repository: `boutchaz/codelovers`. The implementation checkout is `codelovers-site` alongside `codeprojects`; the original Documents checkout is untouched. Deploy the website changes before enabling publishing.
 
@@ -22,6 +22,18 @@ In the website repository's Actions settings:
 - Store an HTTPS POST deployment hook for the website application as `DEPLOY_WEBHOOK_URL`. It must deploy the latest website main branch. The workflow explicitly calls this hook, rather than relying on a subsequent GitHub Actions push event.
 - Ensure Actions may push to website main (branch protection may require a narrowly scoped GitHub App/token instead of the default workflow token).
 - Set repository variable `ERP_PUBLISHING_ENABLED=true` only when the above is ready. The workflow is disabled by default. Run **Publish approved website articles** manually for the first approved article; scheduled runs then check roughly every 15 minutes. GitHub schedules are best effort, not exact-time delivery.
+
+Set the Actions values from a terminal; `gh secret set` asks for each value with hidden input, so nothing lands in shell history, chat or source:
+
+```bash
+gh secret set ERP_API_KEY -R boutchaz/codelovers
+gh secret set ERP_API_SECRET -R boutchaz/codelovers
+gh secret set DEPLOY_WEBHOOK_URL -R boutchaz/codelovers
+gh variable set ERP_PUBLISHING_ENABLED --body true -R boutchaz/codelovers
+gh workflow run "Publish approved website articles" -R boutchaz/codelovers
+```
+
+Until the variable is `true` every scheduled run shows as skipped. Check what is configured (names only, never values) with `gh secret list` and `gh variable list`.
 
 Never put credentials in posts, attachments or source. Neither credentials nor deployment hooks have been configured by this code change. No public article has been sent.
 

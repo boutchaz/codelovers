@@ -8,4 +8,10 @@ Set `BREVO_API_KEY`, `BREVO_NEWSLETTER_LIST_EN`, `BREVO_NEWSLETTER_LIST_FR`, `BR
 
 The thank-you page is only a landing page. Visiting it does not subscribe anyone; only Brevo's confirmation flow changes subscription state. API responses never expose subscriber existence or provider details. A hashed recipient/language cooldown is process-local; nginx limits public request volume. Honeypot acknowledgements intentionally do not deliver anything.
 
+Before switching `NEWSLETTER_ENABLED` on, run the read-only Brevo preflight. It checks the API key, both lists, both double-opt-in templates (active, DOI type, confirmation link), the three contact attributes, the authenticated sending domain and an active sender. It sends nothing and never prints the key. Put the same values you use in Dokploy in a git-ignored `.env` (Bun loads it) or export them in your shell, then:
+
+```bash
+bun scripts/check-brevo.mjs
+```
+
 Run `bun test server/*.test.mjs`, `bunx astro check`, and build with both public flags enabled for preview. Test both languages with your own address after configuring Brevo, and verify unsubscribe using a real test subscriber before sending a campaign. Local tests mock the provider and send no email.
