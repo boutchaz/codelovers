@@ -13,6 +13,7 @@ for(const form of document.querySelectorAll<HTMLFormElement>('[data-newsletter-f
         body:JSON.stringify({...values,consent:values.consent==='on'}),signal:AbortSignal.timeout(25000)});
       if(!response.ok || (await response.json()).accepted!==true) throw Error();
       form.reset();
+      document.dispatchEvent(new CustomEvent('codelovers:newsletter-requested',{detail:{language:fr?'fr':'en'}}));
       result.textContent=fr ? 'Consultez votre boîte mail et confirmez votre inscription si nécessaire. Vérifiez aussi les indésirables.' : 'Check your inbox and confirm your subscription if needed. Please check spam too.';
     } catch {
       result.textContent=fr ? 'Inscription non confirmée. Réessayez plus tard.' : 'Signup could not be confirmed. Please try again later.';
