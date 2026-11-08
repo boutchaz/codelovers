@@ -68,8 +68,15 @@ unlisted: true             # optional: keep the URL working but hide it from the
 cover: "booking"           # optional: picture on the blog cards (checklist, booking, belts or saas); none = text-only card
 series: "gym-owners"       # optional: a key of `seriesInfo` in src/data/blog.ts
 seriesOrder: 1             # optional: place in the series
+resources:                 # optional: "Ressources" cards after the article
+  - kind: "external"       # case-study, guide, download or external (external opens in a new tab)
+    title: "Resource title"
+    href: "https://example.com/"
+    meta: "example.com"    # optional line under the title
 ---
 ```
+
+An article page follows the Claude Design canvas: breadcrumb, a series badge and series navigation (`seriesInfo` in `src/data/blog.ts` holds each series' title and planned total), share buttons, the cover, a sticky table of contents built from the `##` headings, the resources, the product's demo call to action, and related posts. Reading time is the word count at 200 words a minute. The prose styles live under `.blog-prose` in `src/styles/global.css`. Markdown is sanitized, so raw HTML in a post is dropped: the design's card grid, process diagram and video player have no markdown equivalent yet.
 
 On `/blog/` the first tag is the post's topic (the filter chips list each topic once), the newest post is the wide "À la une" card, and a series gets its own numbered block once two of its guides are published. Cover pictures are drawn in `src/components/blog/PostCover.astro`; add a kind there and to the `cover` enum in `src/content.config.ts` for a new picture.
 

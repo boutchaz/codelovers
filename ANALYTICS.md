@@ -16,6 +16,7 @@ Ad blockers still drop some events even through `/ingest`, so treat the numbers 
 |---|---|---|
 | `$pageview` | every page load | path only (no query string), `product` and `article` (see below) |
 | `cta_click` | click on a booking, WhatsApp, email, phone or other outbound link | `kind` (`booking`, `whatsapp`, `email`, `phone`, `outbound`), `host` (empty for email/phone), `product` and `article` (see below) |
+| `share_click` | click on an article's LinkedIn, WhatsApp or copy-link button (never also a `cta_click`) | `kind` (`linkedin`, `whatsapp`, `copy`), `product` and `article` |
 | `website_inquiry_recorded` | the ERP confirmed an inquiry from the form | `language`, `product` |
 | `newsletter_signup_requested` | Brevo accepted a signup request | `language` |
 

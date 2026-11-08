@@ -42,5 +42,3 @@ Même sans outil, faites trois choses :
 - Donnez à chaque élève une copie de sa fiche.
 
 Vous verrez vite ce qui manquait.
-
-*Passion Fitness est la plateforme que nous avons construite pour les salles d'arts martiaux au Maroc. Vous pouvez en lire le [cas client](/case-studies/passion-fitness/).*

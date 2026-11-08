@@ -47,5 +47,3 @@ Langue du support, délai de réponse, formation de votre staff, temps nécessai
 Passion Fitness est conçu pour les salles d'arts martiaux, le BJJ aujourd'hui. Il suit la progression par ceinture, avec une application pour iOS et Android, un planning et une progression consultables hors ligne, et une configuration par salle : logo, couleurs et système de ceintures. Il gère aussi plusieurs salles.
 
 Pour les questions 5 à 7 (hébergement, prix et support), le plus simple est d'en parler. Nous répondrons point par point pendant la démo.
-
-*Vous pouvez aussi lire le [cas client](/case-studies/passion-fitness/).*

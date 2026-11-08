@@ -1,0 +1,59 @@
+---
+import type { getSeriesNav } from "@/data/blog";
+
+interface Props {
+  nav: NonNullable<ReturnType<typeof getSeriesNav>>;
+  lang: "en" | "fr";
+}
+
+const { nav, lang } = Astro.props;
+const french = lang === "fr";
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const t = french
+  ? { guide: `Guide ${nav.position} sur ${nav.total}`, previous: "Précédent", next: "Suivant", soon: "Prochain guide", soonText: "Bientôt disponible." }
+  : { guide: `Guide ${nav.position} of ${nav.total}`, previous: "Previous", next: "Next", soon: "Next guide", soonText: "Coming soon." };
+
+const card = "flex flex-col gap-2 rounded-[18px] border p-5";
+const label = "font-mono text-[11px] uppercase tracking-[0.14em]";
+---
+
+<section id="serie" aria-labelledby="serie-heading" class="mx-auto mt-24 max-w-[1100px] rounded-[28px] border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+  <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+    <h2 id="serie-heading" class="text-[22px] font-semibold tracking-tight text-white">{nav.title}</h2>
+    <span class="font-mono text-xs uppercase tracking-[0.12em] text-orange-300">{t.guide}</span>
+  </div>
+  <div aria-hidden="true" class="mt-5 grid gap-1.5" style={`grid-template-columns: repeat(${nav.total}, minmax(0, 1fr))`}>
+    {
+      Array.from({ length: nav.total }, (_, i) => (
+        <span class={`h-1 rounded-sm ${i < nav.position - 1 ? "bg-red-400" : i === nav.position - 1 ? "bg-orange-300" : "bg-white/10"}`} />
+      ))
+    }
+  </div>
+  <div class="mt-6 grid gap-4 sm:grid-cols-2">
+    {
+      nav.previous && (
+        <a href={`/blog/${nav.previous.id}/`} class={`${card} border-white/10 text-slate-100 transition hover:border-white/25`}>
+          <span class={`${label} text-slate-400`}>← {t.previous} · {pad(nav.position - 1)}</span>
+          <span class="text-[17px] font-medium leading-snug" lang={nav.previous.data.language}>{nav.previous.data.title}</span>
+        </a>
+      )
+    }
+    {
+      nav.next && (
+        <a href={`/blog/${nav.next.id}/`} class={`${card} border-orange-300/35 bg-orange-300/5 text-right text-slate-100 transition hover:border-orange-300/60 sm:col-start-2`}>
+          <span class={`${label} text-orange-300`}>{t.next} · {pad(nav.position + 1)} →</span>
+          <span class="text-[17px] font-medium leading-snug" lang={nav.next.data.language}>{nav.next.data.title}</span>
+        </a>
+      )
+    }
+    {
+      nav.nextSoon && (
+        <div class={`${card} border-dashed border-white/15 text-right sm:col-start-2`}>
+          <span class={`${label} text-slate-400`}>{t.soon} · {pad(nav.position + 1)}</span>
+          <span class="text-[17px] font-medium leading-snug text-slate-300">{t.soonText}</span>
+        </div>
+      )
+    }
+  </div>
+</section>

@@ -2,19 +2,12 @@
 import PostCard from "@/components/blog/PostCard.astro";
 import SectionBadge from "@/components/ui/SectionBadge.astro";
 import SiteShell from "@/layouts/SiteShell.astro";
-import { getListedPosts, getSeries } from "@/data/blog";
+import { getListedPosts, getSeries, slugify } from "@/data/blog";
 
 // Drafts and unlisted posts are not offered on the index.
 const posts = (await getListedPosts()).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 // A post's category is its first tag. The chips list each category once, in order of first appearance.
-const slugify = (label: string) =>
-  label
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
 const categoryOf = (post: (typeof posts)[number]) => {
   const label = post.data.tags[0] ?? "Autres";
   return { id: slugify(label), label };
@@ -199,6 +192,13 @@ const langChip =
       lang = "all";
       render();
     });
+
+    // An article's breadcrumb and topic chip link here with ?topic=<topic>, which opens the index on that topic.
+    const topic = new URLSearchParams(location.search).get("topic");
+    if (topic && catButtons.some((button) => button.dataset.filterCat === topic)) {
+      cat = topic;
+      render();
+    }
 
     filters.hidden = false;
   }

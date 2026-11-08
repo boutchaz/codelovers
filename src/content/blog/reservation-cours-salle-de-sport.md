@@ -35,7 +35,7 @@ La quatrième est celle que l'on saute le plus souvent. C'est pourtant elle qui 
 
 ## Comment ça se passe avec un outil dédié
 
-Dans Passion Fitness, le calendrier des cours est en temps réel. Chaque séance a sa capacité, et le membre voit tout de suite s'il reste une place. Une notification lui arrive une heure avant le cours. À l'arrivée, le staff marque les présents, et le système garde la fréquence d'entraînement de chaque membre.
+Dans [Passion Fitness](/case-studies/passion-fitness/), le calendrier des cours est en temps réel. Chaque séance a sa capacité, et le membre voit tout de suite s'il reste une place. Une notification lui arrive une heure avant le cours. À l'arrivée, le staff marque les présents, et le système garde la fréquence d'entraînement de chaque membre.
 
 Ce dernier point change la conversation. Vous ne devinez plus qui vient moins qu'avant : vous le voyez. Un court message à un membre qui s'éloigne vaut mieux que de découvrir son départ trois mois plus tard.
 
@@ -45,5 +45,3 @@ Ce dernier point change la conversation. Vous ne devinez plus qui vient moins qu
 - Choisissez une règle d'annulation simple, par exemple jusqu'à deux heures avant, et dites-la à tous.
 - Décidez qui note la présence, et à quel moment.
 - Après quatre semaines, regardez quelles séances sont toujours pleines et lesquelles sont à moitié vides. C'est la base de votre prochain planning.
-
-*Passion Fitness est la plateforme que nous avons construite pour les salles d'arts martiaux au Maroc. Vous pouvez en lire le [cas client](/case-studies/passion-fitness/).*

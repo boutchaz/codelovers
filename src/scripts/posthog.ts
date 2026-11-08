@@ -1,6 +1,6 @@
 import { afterLoadIdle } from "@/scripts/idle";
 import { posthogConfig } from "@/scripts/posthog-config";
-import { classifyClick, pageContext } from "@/scripts/track";
+import { classifyClick, pageContext, shareKind } from "@/scripts/track";
 
 const key = import.meta.env.PUBLIC_POSTHOG_KEY;
 
@@ -28,7 +28,15 @@ if (key) {
       // Autocapture stays off so form contents are never recorded. Only the clicks that mean "this visitor
       // is trying to reach us" are sent, and only as a kind, a host and the product and article they were on.
       document.addEventListener('click', event => {
-        const link = (event.target as Element | null)?.closest?.('a[href]');
+        const target = event.target as Element | null;
+        // A share button is not a visitor reaching out to us: count it as a share, never as a booking or WhatsApp click.
+        const share = target?.closest?.('[data-share]');
+        if (share) {
+          const kind = shareKind(share.getAttribute('data-share'));
+          if (kind) posthog.capture('share_click', {kind, ...context(), $current_url:location.origin + location.pathname});
+          return;
+        }
+        const link = target?.closest?.('a[href]');
         const click = link && classifyClick(link.getAttribute('href') ?? '', location.origin);
         if (click) posthog.capture('cta_click', {kind:click.kind, host:click.host, ...context(), $current_url:location.origin + location.pathname});
       }, {capture:true});

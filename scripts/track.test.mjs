@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import { classifyClick, pageContext, productFromPath } from '../src/scripts/track.ts';
+import { classifyClick, pageContext, productFromPath, shareKind } from '../src/scripts/track.ts';
 
 const origin = 'https://wearecodelovers.com';
 
@@ -34,6 +34,14 @@ test('credits a blog post to the product it names, and a case study to its own',
   expect(pageContext('/blog/offline-first-rural-morocco/', { article: 'offline-first-rural-morocco', product: undefined }))
     .toEqual({ product: '', article: 'offline-first-rural-morocco' });
   expect(pageContext('/')).toEqual({ product: '', article: '' });
+});
+test('only the three share buttons count as a share', () => {
+  for (const kind of ['linkedin', 'whatsapp', 'copy']) expect(shareKind(kind)).toBe(kind);
+  for (const value of ['', 'booking', 'LinkedIn', 'x', null, undefined]) expect(shareKind(value)).toBe('');
+});
+test('a share link to wa.me is a WhatsApp click unless it is counted as a share first', () => {
+  // The click handler checks [data-share] before classifying, so this href must never reach a cta_click.
+  expect(classifyClick('https://wa.me/?text=Titre%20https%3A%2F%2Fwearecodelovers.com%2Fblog%2Fx%2F', origin)?.kind).toBe('whatsapp');
 });
 test('drops page attributes that are not a plain slug', () => {
   const junk = ['Passion Fitness', 'a/b', 'x?y=1', 'ÉTÉ', '', 'a@b.c'];

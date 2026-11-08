@@ -26,6 +26,14 @@ export function productFromPath(pathname: string): string {
   return /^\/case-studies\/([a-z0-9-]+)\/?$/.exec(pathname)?.[1] ?? "";
 }
 
+// The share buttons on an article. A share link to wa.me would otherwise look like a visitor contacting us on
+// WhatsApp, so the click handler counts these separately and the value is checked against this short list.
+export type ShareKind = "linkedin" | "whatsapp" | "copy";
+
+export function shareKind(value?: string | null): ShareKind | "" {
+  return value === "linkedin" || value === "whatsapp" || value === "copy" ? value : "";
+}
+
 // A blog post names its product in frontmatter and the page exposes that and its own slug as data attributes, so a
 // visit or a click on an article counts toward the product the article is about. Anything that is not a plain slug is dropped.
 export function pageContext(

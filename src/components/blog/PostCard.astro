@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { readingTime } from "@/data/blog";
 import PostCover from "./PostCover.astro";
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 const { post, category, featured = false } = Astro.props;
 const { title, description, date, language, tags, cover } = post.data;
 const dateLabel = date.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+const minutes = readingTime(post.body);
 ---
 
 <!--
@@ -36,6 +38,9 @@ const dateLabel = date.toLocaleDateString("fr-FR", { day: "numeric", month: "sho
     <span class="hidden self-start rounded-md bg-orange-300 px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-slate-950 group-data-[featured=true]:inline-block">À la une</span>
     <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-slate-400">
       <time datetime={date.toISOString()}>{dateLabel}</time>
+      <span aria-hidden="true">·</span>
+      <span class="group-data-[featured=true]:hidden">{minutes} min</span>
+      <span class="hidden group-data-[featured=true]:inline">{minutes} min de lecture</span>
       <span aria-hidden="true">·</span>
       <span>{tags[0] ?? category}</span>
       <span class="rounded-md border border-white/20 px-1.5 py-0.5 tracking-[0.08em]" lang={language}>{language.toUpperCase()}</span>

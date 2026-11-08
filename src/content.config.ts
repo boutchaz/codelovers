@@ -21,6 +21,18 @@ const blog = defineCollection({
     // Series the post belongs to (a key of `seriesInfo` in src/data/blog.ts) and its place in it.
     series: z.string().regex(/^[a-z0-9-]*$/).default(""),
     seriesOrder: z.number().int().positive().optional(),
+    // "Ressources" cards at the end of the article. `download` links get a download button, `external` links open in a
+    // new tab. Leave the list out when the article has no extra resources.
+    resources: z
+      .array(
+        z.object({
+          kind: z.enum(["case-study", "guide", "download", "external"]),
+          title: z.string(),
+          href: z.string(),
+          meta: z.string().default(""),
+        }),
+      )
+      .default([]),
     erpId: z.string().optional(),
     erpRevision: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     tags: z.array(z.string()).default([]),
