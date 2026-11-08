@@ -25,3 +25,13 @@ export function classifyClick(href: string, origin: string): { kind: ClickKind; 
 export function productFromPath(pathname: string): string {
   return /^\/case-studies\/([a-z0-9-]+)\/?$/.exec(pathname)?.[1] ?? "";
 }
+
+// A blog post names its product in frontmatter and the page exposes that and its own slug as data attributes, so a
+// visit or a click on an article counts toward the product the article is about. Anything that is not a plain slug is dropped.
+export function pageContext(
+  pathname: string,
+  dataset: { article?: string; product?: string } = {},
+): { product: string; article: string } {
+  const slug = (value?: string) => (value && /^[a-z0-9-]+$/.test(value) ? value : "");
+  return { product: slug(dataset.product) || productFromPath(pathname), article: slug(dataset.article) };
+}

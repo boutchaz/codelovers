@@ -3,6 +3,7 @@ title: "Offline-first for rural Morocco — syncing farm data over flaky 3G"
 description: "How AgroGina's field agents record crop observations during week-long trips without connectivity, syncing when they return to town. Lessons from building a true offline-first SaaS."
 date: "2026-03-20"
 author: "CodeLovers"
+unlisted: true
 tags: ["Offline-first", "PWA", "IndexedDB", "SaaS"]
 ---
 

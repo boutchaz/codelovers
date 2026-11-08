@@ -3,9 +3,10 @@ import { getCollection } from "astro:content";
 import SiteShell from "@/layouts/SiteShell.astro";
 import SectionBadge from "@/components/ui/SectionBadge.astro";
 
-const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
-);
+// Unlisted posts keep their URL but are not offered on the index.
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.unlisted)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 function formatPostDate(date: Date, language: string): string {
   return date.toLocaleDateString(language === "fr" ? "fr-FR" : "en-US", {
@@ -17,23 +18,24 @@ function formatPostDate(date: Date, language: string): string {
 ---
 
 <SiteShell
+  lang="fr"
   title="Blog"
-  description="Notes from CodeLovers on SaaS delivery, IoT systems, stack choices, and product engineering from Morocco."
+  description="Guides pratiques pour les gérants de salles de sport et d’arts martiaux au Maroc : réservations, suivi des membres, progression et données."
   canonical="/blog/"
 >
   <section class="pb-20 pt-32 sm:pt-40">
     <div class="mx-auto max-w-[900px] px-6 lg:px-8">
       <SectionBadge>Blog</SectionBadge>
       <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl">
-        Notes from the
+        Guides pour les
         <span
           class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
-          >studio</span
+          >gérants de salle</span
         >
       </h1>
       <p class="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-        Practical writing on SaaS delivery, IoT systems, and product engineering — shipped
-        statically with this site.
+        Réservations, présence, progression des élèves et données des membres : des conseils
+        concrets pour faire tourner une salle de sport ou d’arts martiaux, sans jargon.
       </p>
     </div>
   </section>
@@ -42,7 +44,7 @@ function formatPostDate(date: Date, language: string): string {
     <div class="mx-auto max-w-[900px] space-y-6 px-6 pt-12 lg:px-8">
       {
         posts.length === 0 ? (
-          <p class="text-slate-400">Posts coming soon.</p>
+          <p class="text-slate-400">Articles bientôt disponibles.</p>
         ) : (
           posts.map((post) => (
             <article class="rounded-[28px] border border-white/10 bg-white/[0.03] p-8 transition hover:border-rose-500/30 hover:bg-white/[0.05] sm:p-10">

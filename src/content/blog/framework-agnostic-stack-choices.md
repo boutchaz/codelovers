@@ -3,6 +3,7 @@ title: "TanStack by default — we pick the stack for the product"
 description: "CodeLovers ships app products on TanStack first: Router, Query, Table with React. Astro or Next when SEO and static win, and domain tools when the problem demands them."
 date: "2026-01-18"
 author: "CodeLovers"
+unlisted: true
 tags: ["Engineering", "TanStack", "Architecture"]
 ---
 

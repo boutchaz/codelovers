@@ -3,6 +3,7 @@ title: "IoT dashboards that operators actually trust"
 description: "Lessons from cold-chain and field systems: reliable ingestion, clear alerts, and UIs built for the night shift."
 date: "2026-02-04"
 author: "CodeLovers"
+unlisted: true
 tags: ["IoT", "Real-time", "Product"]
 ---
 

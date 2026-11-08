@@ -1,5 +1,5 @@
 import { test, expect } from 'bun:test';
-import { classifyClick, productFromPath } from '../src/scripts/track.ts';
+import { classifyClick, pageContext, productFromPath } from '../src/scripts/track.ts';
 
 const origin = 'https://wearecodelovers.com';
 
@@ -26,4 +26,16 @@ test('names the product only on a case-study page', () => {
   expect(productFromPath('/case-studies/passion-fitness/')).toBe('passion-fitness');
   expect(productFromPath('/case-studies/snookly')).toBe('snookly');
   for (const path of ['/', '/blog/offline-first-rural-morocco/', '/case-studies/', '/fr/', '/case-studies/a/b/']) expect(productFromPath(path)).toBe('');
+});
+test('credits a blog post to the product it names, and a case study to its own', () => {
+  expect(pageContext('/blog/suivi-progression-ceintures-bjj/', { article: 'suivi-progression-ceintures-bjj', product: 'passion-fitness' }))
+    .toEqual({ product: 'passion-fitness', article: 'suivi-progression-ceintures-bjj' });
+  expect(pageContext('/case-studies/snookly/')).toEqual({ product: 'snookly', article: '' });
+  expect(pageContext('/blog/offline-first-rural-morocco/', { article: 'offline-first-rural-morocco', product: undefined }))
+    .toEqual({ product: '', article: 'offline-first-rural-morocco' });
+  expect(pageContext('/')).toEqual({ product: '', article: '' });
+});
+test('drops page attributes that are not a plain slug', () => {
+  const junk = ['Passion Fitness', 'a/b', 'x?y=1', 'ÉTÉ', '', 'a@b.c'];
+  for (const value of junk) expect(pageContext('/blog/x/', { article: value, product: value })).toEqual({ product: '', article: '' });
 });

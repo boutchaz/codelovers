@@ -3,6 +3,7 @@ title: "Multi-tenancy that doesn't leak — org_id scoping and Postgres RLS"
 description: "How CodeLovers implemented bulletproof multi-tenancy for AgroGina using PostgreSQL Row-Level Security, preventing cross-tenant data access even when application code has bugs."
 date: "2026-02-15"
 author: "CodeLovers"
+unlisted: true
 tags: ["Multi-tenancy", "PostgreSQL", "Security", "SaaS"]
 ---
 

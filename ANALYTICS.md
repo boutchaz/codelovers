@@ -14,10 +14,12 @@ Ad blockers still drop some events even through `/ingest`, so treat the numbers 
 
 | Event | When | Properties |
 |---|---|---|
-| `$pageview` | every page load | path only (no query string) |
-| `cta_click` | click on a booking, WhatsApp, email, phone or other outbound link | `kind` (`booking`, `whatsapp`, `email`, `phone`, `outbound`), `host` (empty for email/phone), `product` (case-study slug, or empty) |
+| `$pageview` | every page load | path only (no query string), `product` and `article` (see below) |
+| `cta_click` | click on a booking, WhatsApp, email, phone or other outbound link | `kind` (`booking`, `whatsapp`, `email`, `phone`, `outbound`), `host` (empty for email/phone), `product` and `article` (see below) |
 | `website_inquiry_recorded` | the ERP confirmed an inquiry from the form | `language`, `product` |
 | `newsletter_signup_requested` | Brevo accepted a signup request | `language` |
+
+`product` is the case-study slug on a case-study page, or the `product` set in a blog post's frontmatter (for example `passion-fitness`). `article` is the blog post's own slug. Both are empty when they do not apply, and anything that is not a plain lowercase slug is dropped.
 
 UTM source, medium and campaign and the referrer are stored by PostHog on first visit, so you can break any event down by channel.
 
@@ -25,8 +27,10 @@ UTM source, medium and campaign and the referrer are stored by PostHog on first 
 
 Build one PostHog funnel per product and check it weekly:
 
-1. `$pageview` where path contains `/case-studies/<product>/`
+1. `$pageview` where `product` is `<product>` (this covers the case study and every blog post about that product)
 2. `cta_click` where `kind` is `booking` or `whatsapp`, or `website_inquiry_recorded`
+
+To see which article does the work, break the funnel down by `article`, or chart `cta_click` with `kind` = `booking` by `article`.
 
 Then add a trend of unique visitors by referrer, and by `utm_source` for anything you post. Tag every link you share with `?utm_source=...&utm_medium=...&utm_campaign=...` (for example `utm_source=instagram&utm_medium=dm&utm_campaign=passion-fitness-gyms`) so the visit and the resulting inquiry both name the channel.
 

@@ -3,6 +3,7 @@ title: "Dual-backend architecture — when one API isn't enough"
 description: "Why AgroGina splits business logic (NestJS) and satellite processing (FastAPI) into separate backends, and when you should do the same."
 date: "2026-03-02"
 author: "CodeLovers"
+unlisted: true
 tags: ["Architecture", "NestJS", "FastAPI", "Microservices"]
 ---
 
