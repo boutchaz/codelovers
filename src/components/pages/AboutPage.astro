@@ -1,0 +1,242 @@
+---
+// The about page in either language. /about/ and /fr/about/ both render this component.
+import SiteShell from "@/layouts/SiteShell.astro";
+import SectionBadge from "@/components/ui/SectionBadge.astro";
+import { SITE_URL, aboutStats, aboutFeatures } from "@/data/constants";
+import { aboutStatsFr, aboutFeaturesFr } from "@/data/constants-fr";
+import type { Lang } from "@/data/i18n";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const fr = lang === "fr";
+const prefix = fr ? "/fr" : "";
+
+const stats = fr ? aboutStatsFr : aboutStats;
+const features = fr ? aboutFeaturesFr : aboutFeatures;
+
+const text = {
+  en: {
+    title: "About Us",
+    description:
+      "CodeLovers is a Morocco-based product engineering studio with 8+ years of experience building SaaS platforms, IoT systems, and enterprise software for ambitious teams across MENA and Europe.",
+    badge: "About us",
+    heading: "Building meaningful digital products since",
+    intro:
+      "CodeLovers is a Morocco-based product engineering studio. We partner with founders and enterprises to launch full-stack platforms, build SaaS ecosystems, connect IoT fleets, and run production infrastructure.",
+    valuesBadge: "Our values",
+    valuesTitle: "Principles that guide every engagement",
+    values: [
+      {
+        title: "Shared Ownership",
+        description:
+          "We embed within your team, share your metrics, and move with the same urgency as founders.",
+      },
+      {
+        title: "Craft Over Speed",
+        description:
+          "We ship fast, but never at the expense of quality. Every line of code is written with intention.",
+      },
+      {
+        title: "Continuous Iteration",
+        description:
+          "We treat every launch as a starting point. Data-driven iteration keeps us aligned with real impact.",
+      },
+      {
+        title: "Radical Transparency",
+        description:
+          "Weekly demos, open roadmaps, and honest conversations. No surprises, no hidden agendas.",
+      },
+    ],
+    featuresBadge: "What sets us apart",
+    featuresTitle: "Full-stack expertise with an engineering-first culture",
+    journeyBadge: "Our journey",
+    journeyTitle: "From freelance practice to product engineering studio",
+    timeline: [
+      { year: "2018", event: "Founded in Morocco as a freelance engineering practice" },
+      { year: "2019", event: "First enterprise client: e-commerce platform migration" },
+      { year: "2020", event: "Expanded into IoT with LoginTel cold chain monitoring" },
+      { year: "2021", event: "Launched AgroGina satellite analytics platform" },
+      { year: "2022", event: "Built WhatsApp reservation automation SaaS" },
+      { year: "2023", event: "Partnered with 4D Logiciel and SQLI for enterprise projects" },
+      { year: "2024", event: "Launched Shopify Hydrogen storefronts and ERPNext solutions" },
+      { year: "2025", event: "Scaling teams and expanding across MENA and Europe" },
+    ],
+    ctaTitle: "Want to work with us?",
+    ctaBody: "Let's talk about your next project and how we can help.",
+    ctaBook: "Book a working session",
+    crumbHome: "Home",
+    crumbPage: "About",
+  },
+  fr: {
+    title: "À propos",
+    description:
+      "CodeLovers est un studio d'ingénierie produit basé au Maroc, avec plus de 8 ans d'expérience dans la création de plateformes SaaS, de systèmes IoT et de logiciels d'entreprise pour des équipes ambitieuses en MENA et en Europe.",
+    badge: "À propos",
+    heading: "Des produits numériques qui comptent, depuis",
+    intro:
+      "CodeLovers est un studio d'ingénierie produit basé au Maroc. Nous accompagnons fondateurs et entreprises pour lancer des plateformes full-stack, construire des écosystèmes SaaS, connecter des flottes IoT et exploiter l'infrastructure de production.",
+    valuesBadge: "Nos valeurs",
+    valuesTitle: "Les principes qui guident chaque mission",
+    values: [
+      {
+        title: "Responsabilité partagée",
+        description:
+          "Nous nous intégrons à votre équipe, partageons vos indicateurs et avançons avec l'urgence des fondateurs.",
+      },
+      {
+        title: "L'artisanat avant la vitesse",
+        description:
+          "Nous livrons vite, mais jamais au détriment de la qualité. Chaque ligne de code est écrite avec intention.",
+      },
+      {
+        title: "Itération continue",
+        description:
+          "Nous considérons chaque lancement comme un point de départ. L'itération pilotée par les données nous garde alignés sur l'impact réel.",
+      },
+      {
+        title: "Transparence radicale",
+        description:
+          "Démos hebdomadaires, feuilles de route ouvertes et échanges honnêtes. Pas de surprise, pas d'agenda caché.",
+      },
+    ],
+    featuresBadge: "Ce qui nous distingue",
+    featuresTitle: "Une expertise full-stack et une culture d'abord technique",
+    journeyBadge: "Notre parcours",
+    journeyTitle: "D'une activité freelance à un studio d'ingénierie produit",
+    timeline: [
+      { year: "2018", event: "Fondation au Maroc, comme activité d'ingénierie freelance" },
+      { year: "2019", event: "Premier client entreprise : migration d'une plateforme e-commerce" },
+      { year: "2020", event: "Extension vers l'IoT avec la surveillance de chaîne du froid LoginTel" },
+      { year: "2021", event: "Lancement de la plateforme d'analyse satellite AgroGina" },
+      { year: "2022", event: "Création d'un SaaS d'automatisation de réservations WhatsApp" },
+      { year: "2023", event: "Partenariat avec 4D Logiciel et SQLI sur des projets d'entreprise" },
+      { year: "2024", event: "Lancement de vitrines Shopify Hydrogen et de solutions ERPNext" },
+      { year: "2025", event: "Renforcement des équipes et expansion en MENA et en Europe" },
+    ],
+    ctaTitle: "Envie de travailler avec nous ?",
+    ctaBody: "Parlons de votre prochain projet et de la façon dont nous pouvons vous aider.",
+    ctaBook: "Réserver une session de travail",
+    crumbHome: "Accueil",
+    crumbPage: "À propos",
+  },
+}[lang];
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: text.crumbHome, item: `${SITE_URL}${prefix}/` },
+    { "@type": "ListItem", position: 2, name: text.crumbPage, item: `${SITE_URL}${prefix}/about/` },
+  ],
+};
+---
+
+<SiteShell
+  lang={lang}
+  title={text.title}
+  description={text.description}
+  canonical={`${prefix}/about/`}
+>
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} slot="head" />
+
+  <section class="pb-20 pt-32 sm:pt-40">
+    <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
+      <SectionBadge>{text.badge}</SectionBadge>
+      <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        {text.heading}{" "}
+        <span
+          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
+          >2018</span
+        >
+      </h1>
+      <p class="mt-6 max-w-3xl text-lg leading-relaxed text-slate-300">{text.intro}</p>
+    </div>
+  </section>
+
+  <section class="border-y border-white/5 bg-slate-950/60 py-16">
+    <div class="mx-auto grid max-w-[1200px] gap-6 px-6 sm:grid-cols-2 lg:grid-cols-4 lg:px-8">
+      {
+        stats.map((stat) => (
+          <div class="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
+            {/* A word such as "Production" is wider than a figure such as "20+", so it gets a smaller size to fit the card. */}
+            <p class={`font-semibold text-white break-words ${stat.value.length > 5 ? "text-xl sm:text-2xl lg:text-xl" : "text-2xl sm:text-3xl"}`}>{stat.value}</p>
+            <p class="mt-3 break-words text-[11px] uppercase tracking-[0.2em] text-rose-200">{stat.label}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="py-24">
+    <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
+      <SectionBadge>{text.valuesBadge}</SectionBadge>
+      <h2 class="mt-6 text-3xl font-bold text-white sm:text-4xl">{text.valuesTitle}</h2>
+      <div class="mt-12 grid gap-8 sm:grid-cols-2">
+        {
+          text.values.map((value) => (
+            <div class="rounded-[28px] border border-white/10 bg-white/[0.04] p-8 transition-all hover:border-rose-500/30">
+              <h3 class="text-xl font-semibold text-white">{value.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-slate-300">{value.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-slate-950/70 py-24">
+    <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
+      <SectionBadge>{text.featuresBadge}</SectionBadge>
+      <h2 class="mt-6 text-3xl font-bold text-white sm:text-4xl">{text.featuresTitle}</h2>
+      <div class="mt-12 grid gap-8 sm:grid-cols-2">
+        {
+          features.map((feature) => (
+            <div class="rounded-[28px] border border-white/10 bg-white/[0.05] p-8">
+              <h3 class="text-xl font-semibold text-white">{feature.title}</h3>
+              <p class="mt-3 text-sm text-slate-300">{feature.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="py-24">
+    <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
+      <SectionBadge>{text.journeyBadge}</SectionBadge>
+      <h2 class="mt-6 text-3xl font-bold text-white sm:text-4xl">{text.journeyTitle}</h2>
+      <div class="mt-12 space-y-0">
+        {
+          text.timeline.map((item) => (
+            <div class="flex gap-6 border-l border-white/10 py-6 pl-8 transition-colors hover:border-rose-400/40">
+              <span class="shrink-0 text-sm font-semibold text-rose-400">{item.year}</span>
+              <p class="text-sm text-slate-300">{item.event}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-24">
+    <div class="mx-auto max-w-[1200px] px-6 text-center lg:px-8">
+      <div
+        class="rounded-[40px] border border-white/10 bg-gradient-to-r from-rose-600/35 via-red-500/25 to-orange-400/30 p-12 backdrop-blur lg:p-16"
+      >
+        <h2 class="text-3xl font-semibold text-white sm:text-4xl">{text.ctaTitle}</h2>
+        <p class="mt-4 text-lg text-slate-200">{text.ctaBody}</p>
+        <a
+          href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:bg-rose-100"
+        >
+          {text.ctaBook} <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteShell>

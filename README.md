@@ -87,3 +87,13 @@ The slug is the filename. Published posts appear automatically on `/blog` and in
 A post with `draft: true` is left out of the build entirely: no page, no feed entry, no sitemap line, and its URL returns 404. `bun run dev` still shows drafts, so you can preview one before it goes out.
 
 To release a post: remove `draft: true`, set `date` to the release day, commit, push, and redeploy the `web` service. The site is static, so nothing goes live until that deploy.
+
+## English and French
+
+The site has two languages. English pages live at `/<page>/` and French ones at `/fr/<page>/`; both render the same component from `src/components/pages/` with a `lang` prop, so the layout cannot drift. Each component holds its English and French text side by side.
+
+- Pages that exist in both languages are listed in `src/data/i18n.ts` (`about`, `services`, `case-studies`, each case study, and the home page). The language switch in the header stays on the same page for these and goes to the other home page for everything else (the blog, the legal pages, the 404). Those pages also announce each other with hreflang tags, and the sitemap pairs them.
+- Case studies are markdown: `src/content/case-studies/<slug>.md` in English and `src/content/case-studies-fr/<slug>.md` in French, with the same file name. `scripts/case-studies-i18n.test.mjs` fails if one language is missing a case study or the two drift apart.
+- Services, about stats and the French case-study summaries live in `src/data/constants-fr.ts`.
+- The privacy and terms pages are English only.
+- Do not add an nginx redirect for a French page that exists: an exact `location =` match would hide it.

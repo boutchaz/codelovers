@@ -39,19 +39,27 @@ const blog = defineCollection({
   }),
 });
 
-const caseStudies = defineCollection({
-  loader: glob({ pattern: "**/*.md", base: "./src/content/case-studies" }),
-  schema: z.object({
-    title: z.string(),
-    category: z.string(),
-    description: z.string(),
-    result: z.string(),
-    metric: z.string(),
-    gradient: z.string(),
-    externalUrl: z.string().optional(),
-    stack: z.array(z.string()).default([]),
-    date: z.coerce.date(),
-  }),
+const caseStudySchema = z.object({
+  title: z.string(),
+  category: z.string(),
+  description: z.string(),
+  result: z.string(),
+  metric: z.string(),
+  gradient: z.string(),
+  externalUrl: z.string().optional(),
+  stack: z.array(z.string()).default([]),
+  date: z.coerce.date(),
 });
 
-export const collections = { blog, "case-studies": caseStudies };
+const caseStudies = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/case-studies" }),
+  schema: caseStudySchema,
+});
+
+// The French version of each case study: same file name (the slug) and the same fields as the English one.
+const caseStudiesFr = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/case-studies-fr" }),
+  schema: caseStudySchema,
+});
+
+export const collections = { blog, "case-studies": caseStudies, "case-studies-fr": caseStudiesFr };

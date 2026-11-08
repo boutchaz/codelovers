@@ -1,10 +1,10 @@
 export const SITE_URL_FR = "https://wearecodelovers.com/fr";
 
-// No FR sub-pages exist yet: sections link into /fr/, the blog stays English.
+// French pages: /fr/services/, /fr/case-studies/ and /fr/about/. The blog is one page in both languages.
 export const navigationFr = [
-  { label: "Services", href: "/fr/#services" },
-  { label: "Études de cas", href: "/fr/#works" },
-  { label: "À propos", href: "/fr/#about" },
+  { label: "Services", href: "/fr/services/" },
+  { label: "Études de cas", href: "/fr/case-studies/" },
+  { label: "À propos", href: "/fr/about/" },
   { label: "Blog", href: "/blog/" },
 ];
 
@@ -147,6 +147,20 @@ export const caseStudiesFr: Record<
       "Plateforme d'agriculture de précision avec analyse d'imagerie satellite. Monorepo Bun : frontend React/TanStack/shadcn, API NestJS sur Bun avec Supabase Postgres RLS, FastAPI + Google Earth Engine pour le suivi de la végétation (NDVI). En ligne sur agrogina.com.",
     result: "En ligne",
     metric: "Suivi des cultures en temps réel",
+  },
+  "LoginTel SaaS": {
+    category: "IoT · Surveillance de la chaîne du froid",
+    summary:
+      "Plateforme de surveillance de la chaîne du froid avec suivi IoT en temps réel, systèmes d'alerte et rapports de conformité. Construite avec Next.js, Strapi CMS, Python FastAPI pour l'analyse des trames TCP des appareils, et Prometheus/Grafana pour la supervision.",
+    result: "Production",
+    metric: "Surveillance de flotte IoT en temps réel",
+  },
+  "WhatsApp Reservation Bot": {
+    category: "Automatisation · SaaS",
+    summary:
+      "Intégration multi-locataire de l'API WhatsApp Business permettant aux entreprises d'automatiser leurs réservations : webhooks, mises à jour WebSocket en temps réel, avec React, Express.js, Drizzle ORM et l'automatisation de flux N8N.",
+    result: "Automatisé",
+    metric: "Réservations via WhatsApp",
   },
 };
 

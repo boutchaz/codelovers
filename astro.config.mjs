@@ -11,7 +11,8 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   markdown: { processor: unified({ rehypePlugins: [rehypeSanitize] }) },
-  integrations: [sitemap()],
+  // The sitemap pairs each English page with its /fr/ counterpart (about, services, case studies, home).
+  integrations: [sitemap({ i18n: { defaultLocale: "en", locales: { en: "en", fr: "fr" } } })],
   // Inline the CSS into each page: removes the render-blocking stylesheet
   // request, so the first paint needs only the HTML document.
   build: {

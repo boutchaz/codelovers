@@ -45,7 +45,7 @@ const nav = isFr ? navigationFr : navigation;
 const contact = isFr ? contactInfoFr : contactInfo;
 const serviceLinks = services.slice(0, 5).map((service, i) => ({
   label: isFr ? (servicesFr[i]?.title ?? service.title) : service.title,
-  href: isFr ? "/fr/#services" : `/services/#${service.slug}`,
+  href: isFr ? `/fr/services/#${service.slug}` : `/services/#${service.slug}`,
 }));
 
 const socials = [

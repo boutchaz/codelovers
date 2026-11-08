@@ -3,6 +3,7 @@
 // Inline module script runs once; no framework runtime needed.
 import { navigation } from "@/data/constants";
 import { navigationFr } from "@/data/constants-fr";
+import { pathIn } from "@/data/i18n";
 
 interface Props {
   lang?: "en" | "fr";
@@ -11,6 +12,9 @@ interface Props {
 const { lang = "en" } = Astro.props;
 const isFr = lang === "fr";
 const homeHref = isFr ? "/fr/" : "/";
+// The language switch stays on the same page when it has a counterpart, and goes to the other home page otherwise.
+const enHref = pathIn(Astro.url.pathname, "en");
+const frHref = pathIn(Astro.url.pathname, "fr");
 // The footer (id="contact") renders on every page, so stay on the current page.
 const links = [...(isFr ? navigationFr : navigation), { label: "Contact", href: "#contact" }];
 const t = isFr
@@ -67,10 +71,10 @@ const langLinkClass = (active: boolean) =>
       </div>
 
       <div class="hidden items-center gap-2 rounded-full border border-white/10 bg-white/5 p-1 md:flex">
-        <a href="/" class={langLinkClass(!isFr)} hreflang="en" aria-current={!isFr ? "page" : undefined}>
+        <a href={enHref} class={langLinkClass(!isFr)} hreflang="en" aria-current={!isFr ? "page" : undefined}>
           EN
         </a>
-        <a href="/fr/" class={langLinkClass(isFr)} hreflang="fr" aria-current={isFr ? "page" : undefined}>
+        <a href={frHref} class={langLinkClass(isFr)} hreflang="fr" aria-current={isFr ? "page" : undefined}>
           FR
         </a>
       </div>
@@ -122,8 +126,8 @@ const langLinkClass = (active: boolean) =>
         ))
       }
       <div class="mt-2 flex gap-2 px-4">
-        <a href="/" data-mobile-link class={langLinkClass(!isFr)} hreflang="en">EN</a>
-        <a href="/fr/" data-mobile-link class={langLinkClass(isFr)} hreflang="fr">FR</a>
+        <a href={enHref} data-mobile-link class={langLinkClass(!isFr)} hreflang="en">EN</a>
+        <a href={frHref} data-mobile-link class={langLinkClass(isFr)} hreflang="fr">FR</a>
       </div>
       <div class="mt-4 border-t border-white/10 pt-6">
         <a

@@ -1,18 +1,40 @@
 ---
+interface Props {
+  lang?: "en" | "fr";
+}
+
+const { lang = "en" } = Astro.props;
 const enabled = import.meta.env.PUBLIC_INQUIRY_ENABLED === 'true';
 const email = 'mailto:tech@wearecodelovers.com?subject=Discuss%20my%20project';
+const t = lang === "fr"
+  ? {
+      eyebrow: "VOTRE PROJET, ENSUITE",
+      title: "Un projet comme celui-ci en tête ?",
+      body: "Dites-nous ce que vous voulez construire ou améliorer. Nous étudierons vos objectifs et discuterons du périmètre, de l’approche technique et d’une prochaine étape utile.",
+      discuss: "Discuter de mon projet",
+      book: "Ou réserver un appel de découverte ↗",
+      note: "Une première conversation pour comprendre votre projet. Pas d’inscription à la newsletter.",
+    }
+  : {
+      eyebrow: "YOUR PROJECT, NEXT",
+      title: "Have a project like this in mind?",
+      body: "Tell us what you want to build or improve. We’ll review your goals and discuss the scope, the technical approach and a useful next step.",
+      discuss: "Discuss my project",
+      book: "Or book a discovery call ↗",
+      note: "A first conversation to understand your project. No newsletter signup.",
+    };
 ---
 <section class="border-t border-white/5 py-20">
   <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
     <div class="rounded-[32px] border border-rose-400/20 bg-gradient-to-br from-rose-950/60 to-slate-950 p-8 sm:p-12">
-      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-rose-300">YOUR PROJECT, NEXT</p>
-      <h2 class="mt-4 max-w-2xl text-3xl font-semibold text-white sm:text-4xl">Have a project like this in mind?</h2>
-      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">Tell us what you want to build or improve. We’ll review your goals and discuss the scope, the technical approach and a useful next step.</p>
+      <p class="text-xs font-semibold uppercase tracking-[0.25em] text-rose-300">{t.eyebrow}</p>
+      <h2 class="mt-4 max-w-2xl text-3xl font-semibold text-white sm:text-4xl">{t.title}</h2>
+      <p class="mt-4 max-w-2xl text-lg leading-relaxed text-slate-300">{t.body}</p>
       <div class="mt-7 flex flex-wrap items-center gap-5">
-        <a href={enabled ? '#project-inquiry' : email} class="inline-flex items-center gap-2 rounded-full bg-rose-600 px-7 py-3 font-semibold text-white transition hover:bg-rose-500">Discuss my project <span aria-hidden="true">→</span></a>
-        <a href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-300 underline decoration-white/30 underline-offset-4 hover:text-white">Or book a discovery call ↗</a>
+        <a href={enabled ? '#project-inquiry' : email} class="inline-flex items-center gap-2 rounded-full bg-rose-600 px-7 py-3 font-semibold text-white transition hover:bg-rose-500">{t.discuss} <span aria-hidden="true">→</span></a>
+        <a href="https://cal.com/codelovers/30min?user=codelovers&overlayCalendar=true&layout=month_view" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-300 underline decoration-white/30 underline-offset-4 hover:text-white">{t.book}</a>
       </div>
-      <p class="mt-5 text-sm text-slate-400">A first conversation to understand your project. No newsletter signup.</p>
+      <p class="mt-5 text-sm text-slate-400">{t.note}</p>
     </div>
   </div>
 </section>

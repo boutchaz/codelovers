@@ -2,6 +2,7 @@
 import "@fontsource-variable/geist";
 import "@fontsource-variable/geist-mono";
 import "../styles/global.css";
+import { hasTranslation, pathIn } from "@/data/i18n";
 
 interface Props {
   title: string;
@@ -25,7 +26,8 @@ const {
 
 const siteUrl = Astro.site ?? new URL("https://wearecodelovers.com");
 const canonicalUrl = canonical ? new URL(canonical, siteUrl) : undefined;
-const hasTranslation = ["/", "/fr/"].includes(canonicalUrl?.pathname ?? "");
+// Pages that exist in both languages announce each other to search engines.
+const translated = canonicalUrl ? hasTranslation(canonicalUrl.pathname) : false;
 const fullTitle = title.includes("CodeLovers")
   ? title
   : `${title} | CodeLovers Product Engineering`;
@@ -46,13 +48,13 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
     <meta name="description" content={description} />
     {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 
-    <!-- hreflang: only the homepages have a translated counterpart -->
+    <!-- hreflang: only pages with a translated counterpart (see src/data/i18n.ts) -->
     {
-      hasTranslation && (
+      translated && canonicalUrl && (
         <>
-          <link rel="alternate" hreflang="en" href={new URL("/", siteUrl)} />
-          <link rel="alternate" hreflang="fr" href={new URL("/fr/", siteUrl)} />
-          <link rel="alternate" hreflang="x-default" href={new URL("/", siteUrl)} />
+          <link rel="alternate" hreflang="en" href={new URL(pathIn(canonicalUrl.pathname, "en"), siteUrl)} />
+          <link rel="alternate" hreflang="fr" href={new URL(pathIn(canonicalUrl.pathname, "fr"), siteUrl)} />
+          <link rel="alternate" hreflang="x-default" href={new URL(pathIn(canonicalUrl.pathname, "en"), siteUrl)} />
         </>
       )
     }
