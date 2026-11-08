@@ -108,7 +108,7 @@ export const aboutFeaturesFr = [
   {
     title: "Prêt pour l'entreprise",
     description:
-      "Systèmes construits pour 4D Logiciel, SWIBECO et SQLI servant des milliers d'utilisateurs avec haute disponibilité et performance.",
+      "Systèmes construits pour 4D Logiciel et SQLI servant des milliers d'utilisateurs avec haute disponibilité et performance.",
   },
   {
     title: "Excellence DevOps",

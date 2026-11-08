@@ -144,18 +144,9 @@ export const caseStudies = [
     metric: "Booking process via WhatsApp",
     gradient: "from-rose-500/20 via-fuchsia-500/10 to-purple-600/20",
   },
-  {
-    title: "SWIBECO E-Commerce",
-    category: "Retail · Platform Migration",
-    summary:
-      "Migrated v1 e-commerce platform from AngularJS to v2 using React, TypeScript, React-Hook-Form. Designed feature toggle system with gradual rollout for zero-downtime deployments.",
-    result: "Seamless",
-    metric: "Zero-downtime migration",
-    gradient: "from-cyan-500/20 via-blue-500/10 to-indigo-600/20",
-  },
 ] as const;
 
-export const partners = ["4D Logiciel", "SWIBECO", "SQLI"];
+export const partners = ["4D Logiciel", "SQLI"];
 
 // Testimonials hidden until real partner quotes exist
 const SHOW_TESTIMONIALS = false;
@@ -199,7 +190,7 @@ export const aboutFeatures = [
   {
     title: "Enterprise-Ready",
     description:
-      "Built systems for 4D Logiciel, SWIBECO, and SQLI serving thousands of users with high availability and performance.",
+      "Built systems for 4D Logiciel and SQLI serving thousands of users with high availability and performance.",
   },
   {
     title: "DevOps Excellence",
