@@ -64,7 +64,7 @@ Writes scrub-ready (short-GOP, no audio) `hero.webm`, `hero.mp4` and `poster.web
 - **Rendering:** Fully static (`output: "static"`). No server runtime; nginx serves `dist/`.
 - **Interactivity:** Only three small scripts ship to the client: GSAP hero/design animations, IntersectionObserver reveals, and PostHog. Everything else is pure HTML/CSS.
 - **GSAP sections:** Markup lives in `.astro` components with `data-*` hooks; animation logic lives in `src/scripts/`. Scripts are imported from the component's `<script>` tag (bundled, deduped by Astro).
-- **Blog:** Content collections with the glob loader. New post = add `.md` file to `src/content/blog/`. Slugs come from filenames.
+- **Blog:** Content collections with the glob loader. New post = add `.md` file to `src/content/blog/`. Slugs come from filenames. `draft: true` keeps a post out of the build until it is released (shown only by `bun run dev`); `unlisted: true` keeps the URL but hides the post from the index, feed and "read next". Read posts through `src/data/blog.ts` so both flags are honoured.
 - **SEO:** Sitemap via `@astrojs/sitemap` (`/sitemap-index.xml`), `robots.txt` from `src/pages/robots.txt.ts`, JSON-LD injected through the `head` slot.
 - **Fonts:** Geist Variable + Geist Mono Variable self-hosted via Fontsource.
 - **PostHog:** Requires `PUBLIC_POSTHOG_KEY` in `.env` (see `.env.example`). Without it, analytics are silently disabled. Events proxy through `/ingest` → `eu.posthog.com` (configured in `deploy/nginx.conf`).

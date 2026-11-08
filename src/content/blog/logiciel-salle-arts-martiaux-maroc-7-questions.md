@@ -1,8 +1,9 @@
 ---
 title: "Logiciel pour salle de sport ou d'arts martiaux au Maroc : 7 questions avant de choisir"
 description: "Discipline, application des membres, connexion instable, données, prix en dirhams, support : la liste à passer en revue avant de signer."
-date: "2026-11-08"
+date: "2026-11-22"
 author: "CodeLovers"
+draft: true
 language: "fr"
 product: "passion-fitness"
 tags: ["Salles de sport", "Choisir un logiciel", "Passion Fitness"]

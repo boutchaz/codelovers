@@ -61,7 +61,17 @@ description: "Short description"
 date: 2025-01-15
 author: "CodeLovers"
 tags: ["SaaS", "Engineering"]
+language: "fr"            # "en" (default) or "fr"
+product: "passion-fitness" # optional: case-study slug. Counted in analytics and picks the demo call to action
+draft: true                # optional: keep the post out of the build until it is released
+unlisted: true             # optional: keep the URL working but hide it from the index, feed and "read next"
 ---
 ```
 
-The slug is the filename. New posts appear automatically on `/blog` and in the sitemap.
+The slug is the filename. Published posts appear automatically on `/blog` and in the sitemap.
+
+### Releasing posts one at a time
+
+A post with `draft: true` is left out of the build entirely: no page, no feed entry, no sitemap line, and its URL returns 404. `bun run dev` still shows drafts, so you can preview one before it goes out.
+
+To release a post: remove `draft: true`, set `date` to the release day, commit, push, and redeploy the `web` service. The site is static, so nothing goes live until that deploy.

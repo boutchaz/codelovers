@@ -1,8 +1,9 @@
 ---
 title: "Suivi des ceintures en BJJ : pourquoi le cahier ne suffit plus"
 description: "Critères par ceinture, évaluations du coach, progression visible : comment garder des élèves motivés quand une promotion prend des années."
-date: "2026-11-08"
+date: "2026-11-15"
 author: "CodeLovers"
+draft: true
 language: "fr"
 product: "passion-fitness"
 tags: ["BJJ", "Progression", "Passion Fitness"]

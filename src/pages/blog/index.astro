@@ -1,12 +1,10 @@
 ---
-import { getCollection } from "astro:content";
+import { getListedPosts } from "@/data/blog";
 import SiteShell from "@/layouts/SiteShell.astro";
 import SectionBadge from "@/components/ui/SectionBadge.astro";
 
-// Unlisted posts keep their URL but are not offered on the index.
-const posts = (await getCollection("blog"))
-  .filter((post) => !post.data.unlisted)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// Drafts and unlisted posts are not offered on the index.
+const posts = (await getListedPosts()).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 function formatPostDate(date: Date, language: string): string {
   return date.toLocaleDateString(language === "fr" ? "fr-FR" : "en-US", {

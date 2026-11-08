@@ -13,6 +13,9 @@ const blog = defineCollection({
     product: z.string().regex(/^[a-z0-9-]*$/).default(""),
     // Keeps the URL working but hides the post from the blog index, the feed and "read next".
     unlisted: z.boolean().default(false),
+    // Not published yet: the post is left out of the build entirely (no page, feed entry or sitemap line).
+    // Remove the flag, set `date` to the release day, then deploy to publish it.
+    draft: z.boolean().default(false),
     erpId: z.string().optional(),
     erpRevision: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     tags: z.array(z.string()).default([]),

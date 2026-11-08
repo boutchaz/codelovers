@@ -1,11 +1,11 @@
 import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import { getListedPosts } from '@/data/blog';
 import { SITE_URL } from '@/data/constants';
 import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
-  // Unlisted posts keep their URL but are not announced in the feed.
-  const blog = (await getCollection('blog')).filter((post) => !post.data.unlisted);
+  // Drafts and unlisted posts are not announced in the feed.
+  const blog = await getListedPosts();
 
   const sortedPosts = blog.sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()

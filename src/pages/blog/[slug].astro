@@ -1,10 +1,12 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import SiteShell from "@/layouts/SiteShell.astro";
 import { SITE_URL } from "@/data/constants";
+import { getListedPosts, getPosts } from "@/data/blog";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  // Unlisted posts still get a page; drafts do not.
+  const posts = await getPosts();
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -15,9 +17,9 @@ const { post } = Astro.props;
 const french = post.data.language === "fr";
 const { Content } = await render(post);
 
-// Unlisted posts stay reachable by link but are never suggested. Posts about the same product come first.
-const related = (await getCollection("blog"))
-  .filter((item) => item.id !== post.id && !item.data.unlisted && item.data.language === post.data.language)
+// Drafts and unlisted posts are never suggested. Posts about the same product come first.
+const related = (await getListedPosts())
+  .filter((item) => item.id !== post.id && item.data.language === post.data.language)
   .sort(
     (a, b) =>
       Number(b.data.product === post.data.product) - Number(a.data.product === post.data.product) ||
