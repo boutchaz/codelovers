@@ -16,6 +16,11 @@ const blog = defineCollection({
     // Not published yet: the post is left out of the build entirely (no page, feed entry or sitemap line).
     // Remove the flag, set `date` to the release day, then deploy to publish it.
     draft: z.boolean().default(false),
+    // Cover picture on the blog cards (drawn by src/components/blog/PostCover.astro). Leave it out for a text-only card.
+    cover: z.enum(["checklist", "booking", "belts", "saas"]).optional(),
+    // Series the post belongs to (a key of `seriesInfo` in src/data/blog.ts) and its place in it.
+    series: z.string().regex(/^[a-z0-9-]*$/).default(""),
+    seriesOrder: z.number().int().positive().optional(),
     erpId: z.string().optional(),
     erpRevision: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     tags: z.array(z.string()).default([]),

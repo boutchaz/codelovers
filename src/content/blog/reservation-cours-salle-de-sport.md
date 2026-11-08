@@ -5,6 +5,9 @@ date: "2026-11-08"
 author: "CodeLovers"
 language: "fr"
 product: "passion-fitness"
+cover: "booking"
+series: "gym-owners"
+seriesOrder: 1
 tags: ["Salles de sport", "Réservation", "Passion Fitness"]
 ---
 

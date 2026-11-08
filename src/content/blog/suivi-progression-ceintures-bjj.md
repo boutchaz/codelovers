@@ -6,6 +6,9 @@ author: "CodeLovers"
 draft: true
 language: "fr"
 product: "passion-fitness"
+cover: "belts"
+series: "gym-owners"
+seriesOrder: 2
 tags: ["BJJ", "Progression", "Passion Fitness"]
 ---
 

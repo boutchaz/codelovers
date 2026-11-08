@@ -3,6 +3,7 @@ title: "Shipping SaaS faster without cutting craft"
 description: "How we scope MVPs, sequence delivery, and keep quality high when founders need to move this quarter."
 date: "2026-03-12"
 author: "CodeLovers"
+cover: "saas"
 tags: ["SaaS", "Product", "Delivery"]
 ---
 

@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from "astro:content";
+import PostCover from "./PostCover.astro";
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  category: string;
+  featured?: boolean;
+}
+
+const { post, category, featured = false } = Astro.props;
+const { title, description, date, language, tags, cover } = post.data;
+const dateLabel = date.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+---
+
+<!--
+  One card, two layouts. The blog index script moves the newest matching post into the featured slot and sets
+  data-featured="true" on it, so the same markup renders either the wide "À la une" card or a grid card.
+-->
+<a
+  href={`/blog/${post.id}/`}
+  data-post
+  data-category={category}
+  data-lang={language}
+  data-featured={featured ? "true" : "false"}
+  class="group flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition hover:border-rose-500/30 hover:bg-white/[0.05] data-[featured=true]:rounded-[28px] lg:data-[featured=true]:flex-row"
+>
+  {
+    cover && (
+      <div class="border-b border-white/5 bg-[#0b0d1a] lg:group-data-[featured=true]:order-last lg:group-data-[featured=true]:flex lg:group-data-[featured=true]:flex-1 lg:group-data-[featured=true]:basis-1/2 lg:group-data-[featured=true]:items-center lg:group-data-[featured=true]:border-b-0 lg:group-data-[featured=true]:border-l">
+        <PostCover kind={cover} />
+      </div>
+    )
+  }
+  <div class="flex flex-1 flex-col gap-3 p-6 group-data-[featured=true]:gap-5 group-data-[featured=true]:p-8 lg:group-data-[featured=true]:basis-1/2 lg:group-data-[featured=true]:justify-center lg:group-data-[featured=true]:p-10">
+    <span class="hidden self-start rounded-md bg-orange-300 px-2.5 py-1 font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-slate-950 group-data-[featured=true]:inline-block">À la une</span>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-slate-400">
+      <time datetime={date.toISOString()}>{dateLabel}</time>
+      <span aria-hidden="true">·</span>
+      <span>{tags[0] ?? category}</span>
+      <span class="rounded-md border border-white/20 px-1.5 py-0.5 tracking-[0.08em]" lang={language}>{language.toUpperCase()}</span>
+    </div>
+    <h3 class="text-xl font-semibold leading-snug tracking-tight text-white group-data-[featured=true]:text-2xl group-data-[featured=true]:leading-tight sm:group-data-[featured=true]:text-3xl">{title}</h3>
+    <p class="text-[15px] leading-relaxed text-slate-300 group-data-[featured=true]:text-base">{description}</p>
+    <span class="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-semibold text-rose-300 transition group-hover:text-rose-200">
+      Lire l’article <span aria-hidden="true">→</span>
+    </span>
+  </div>
+</a>

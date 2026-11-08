@@ -6,6 +6,9 @@ author: "CodeLovers"
 draft: true
 language: "fr"
 product: "passion-fitness"
+cover: "checklist"
+series: "gym-owners"
+seriesOrder: 3
 tags: ["Salles de sport", "Choisir un logiciel", "Passion Fitness"]
 ---
 

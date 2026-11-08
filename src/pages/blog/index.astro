@@ -1,79 +1,205 @@
 ---
-import { getListedPosts } from "@/data/blog";
-import SiteShell from "@/layouts/SiteShell.astro";
+import PostCard from "@/components/blog/PostCard.astro";
 import SectionBadge from "@/components/ui/SectionBadge.astro";
+import SiteShell from "@/layouts/SiteShell.astro";
+import { getListedPosts, getSeries } from "@/data/blog";
 
 // Drafts and unlisted posts are not offered on the index.
 const posts = (await getListedPosts()).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-function formatPostDate(date: Date, language: string): string {
-  return date.toLocaleDateString(language === "fr" ? "fr-FR" : "en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
+// A post's category is its first tag. The chips list each category once, in order of first appearance.
+const slugify = (label: string) =>
+  label
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+const categoryOf = (post: (typeof posts)[number]) => {
+  const label = post.data.tags[0] ?? "Autres";
+  return { id: slugify(label), label };
+};
+const categories = [...new Map(posts.map((post) => [categoryOf(post).id, categoryOf(post).label])).entries()].map(
+  ([id, label]) => ({ id, label, count: posts.filter((post) => categoryOf(post).id === id).length }),
+);
+const languages = [...new Set(posts.map((post) => post.data.language))];
+const showFilters = categories.length > 1 || languages.length > 1;
+
+const [featured, ...rest] = posts;
+const series = getSeries(posts);
+const plural = (n: number, word: string) => `${n} ${word}${n > 1 ? "s" : ""}`;
+
+const chip =
+  "group inline-flex min-h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.02] px-[18px] text-sm font-medium text-slate-200 transition hover:border-white/30 aria-pressed:border-slate-100 aria-pressed:bg-slate-100 aria-pressed:font-semibold aria-pressed:text-slate-950";
+const langChip =
+  "min-h-10 rounded-full px-3.5 font-mono text-[13px] font-medium text-slate-400 transition hover:text-white aria-pressed:bg-white/15 aria-pressed:text-white";
 ---
 
 <SiteShell
   lang="fr"
   title="Blog"
-  description="Guides pratiques pour les gérants de salles de sport et d’arts martiaux au Maroc : réservations, suivi des membres, progression et données."
+  description="Guides et notes de terrain de CodeLovers : réservations, présence et progression pour les salles de sport et d’arts martiaux, et ingénierie produit pour livrer un SaaS."
   canonical="/blog/"
 >
-  <section class="pb-20 pt-32 sm:pt-40">
-    <div class="mx-auto max-w-[900px] px-6 lg:px-8">
+  <section class="pb-2 pt-32 sm:pt-40">
+    <div class="mx-auto max-w-[1200px] px-6 lg:px-8">
       <SectionBadge>Blog</SectionBadge>
-      <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl">
-        Guides pour les
-        <span
-          class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent"
-          >gérants de salle</span
-        >
+      <h1 class="mt-6 max-w-[880px] text-4xl font-bold leading-[1.02] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl">
+        Guides et notes{" "}
+        <span class="bg-gradient-to-r from-rose-400 via-red-400 to-orange-300 bg-clip-text text-transparent">de terrain</span>
       </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-slate-300">
-        Réservations, présence, progression des élèves et données des membres : des conseils
-        concrets pour faire tourner une salle de sport ou d’arts martiaux, sans jargon.
+      <p class="mt-6 max-w-[640px] text-lg leading-relaxed text-slate-300">
+        Réservations, présence, progression des élèves : des conseils concrets pour les salles de sport et d’arts
+        martiaux. Et nos notes d’ingénierie produit pour livrer un SaaS sans sacrifier la qualité.
       </p>
     </div>
   </section>
 
-  <section class="border-t border-white/5 pb-28">
-    <div class="mx-auto max-w-[900px] space-y-6 px-6 pt-12 lg:px-8">
-      {
-        posts.length === 0 ? (
-          <p class="text-slate-400">Articles bientôt disponibles.</p>
-        ) : (
-          posts.map((post) => (
-            <article class="rounded-[28px] border border-white/10 bg-white/[0.03] p-8 transition hover:border-rose-500/30 hover:bg-white/[0.05] sm:p-10">
-              <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.25em] text-rose-200">
-                <time datetime={post.data.date.toISOString()}>
-                  {formatPostDate(post.data.date, post.data.language)}
-                </time>
-                <span lang={post.data.language}>{post.data.language === "fr" ? "Français" : "English"}</span>
-                {post.data.tags[0] ? (
-                  <>
-                    <span class="text-white/20">·</span>
-                    <span>{post.data.tags[0]}</span>
-                  </>
-                ) : null}
+  <div data-blog class="mx-auto max-w-[1200px] px-6 pb-28 pt-12 lg:px-8">
+    {
+      posts.length === 0 ? (
+        <p class="text-slate-400">Articles bientôt disponibles.</p>
+      ) : (
+        <>
+          {
+            showFilters && (
+              // Revealed by the script below: without JavaScript every post is shown and the filters would do nothing.
+              <div data-filters hidden class="border-y border-white/10 py-4">
+                <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
+                  <div role="group" aria-label="Filtrer par thème" class="flex flex-wrap gap-2">
+                    <button type="button" data-filter-cat="all" aria-pressed="true" class={chip}>
+                      Tous <span data-count class="font-mono text-xs text-slate-400 group-aria-pressed:text-slate-600">{posts.length}</span>
+                    </button>
+                    {categories.map((c) => (
+                      <button type="button" data-filter-cat={c.id} aria-pressed="false" class={chip}>
+                        {c.label} <span data-count class="font-mono text-xs text-slate-400 group-aria-pressed:text-slate-600">{c.count}</span>
+                      </button>
+                    ))}
+                  </div>
+                  {languages.length > 1 && (
+                    <div role="group" aria-label="Filtrer par langue" class="flex rounded-full border border-white/10 bg-white/[0.04] p-1">
+                      <button type="button" data-filter-lang="all" aria-pressed="true" class={langChip}>Toutes</button>
+                      {languages.map((l) => (
+                        <button type="button" data-filter-lang={l} aria-pressed="false" class={langChip}>{l.toUpperCase()}</button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
-              <h2 class="mt-4 text-2xl font-semibold text-white sm:text-3xl">
-                <a href={`/blog/${post.id}/`} class="transition hover:text-rose-200">
-                  {post.data.title}
+            )
+          }
+          <p data-result aria-live="polite" class="mt-4 font-mono text-xs uppercase tracking-[0.12em] text-slate-400">
+            {plural(posts.length, "article")}
+          </p>
+
+          <h2 class="sr-only">À la une</h2>
+          <div data-featured-slot class="mt-5">
+            <PostCard post={featured} category={categoryOf(featured).id} featured />
+          </div>
+
+          <section data-rest-section hidden={rest.length === 0} aria-labelledby="latest-heading" class="mt-16">
+            <h2 id="latest-heading" class="mb-6 text-2xl font-semibold tracking-tight text-white">Derniers articles</h2>
+            <div data-grid class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {rest.map((post) => <PostCard post={post} category={categoryOf(post).id} />)}
+            </div>
+          </section>
+
+          <div data-empty hidden class="mt-5 flex flex-col items-center gap-4 rounded-[28px] border border-dashed border-white/15 px-6 py-14 text-center">
+            <p class="text-lg text-slate-100">Aucun article ne correspond à ces filtres.</p>
+            <button type="button" data-reset class="min-h-11 rounded-full border border-white/20 px-5 text-sm font-medium text-white transition hover:border-white/40">
+              Réinitialiser les filtres
+            </button>
+          </div>
+        </>
+      )
+    }
+
+    {
+      series.map((s) => (
+        <section aria-labelledby={`series-${s.key}`} class="mt-24 flex flex-wrap gap-10 rounded-[28px] border border-white/10 bg-white/[0.03] p-8 sm:p-10">
+          <div class="flex min-w-0 flex-[1_1_320px] flex-col gap-4">
+            <span class="font-mono text-[11px] uppercase tracking-[0.2em] text-orange-300">Série · {plural(s.posts.length, "guide")}</span>
+            <h2 id={`series-${s.key}`} class="text-3xl font-bold leading-tight tracking-tight text-white">{s.title}</h2>
+            <p class="text-base leading-relaxed text-slate-300">{s.description}</p>
+          </div>
+          <ol class="flex min-w-0 flex-[1.4_1_420px] flex-col">
+            {s.posts.map((post, i) => (
+              <li class="border-t border-white/10">
+                <a href={`/blog/${post.id}/`} class="group flex items-center gap-5 py-5 text-slate-100 transition hover:text-white">
+                  <span class="min-w-11 font-mono text-[28px] font-medium text-red-400">{String(i + 1).padStart(2, "0")}</span>
+                  <span class="flex-1 text-[17px] font-medium leading-snug">{post.data.title}</span>
+                  <span aria-hidden="true" class="text-lg text-rose-400 transition group-hover:translate-x-1">→</span>
                 </a>
-              </h2>
-              <p class="mt-3 text-base leading-relaxed text-slate-300">{post.data.description}</p>
-              <a
-                href={`/blog/${post.id}/`}
-                class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-rose-300 transition hover:text-rose-200"
-              >
-                {post.data.language === "fr" ? "Lire l’article" : "Read article"} <span aria-hidden="true">→</span>
-              </a>
-            </article>
-          ))
-        )
-      }
-    </div>
-  </section>
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+  </div>
 </SiteShell>
+
+<script>
+  // Topic and language filters. Every post is already in the page; the filters only show or hide them and move the
+  // newest matching post into the wide "À la une" slot, so the page works the same without JavaScript.
+  const root = document.querySelector<HTMLElement>("[data-blog]");
+  const filters = root?.querySelector<HTMLElement>("[data-filters]");
+
+  if (root && filters) {
+    const cards = Array.from(root.querySelectorAll<HTMLElement>("[data-post]"));
+    const slot = root.querySelector<HTMLElement>("[data-featured-slot]")!;
+    const grid = root.querySelector<HTMLElement>("[data-grid]")!;
+    const restSection = root.querySelector<HTMLElement>("[data-rest-section]")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+    const result = root.querySelector<HTMLElement>("[data-result]")!;
+    const catButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-filter-cat]"));
+    const langButtons = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-filter-lang]"));
+    let cat = "all";
+    let lang = "all";
+
+    const matches = (card: HTMLElement, c: string, l: string) =>
+      (c === "all" || card.dataset.category === c) && (l === "all" || card.dataset.lang === l);
+
+    function render() {
+      const visible = cards.filter((card) => matches(card, cat, lang));
+      cards.forEach((card) => {
+        card.hidden = !visible.includes(card);
+      });
+      visible.forEach((card, i) => {
+        card.dataset.featured = i === 0 ? "true" : "false";
+        (i === 0 ? slot : grid).append(card);
+      });
+      slot.hidden = visible.length === 0;
+      restSection.hidden = visible.length < 2;
+      empty.hidden = visible.length > 0;
+      result.textContent = `${visible.length} article${visible.length > 1 ? "s" : ""}`;
+      catButtons.forEach((button) => {
+        const id = button.dataset.filterCat!;
+        button.setAttribute("aria-pressed", String(id === cat));
+        const count = button.querySelector("[data-count]");
+        if (count) count.textContent = String(cards.filter((card) => matches(card, id, lang)).length);
+      });
+      langButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.filterLang === lang)));
+    }
+
+    catButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        cat = button.dataset.filterCat!;
+        render();
+      }),
+    );
+    langButtons.forEach((button) =>
+      button.addEventListener("click", () => {
+        lang = button.dataset.filterLang!;
+        render();
+      }),
+    );
+    root.querySelector("[data-reset]")?.addEventListener("click", () => {
+      cat = "all";
+      lang = "all";
+      render();
+    });
+
+    filters.hidden = false;
+  }
+</script>

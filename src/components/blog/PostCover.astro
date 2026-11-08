@@ -1,0 +1,134 @@
+---
+// Decorative cover illustrations for blog cards: one simple picture per kind of article, drawn in SVG so they
+// stay sharp, weigh almost nothing and match the site's colours. Add a kind here and to the `cover` enum in
+// src/content.config.ts to give a new kind of article its own picture.
+export type CoverKind = "checklist" | "booking" | "belts" | "saas";
+
+interface Props {
+  kind: CoverKind;
+}
+
+const { kind } = Astro.props;
+
+const font = "'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace";
+const coral = "#f87171";
+const amber = "#fdba74";
+
+// Seven numbered steps, the first four ticked off.
+const barWidths = [150, 120, 170, 135, 110, 155, 95];
+const steps = barWidths.map((width, i) => ({
+  n: String(i + 1).padStart(2, "0"),
+  y: 36 + i * 28,
+  width,
+  done: i < 4,
+  accent: i === 3,
+}));
+
+// A three-week class calendar: full classes, a couple of places left, or free.
+type Slot = "full" | "few" | "free";
+const week: Slot[][] = [
+  ["full", "full", "few", "full", "full", "few", "free"],
+  ["few", "free", "full", "few", "free", "full", "free"],
+  ["free", "full", "free", "full", "few", "free", "free"],
+];
+const days = ["L", "M", "M", "J", "V", "S", "D"];
+
+// Belts with stripes, from white to brown, and a red-tipped black belt still to come.
+const belts = [
+  { y: 34, color: "#e5e7eb", stripes: 4 },
+  { y: 72, color: "#3b82f6", stripes: 3 },
+  { y: 110, color: "#8b5cf6", stripes: 2 },
+  { y: 148, color: "#92400e", stripes: 1 },
+];
+---
+
+<div class="aspect-[5/3] w-full bg-[#0b0d1a]" aria-hidden="true">
+  {
+    kind === "checklist" && (
+      <svg viewBox="0 0 400 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        <text x="300" y="196" font-size="190" font-weight="500" fill="none" stroke={amber} stroke-opacity="0.45" stroke-width="1.5" font-family={font}>7</text>
+        <g font-family={font} font-size="10" fill="#a1a1aa">
+          {steps.map((s) =>
+            s.done ? (
+              <>
+                <circle cx="52" cy={s.y} r="9" fill={s.accent ? amber : coral} />
+                <path d={`M47.5 ${s.y}l3 3 5-6`} stroke="#05060f" stroke-width="2" fill="none" stroke-linecap="round" />
+                <text x="72" y={s.y + 4}>{s.n}</text>
+                <rect x="98" y={s.y - 4} width={s.width} height="8" rx="4" fill="#ffffff" fill-opacity="0.18" />
+              </>
+            ) : (
+              <>
+                <circle cx="52" cy={s.y} r="8.5" fill="none" stroke="#ffffff" stroke-opacity="0.3" />
+                <text x="72" y={s.y + 4}>{s.n}</text>
+                <rect x="98" y={s.y - 4} width={s.width} height="8" rx="4" fill="#ffffff" fill-opacity="0.08" />
+              </>
+            ),
+          )}
+        </g>
+      </svg>
+    )
+  }
+  {
+    kind === "booking" && (
+      <svg viewBox="0 0 400 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        <g font-family={font} font-size="11" fill="#a1a1aa" text-anchor="middle">
+          {days.map((d, i) => <text x={62 + i * 46} y="40">{d}</text>)}
+        </g>
+        <g>
+          {week.map((row, r) =>
+            row.map((slot, c) => {
+              const x = 44 + c * 46;
+              const y = 54 + r * 44;
+              return slot === "free" ? (
+                <rect x={x + 0.5} y={y + 0.5} width="35" height="33" rx="7" fill="none" stroke="#ffffff" stroke-opacity="0.14" />
+              ) : (
+                <rect x={x} y={y} width="36" height="34" rx="7" fill={slot === "full" ? coral : amber} />
+              );
+            }),
+          )}
+        </g>
+        <g font-family={font} font-size="10" fill="#a1a1aa">
+          <rect x="44" y="196" width="10" height="10" rx="2" fill={coral} /><text x="60" y="205">complet</text>
+          <rect x="128" y="196" width="10" height="10" rx="2" fill={amber} /><text x="144" y="205">2 places</text>
+          <rect x="216.5" y="196.5" width="9" height="9" rx="2" fill="none" stroke="#ffffff" stroke-opacity="0.3" /><text x="232" y="205">libre</text>
+        </g>
+      </svg>
+    )
+  }
+  {
+    kind === "belts" && (
+      <svg viewBox="0 0 400 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        {belts.map((b) => (
+          <g>
+            <rect x="40" y={b.y} width="320" height="22" rx="4" fill={b.color} />
+            <rect x="290" y={b.y} width="52" height="22" fill="#0a0a0a" />
+            {Array.from({ length: b.stripes }, (_, i) => (
+              <rect x={300 + i * 10} y={b.y} width="4" height="22" fill="#ffffff" />
+            ))}
+          </g>
+        ))}
+        <rect x="40.5" y="186.5" width="319" height="21" rx="4" fill="#111318" stroke="#ffffff" stroke-opacity="0.2" />
+        <rect x="290" y="187" width="52" height="20" fill="#dc2626" />
+      </svg>
+    )
+  }
+  {
+    kind === "saas" && (
+      <svg viewBox="0 0 400 240" width="100%" height="100%" preserveAspectRatio="xMidYMid meet">
+        <g stroke="#ffffff" stroke-opacity="0.07">
+          <line x1="40" y1="30" x2="40" y2="200" /><line x1="120" y1="30" x2="120" y2="200" /><line x1="200" y1="30" x2="200" y2="200" /><line x1="280" y1="30" x2="280" y2="200" /><line x1="360" y1="30" x2="360" y2="200" />
+        </g>
+        <line x1="246" y1="26" x2="246" y2="204" stroke={amber} stroke-width="1.5" stroke-dasharray="4 4" />
+        <g font-family={font} font-size="10" fill="#05060f" font-weight="500">
+          <rect x="40" y="44" width="110" height="26" rx="13" fill="#fb7185" /><text x="54" y="61">SCOPE</text>
+          <rect x="110" y="84" width="140" height="26" rx="13" fill={coral} /><text x="124" y="101">BUILD</text>
+          <rect x="200" y="124" width="100" height="26" rx="13" fill={amber} /><text x="214" y="141">SHIP</text>
+          <rect x="270.5" y="164.5" width="89" height="25" rx="12.5" fill="none" stroke="#ffffff" stroke-opacity="0.3" /><text x="284" y="181" fill="#a1a1aa">ITERATE</text>
+        </g>
+        <g font-family={font} font-size="10" fill="#a1a1aa">
+          <text x="40" y="222">W1</text><text x="120" y="222">W4</text><text x="200" y="222">W8</text><text x="280" y="222">W12</text>
+        </g>
+      </svg>
+    )
+  }
+</div>

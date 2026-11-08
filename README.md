@@ -65,8 +65,13 @@ language: "fr"            # "en" (default) or "fr"
 product: "passion-fitness" # optional: case-study slug. Counted in analytics and picks the demo call to action
 draft: true                # optional: keep the post out of the build until it is released
 unlisted: true             # optional: keep the URL working but hide it from the index, feed and "read next"
+cover: "booking"           # optional: picture on the blog cards (checklist, booking, belts or saas); none = text-only card
+series: "gym-owners"       # optional: a key of `seriesInfo` in src/data/blog.ts
+seriesOrder: 1             # optional: place in the series
 ---
 ```
+
+On `/blog/` the first tag is the post's topic (the filter chips list each topic once), the newest post is the wide "À la une" card, and a series gets its own numbered block once two of its guides are published. Cover pictures are drawn in `src/components/blog/PostCover.astro`; add a kind there and to the `cover` enum in `src/content.config.ts` for a new picture.
 
 The slug is the filename. Published posts appear automatically on `/blog` and in the sitemap.
 
