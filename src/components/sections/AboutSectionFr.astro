@@ -26,8 +26,9 @@ import { aboutStatsFr, aboutFeaturesFr } from "@/data/constants-fr";
         <div class="grid grid-cols-2 gap-6">
           {
             aboutStatsFr.map((stat) => (
-              <div class="rounded-2xl border border-white/10 bg-white/[0.04] p-6">
-                <p class="text-4xl font-semibold text-white">{stat.value}</p>
+              <div class="min-w-0 rounded-2xl border border-white/10 bg-white/[0.04] p-6">
+                {/* Un mot comme « Production » est plus large qu'un chiffre comme « 20+ » : taille réduite pour tenir dans la carte. */}
+                <p class={`font-semibold text-white break-words ${stat.value.length > 5 ? "text-2xl sm:text-3xl" : "text-3xl sm:text-4xl"}`}>{stat.value}</p>
                 <p class="mt-2 text-sm text-slate-300">{stat.label}</p>
               </div>
             ))

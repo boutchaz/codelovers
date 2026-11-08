@@ -8,7 +8,7 @@ export const navigation = [
 ];
 
 export const heroMetrics = [
-  { value: "7+", label: "Years of experience" },
+  { value: "8+", label: "Years of experience" },
   { value: "20+", label: "Enterprise projects delivered" },
   { value: "6+", label: "SaaS platforms built" },
 ];
@@ -184,7 +184,7 @@ export const testimonials = SHOW_TESTIMONIALS
   : [];
 
 export const aboutStats = [
-  { value: "7+", label: "Years in software engineering" },
+  { value: "8+", label: "Years in software engineering" },
   { value: "6+", label: "SaaS platforms launched" },
   { value: "20+", label: "Enterprise projects delivered" },
   { value: "Production", label: "Infrastructure reliability" },
@@ -194,7 +194,7 @@ export const aboutFeatures = [
   {
     title: "Full-Stack Expertise",
     description:
-      "7+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and modern cloud infrastructure.",
+      "8+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and modern cloud infrastructure.",
   },
   {
     title: "Enterprise-Ready",

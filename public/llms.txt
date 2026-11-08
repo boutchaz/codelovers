@@ -61,7 +61,7 @@ Multi-tenant WhatsApp Business API integration enabling businesses to automate b
 
 ## Technical Expertise
 
-7+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and cloud infrastructure. Built systems for 4D Logiciel, SWIBECO, and SQLI serving thousands of users.
+8+ years of hands-on experience with React, TanStack, TypeScript, Node.js, Python, and cloud infrastructure. Built systems for 4D Logiciel, SWIBECO, and SQLI serving thousands of users.
 
 Established CI/CD pipelines, Docker containerization, and production monitoring across all platforms. Specialized in IoT, real-time systems, e-commerce, and SaaS with modern tech stacks.
 

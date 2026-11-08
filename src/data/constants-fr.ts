@@ -9,7 +9,7 @@ export const navigationFr = [
 ];
 
 export const heroMetricsFr = [
-  { value: "7+", label: "Années d'expérience" },
+  { value: "8+", label: "Années d'expérience" },
   { value: "20+", label: "Projets d'entreprise livrés" },
   { value: "6+", label: "Plateformes SaaS construites" },
 ];
@@ -93,7 +93,7 @@ export const capabilitiesFr = [
 ];
 
 export const aboutStatsFr = [
-  { value: "7+", label: "Années en ingénierie logicielle" },
+  { value: "8+", label: "Années en ingénierie logicielle" },
   { value: "6+", label: "Plateformes SaaS lancées" },
   { value: "20+", label: "Projets d'entreprise livrés" },
   { value: "Production", label: "Fiabilité de l'infrastructure" },
@@ -103,7 +103,7 @@ export const aboutFeaturesFr = [
   {
     title: "Expertise Full-Stack",
     description:
-      "Plus de 7 ans d'expérience pratique avec React, TanStack, TypeScript, Node.js, Python et une infrastructure cloud moderne.",
+      "Plus de 8 ans d'expérience pratique avec React, TanStack, TypeScript, Node.js, Python et une infrastructure cloud moderne.",
   },
   {
     title: "Prêt pour l'entreprise",
