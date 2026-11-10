@@ -4,6 +4,8 @@
 import { navigation } from "@/data/constants";
 import { navigationFr } from "@/data/constants-fr";
 import { pathIn } from "@/data/i18n";
+import { Image } from "astro:assets";
+import logoMark from "@/assets/logo-mark.png";
 
 interface Props {
   lang?: "en" | "fr";
@@ -38,12 +40,15 @@ const langLinkClass = (active: boolean) =>
   >
     <a href={homeHref} class="flex items-center gap-2 sm:gap-3">
       <span class="relative h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12">
-        <img
-          src="/logo-mark.png"
+        <Image
+          src={logoMark}
           alt="CodeLovers logo"
           class="h-full w-full object-contain drop-shadow-[0_4px_12px_rgba(211,34,35,0.35)]"
           width="48"
           height="48"
+          widths={[48, 96]}
+          sizes="(min-width: 1024px) 48px, (min-width: 640px) 40px, 32px"
+          format="webp"
           loading="eager"
         />
       </span>
