@@ -108,10 +108,12 @@ const langLinkClass = (active: boolean) =>
       </button>
     </div>
   </nav>
+</div>
 
+<!-- Keep the viewport overlay outside the header's scroll-time backdrop filter. -->
   <div
     id="mobile-menu"
-    class="fixed inset-0 top-16 z-40 hidden bg-slate-950/95 backdrop-blur-xl sm:top-20 md:hidden"
+    class="fixed inset-0 top-16 z-40 hidden overflow-y-auto bg-slate-950 sm:top-20 md:hidden"
   >
     <div class="flex flex-col gap-2 px-6 py-8">
       {
@@ -140,7 +142,13 @@ const langLinkClass = (active: boolean) =>
       </div>
     </div>
   </div>
-</div>
+
+<style>
+  #site-header[data-menu-open="true"] {
+    background-color: var(--color-slate-950);
+    transition: none;
+  }
+</style>
 
 <script>
   const header = document.getElementById("site-header");
@@ -175,6 +183,7 @@ const langLinkClass = (active: boolean) =>
   function setMenuOpen(open: boolean) {
     if (!menu || !toggle || !iconOpen || !iconClosed) return;
     menu.classList.toggle("hidden", !open);
+    header?.setAttribute("data-menu-open", String(open));
     iconOpen.classList.toggle("hidden", !open);
     iconClosed.classList.toggle("hidden", open);
     const label = open ? toggle.dataset.labelClose : toggle.dataset.labelOpen;
