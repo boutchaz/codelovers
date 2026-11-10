@@ -10,12 +10,12 @@ test('blocks cross-site submissions and unsupported content types',async()=>{
 test('blocks large streaming bodies and quietly discards honeypot spam',async()=>{
   const handle=makeHandler(env,()=>{throw Error('Must not call ERP');});
   expect((await handle(request({message:'x'.repeat(30000)}))).status).toBe(413);
-  expect(await (await handle(request({website:'spam'}))).json()).toEqual({accepted:true});
+  expect(await (await handle(request({website:'spam'}))).json()).toEqual({accepted:true,recorded:false});
 });
 test('keeps credentials server-side and forwards only permitted fields',async()=>{
   let sent;const handle=makeHandler(env,async(url,options)=>{sent={url,...options};return Response.json({message:{accepted:true}});});
   const response=await handle(request({full_name:'QA',consent:true,status:'Converted',ignore_permissions:true}));
-  expect(await response.json()).toEqual({accepted:true});
+  expect(await response.json()).toEqual({accepted:true,recorded:true});
   expect(sent.headers.Authorization).toBe('token test-key:test-secret');expect(sent.redirect).toBe('error');
   expect(JSON.parse(sent.body).payload.status).toBeUndefined();
 });

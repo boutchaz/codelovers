@@ -1,45 +1,42 @@
-import { afterLoadIdle } from "@/scripts/idle";
-import { posthogConfig } from "@/scripts/posthog-config";
-import { classifyClick, pageContext, shareKind } from "@/scripts/track";
+import { afterLoadIdle } from '@/scripts/idle';
+import { posthogConfig } from '@/scripts/posthog-config';
+import { classifyClick, pageContext, shareKind } from '@/scripts/track';
+import { currentCampaign, isInternalTraffic } from '@/scripts/attribution';
 
-const key = import.meta.env.PUBLIC_POSTHOG_KEY;
-
-// Only load PostHog when a key is configured (see .env.example). The dynamic
-// import keeps posthog-js out of the bundle entirely when there is no key, and
-// otherwise defers it until after load so it never delays first paint.
-if (key) {
-  afterLoadIdle(() => {
-    void import("posthog-js").then(({ default: posthog }) => {
-      posthog.init(key, posthogConfig(import.meta.env.DEV));
-      // The product and article slug of the page being read: case studies name it in the path, blog posts in data attributes.
-      const context = () => {
-        const page = document.querySelector<HTMLElement>('[data-article]');
-        return pageContext(location.pathname, {article:page?.dataset.article, product:page?.dataset.product});
-      };
-      posthog.capture('$pageview', {$current_url: location.origin + location.pathname, ...context()});
-      document.addEventListener('codelovers:inquiry-recorded', event => {
-        const detail = (event as CustomEvent<{language:string;product:string}>).detail;
-        posthog.capture('website_inquiry_recorded', {language:detail.language, product:detail.product, $current_url:location.origin + location.pathname});
-      });
-      document.addEventListener('codelovers:newsletter-requested', event => {
-        const detail = (event as CustomEvent<{language:string}>).detail;
-        posthog.capture('newsletter_signup_requested', {language:detail.language, $current_url:location.origin + location.pathname});
-      });
-      // Autocapture stays off so form contents are never recorded. Only the clicks that mean "this visitor
-      // is trying to reach us" are sent, and only as a kind, a host and the product and article they were on.
-      document.addEventListener('click', event => {
-        const target = event.target as Element | null;
-        // A share button is not a visitor reaching out to us: count it as a share, never as a booking or WhatsApp click.
-        const share = target?.closest?.('[data-share]');
-        if (share) {
-          const kind = shareKind(share.getAttribute('data-share'));
-          if (kind) posthog.capture('share_click', {kind, ...context(), $current_url:location.origin + location.pathname});
-          return;
-        }
-        const link = target?.closest?.('a[href]');
-        const click = link && classifyClick(link.getAttribute('href') ?? '', location.origin);
-        if (click) posthog.capture('cta_click', {kind:click.kind, host:click.host, ...context(), $current_url:location.origin + location.pathname});
-      }, {capture:true});
-    });
+// Capture attribution on every landing, even without an analytics key.
+currentCampaign();
+const key=import.meta.env.PUBLIC_POSTHOG_KEY;
+if(key){
+  const pending:Array<[string,Record<string,unknown>]> = [];
+  let send=(name:string,properties:Record<string,unknown>)=>{if(pending.length<100)pending.push([name,properties]);};
+  const context=()=>{
+    const page=document.querySelector<HTMLElement>('[data-article]');
+    return {...pageContext(location.pathname,{article:page?.dataset.article,product:page?.dataset.product}),...currentCampaign(),internal_traffic:import.meta.env.DEV||isInternalTraffic(),$current_url:location.origin+location.pathname};
+  };
+  // Listen before idle SDK loading so a fast form submission is not lost.
+  document.addEventListener('codelovers:inquiry-recorded',event=>{
+    const detail=(event as CustomEvent<{language:string;product:string}>).detail;
+    send('website_inquiry_recorded',{...context(),language:detail.language,product:detail.product});
+  });
+  document.addEventListener('codelovers:newsletter-requested',event=>{
+    send('newsletter_signup_requested',{...context(),language:(event as CustomEvent<{language:string}>).detail.language});
+  });
+  document.addEventListener('click',event=>{
+    const target=event.target as Element|null;
+    const share=target?.closest?.('[data-share]');
+    if(share){const kind=shareKind(share.getAttribute('data-share'));if(kind)send('share_click',{...context(),kind});return;}
+    const link=target?.closest?.('a[href]');
+    const click=link&&classifyClick(link.getAttribute('href')??'',location.origin);
+    if(click)send('cta_click',{...context(),kind:click.kind,host:click.host});
+  },{capture:true});
+  send('$pageview',context());
+  afterLoadIdle(()=>{
+    void import('posthog-js').then(({default:posthog})=>{
+      posthog.init(key,posthogConfig(import.meta.env.DEV));
+      posthog.register({internal_traffic:import.meta.env.DEV||isInternalTraffic()});
+      send=(name,properties)=>{posthog.capture(name,properties);};
+      for(const [name,properties] of pending)send(name,properties);
+      pending.length=0;
+    }).catch(()=>{/* Analytics must never prevent a successful enquiry. */});
   });
 }

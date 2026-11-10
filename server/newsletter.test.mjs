@@ -34,7 +34,7 @@ test('provider failures stay private and allow retry; success has a cooldown',as
 });
 test('honeypot and oversized input never contact the newsletter service',async()=>{
   const handler=makeHandler(env,()=>{throw Error('No delivery');});
-  expect(await (await handler(request({...input,website:'spam'}))).json()).toEqual({accepted:true});
+  expect(await (await handler(request({...input,website:'spam'}))).json()).toEqual({accepted:true,recorded:false});
   expect((await handler(request({...input,extra:'a'.repeat(25000)}))).status).toBe(413);
 });
 

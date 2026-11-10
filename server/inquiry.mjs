@@ -24,13 +24,13 @@ export function makeHandler(env=process.env, requestFetch=fetch) {
       input=JSON.parse(new TextDecoder().decode(body));
     } catch { return json({error:'Invalid inquiry'},400); }
     if (!input || typeof input !== 'object' || Array.isArray(input)) return json({error:'Invalid inquiry'},400);
-    if (input.website) return json({accepted:true}); // Quietly discard honeypot submissions.
+    if (input.website) return json({accepted:true,recorded:false}); // Quietly discard honeypot submissions.
     if(path==='/api/newsletter') return signup(input);
     if (!env.ERP_INTAKE_API_KEY || !env.ERP_INTAKE_API_SECRET) return json({error:'Contact form unavailable; please email us.'},503);
     let base;
     try { base=new URL(env.ERP_URL || 'https://erp.boutchaz.dev'); } catch { return json({error:'Contact form unavailable'},503); }
     if(base.protocol!=='https:' || base.username || base.password || base.pathname!=='/') return json({error:'Contact form unavailable'},503);
-    const allowed=['request_id','full_name','email','organization','product','language','message','page_path','utm_source','utm_medium','utm_campaign','consent'];
+    const allowed=['request_id','full_name','email','organization','product','language','message','page_path','utm_source','utm_medium','utm_campaign','utm_content','consent'];
     const payload=Object.fromEntries(allowed.map(key=>[key,input[key]]));
     try {
       const response=await requestFetch(`${base.origin}/api/method/codelovers.inquiries.create`,{
@@ -41,7 +41,7 @@ export function makeHandler(env=process.env, requestFetch=fetch) {
       if(!response.ok) return json({error:'We could not record your inquiry. Please retry or email us.'},503);
       const result=await response.json();
       if(result.message?.accepted!==true)return json({error:'Inquiry was not confirmed. Please retry.'},503);
-      return json({accepted:true});
+      return json({accepted:true,recorded:true});
     } catch { return json({error:'We could not confirm delivery. Retry with this form or email us.'},503); }
   };
 }
