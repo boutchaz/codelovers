@@ -106,6 +106,7 @@ export const caseStudies = [
     result: "Production",
     metric: "Multi-tenant club operations",
     gradient: "from-purple-500/20 via-indigo-500/10 to-blue-600/20",
+    href: "https://www.snookly.ma/",
   },
   {
     title: "Passion Fitness",
@@ -115,6 +116,7 @@ export const caseStudies = [
     result: "Production",
     metric: "Multi-tenant gym platform + mobile app",
     gradient: "from-red-500/20 via-orange-500/10 to-amber-600/20",
+    href: "https://passionfitness.thebzlab.online/",
   },
   {
     title: "AgroGina",
