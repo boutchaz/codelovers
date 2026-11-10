@@ -40,12 +40,12 @@ const text = {
   en: {
     title: "Case Studies",
     description:
-      "Real-world transformations: IoT cold chain monitoring, AgroGina satellite analytics, SaaS automation, Shopify Hydrogen e-commerce, and enterprise ERP solutions by CodeLovers.",
+      "Explore CodeLovers products for agriculture, sports clubs, IoT monitoring and booking workflows.",
     badge: "Case studies",
     heading: "Production systems that",
     headingAccent: "solve real problems",
     intro:
-      "Multi-tenant SaaS platforms, IoT monitoring systems, and agricultural tech in production. From snooker club operations to satellite crop analytics.",
+      "See the products, the workflows they connect and the problems behind the build.",
     live: "Live site",
     crumbHome: "Home",
     crumbPage: "Case Studies",
@@ -53,12 +53,12 @@ const text = {
   fr: {
     title: "Études de cas",
     description:
-      "Des transformations concrètes : surveillance IoT de la chaîne du froid, analyse satellite AgroGina, automatisation SaaS, e-commerce Shopify Hydrogen et solutions ERP d'entreprise par CodeLovers.",
+      "Découvrez les produits CodeLovers pour l’agriculture, les clubs sportifs, la surveillance IoT et les réservations.",
     badge: "Études de cas",
     heading: "Des systèmes en production qui",
     headingAccent: "résolvent de vrais problèmes",
     intro:
-      "Plateformes SaaS multi-locataires, systèmes de surveillance IoT et agritech en production. Des opérations de clubs de snooker à l'analyse satellite des cultures.",
+      "Découvrez les produits, les parcours qu’ils relient et les besoins qui ont guidé leur conception.",
     live: "Site en ligne",
     crumbHome: "Accueil",
     crumbPage: "Études de cas",
@@ -106,8 +106,9 @@ const breadcrumbJsonLd = {
             const internalUrl = slug ? `${prefix}/case-studies/${slug}/` : null;
             const hasExternalLink = Boolean(study.href);
 
+            const preview = ["agrogina", "passion-fitness", "snookly"].includes(slug) ? `/images/case-studies/${slug}.webp` : null;
             const className =
-              "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-12 lg:p-14";
+              "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-6 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-8 lg:p-8";
 
             const content = (
               <>
@@ -116,6 +117,7 @@ const breadcrumbJsonLd = {
                 />
                 <div class="relative flex h-full flex-col justify-between space-y-6">
                   <div class="space-y-4">
+                    {preview && <img src={preview} alt={fr ? `Aperçu du site public de ${study.title}` : `${study.title} public website preview`} width="1280" height="720" loading="lazy" class="mb-6 aspect-video w-full rounded-2xl border border-white/10 object-cover" />}
                     <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200">
                       {study.category}
                     </span>
@@ -136,7 +138,7 @@ const breadcrumbJsonLd = {
                         {study.metric}
                       </p>
                     </div>
-                    {hasExternalLink && (
+                    {hasExternalLink && !internalUrl && (
                       <a
                         href={study.href}
                         target="_blank"

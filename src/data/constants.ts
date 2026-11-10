@@ -102,7 +102,7 @@ export const caseStudies = [
     title: "Snookly",
     category: "SaaS · Sports Operations",
     summary:
-      "Multi-tenant snooker club management system in production. RFID member cards, live table scoring, café/billiard POS, and administrative dashboard. Built with Next.js, Supabase, and TypeScript.",
+      "Tables, player cards, live scoring and café sales brought into one club operations product.",
     result: "Production",
     metric: "Multi-tenant club operations",
     gradient: "from-purple-500/20 via-indigo-500/10 to-blue-600/20",
@@ -111,7 +111,7 @@ export const caseStudies = [
     title: "Passion Fitness",
     category: "SaaS · Fitness & Wellness",
     summary:
-      "Multi-tenant martial arts gym platform serving BJJ gyms in Morocco. Class booking, Mon Parcours belt progression, RollMap member connections, Next.js web dashboard, Expo React Native mobile app, and Paddle payment integration.",
+      "Scheduling, attendance and learning resources for martial arts clubs, across web and mobile.",
     result: "Production",
     metric: "Multi-tenant gym platform + mobile app",
     gradient: "from-red-500/20 via-orange-500/10 to-amber-600/20",
@@ -120,7 +120,7 @@ export const caseStudies = [
     title: "AgroGina",
     category: "AgTech · Satellite Analytics",
     summary:
-      "Precision agriculture platform with satellite imagery analysis. Bun monorepo: React/TanStack/shadcn frontend, NestJS API on Bun with Supabase Postgres RLS, FastAPI + Google Earth Engine for NDVI vegetation monitoring. Live at agrogina.com.",
+      "Farm management that brings plots, field teams and satellite insights into the same working day.",
     result: "Live",
     metric: "Real-time crop monitoring",
     gradient: "from-emerald-500/20 via-teal-500/10 to-green-600/20",
@@ -130,7 +130,7 @@ export const caseStudies = [
     title: "LoginTel SaaS",
     category: "IoT · Cold Chain Monitoring",
     summary:
-      "Cold chain monitoring platform with real-time IoT tracking, alerting systems, and compliance reporting. Built with Next.js, Strapi CMS, Python FastAPI for TCP device parsing, and Prometheus/Grafana monitoring.",
+      "Cold-chain monitoring that brings device readings, alerts and reporting into one workflow.",
     result: "Production",
     metric: "Real-time IoT fleet monitoring",
     gradient: "from-blue-500/20 via-cyan-500/10 to-indigo-600/20",
@@ -139,7 +139,7 @@ export const caseStudies = [
     title: "WhatsApp Reservation Bot",
     category: "Automation · SaaS",
     summary:
-      "Multi-tenant WhatsApp Business API integration enabling businesses to automate bookings with webhook integrations, real-time WebSocket updates, built with React, Express.js, Drizzle ORM, and N8N workflow automation.",
+      "A WhatsApp booking workflow connecting customer requests with availability and staff follow-up.",
     result: "Automated",
     metric: "Booking process via WhatsApp",
     gradient: "from-rose-500/20 via-fuchsia-500/10 to-purple-600/20",

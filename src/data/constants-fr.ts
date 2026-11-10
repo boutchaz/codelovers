@@ -130,35 +130,35 @@ export const caseStudiesFr: Record<
   Snookly: {
     category: "SaaS · Gestion sportive",
     summary:
-      "Système multi-locataire de gestion de clubs de snooker en production. Cartes membres RFID, score des tables en direct, caisse café/billard et tableau de bord administratif. Construit avec Next.js, Supabase et TypeScript.",
+      "Tables, cartes joueurs, score en direct et caisse café réunis pour gérer le club.",
     result: "Production",
     metric: "Gestion multi-clubs",
   },
   "Passion Fitness": {
     category: "SaaS · Fitness & bien-être",
     summary:
-      "Plateforme multi-locataire pour salles d'arts martiaux, au service des salles de JJB au Maroc. Réservation de cours, progression de ceinture Mon Parcours, connexions entre membres RollMap, tableau de bord web Next.js, application mobile Expo React Native et paiements Paddle.",
+      "Planning, présences et ressources pédagogiques pour les clubs d’arts martiaux, sur web et mobile.",
     result: "Production",
     metric: "Plateforme multi-salles + app mobile",
   },
   AgroGina: {
     category: "AgTech · Analyse satellite",
     summary:
-      "Plateforme d'agriculture de précision avec analyse d'imagerie satellite. Monorepo Bun : frontend React/TanStack/shadcn, API NestJS sur Bun avec Supabase Postgres RLS, FastAPI + Google Earth Engine pour le suivi de la végétation (NDVI). En ligne sur agrogina.com.",
+      "Parcelles, équipes terrain et informations satellite réunies pour organiser le travail agricole.",
     result: "En ligne",
     metric: "Suivi des cultures en temps réel",
   },
   "LoginTel SaaS": {
     category: "IoT · Surveillance de la chaîne du froid",
     summary:
-      "Plateforme de surveillance de la chaîne du froid avec suivi IoT en temps réel, systèmes d'alerte et rapports de conformité. Construite avec Next.js, Strapi CMS, Python FastAPI pour l'analyse des trames TCP des appareils, et Prometheus/Grafana pour la supervision.",
+      "Une surveillance de la chaîne du froid qui relie relevés, alertes et rapports.",
     result: "Production",
     metric: "Surveillance de flotte IoT en temps réel",
   },
   "WhatsApp Reservation Bot": {
     category: "Automatisation · SaaS",
     summary:
-      "Intégration multi-locataire de l'API WhatsApp Business permettant aux entreprises d'automatiser leurs réservations : webhooks, mises à jour WebSocket en temps réel, avec React, Express.js, Drizzle ORM et l'automatisation de flux N8N.",
+      "Un parcours de réservation WhatsApp qui relie demandes clients, disponibilités et suivi par l’équipe.",
     result: "Automatisé",
     metric: "Réservations via WhatsApp",
   },

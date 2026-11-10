@@ -17,7 +17,7 @@ const { study, lang } = Astro.props;
 const fr = lang === "fr";
 const prefix = fr ? "/fr" : "";
 const { Content } = await render(study);
-const { title, category, description, result, metric, gradient, externalUrl, stack, date } = study.data;
+const { title, category, description, gradient, externalUrl, date, headline, preview, workflow } = study.data;
 
 const text = fr
   ? {
@@ -110,6 +110,7 @@ const articleJsonLd = {
       <h1 class="mt-6 text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
         {title}
       </h1>
+      {headline && <p class="mt-5 max-w-3xl text-2xl font-medium leading-tight text-white sm:text-3xl">{headline}</p>}
       <p class="mt-6 text-lg leading-relaxed text-slate-300">
         {description}
       </p>
@@ -135,29 +136,31 @@ const articleJsonLd = {
         }
       </div>
 
-      <div
-        class={`mt-10 rounded-[36px] border border-white/10 bg-gradient-to-br ${gradient} p-8 sm:p-10`}
-      >
-        <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
-          <div>
-            <p class="text-5xl font-semibold text-white">{result}</p>
-            <p class="mt-2 text-sm uppercase tracking-[0.3em] text-rose-200">
-              {metric}
-            </p>
+      {preview && (
+        <figure class="mt-10 overflow-hidden rounded-3xl border border-white/15 bg-slate-900 shadow-2xl">
+          <div class="flex items-center gap-2 border-b border-white/10 px-5 py-3" aria-hidden="true">
+            <span class="h-2 w-2 rounded-full bg-rose-400/70"></span><span class="h-2 w-2 rounded-full bg-orange-300/70"></span><span class="h-2 w-2 rounded-full bg-emerald-300/70"></span>
+            <span class="ml-3 text-xs text-slate-400">{title}</span>
           </div>
-          {
-            stack.length > 0 && (
-              <div class="flex flex-wrap gap-2">
-                {stack.map((tech) => (
-                  <span class="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium text-white">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            )
-          }
-        </div>
-      </div>
+          <img src={preview} alt={fr ? `Aperçu du site public de ${title}` : `${title} public website preview`} width="1280" height="720" class="block h-auto w-full" fetchpriority="high" />
+          <figcaption class="px-5 py-3 text-xs text-slate-400">{fr ? "Aperçu du site public · novembre 2026. Les écrans de démonstration peuvent contenir des données d’exemple." : "Public website preview · November 2026. Demonstration screens may contain sample data."}</figcaption>
+        </figure>
+      )}
+      {workflow.length > 0 && (
+        <section class={`mt-10 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br ${gradient} p-6 sm:p-8`} aria-label={fr ? "Le parcours produit" : "The product workflow"}>
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-rose-200">{fr ? "Le parcours produit" : "The product workflow"}</p>
+          <ol class="mt-6 grid gap-6 sm:grid-cols-3">
+            {workflow.map((step, index) => (
+              <li class="relative border-t border-white/20 pt-5">
+                <span class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 font-mono text-sm text-rose-200">{String(index + 1).padStart(2, "0")}</span>
+                <h2 class="mt-4 text-lg font-semibold text-white">{step.title}</h2>
+                <p class="mt-2 text-sm leading-relaxed text-slate-300">{step.description}</p>
+                {index < workflow.length - 1 && <span aria-hidden="true" class="absolute right-0 top-6 hidden text-2xl text-rose-200/70 sm:block">→</span>}
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
       <div class="prose prose-invert mt-12 max-w-none">
         <Content />

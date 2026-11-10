@@ -23,11 +23,10 @@ const slugMap: Record<string, string> = {
       <div class="space-y-4">
         <SectionBadge>Études de cas</SectionBadge>
         <h2 class="text-4xl font-bold text-white sm:text-5xl">
-          Transformations réelles qui redéfinissent l'expérience client
+          Des produits à voir. Des usages concrets.
         </h2>
         <p class="max-w-3xl text-lg text-slate-300">
-          Chaque engagement est ancré dans un changement mesurable — modifier les comportements, augmenter les revenus
-          et fidéliser grâce au savoir-faire.
+          Découvrez comment nous relions les usages des exploitations agricoles, clubs d’arts martiaux et salles de snooker dans des produits web et mobile.
         </p>
       </div>
 
@@ -47,13 +46,14 @@ const slugMap: Record<string, string> = {
           const hasExternalLink = "href" in study && study.href;
 
           const className =
-            "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-10 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-12 lg:p-14";
+            "group relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] p-6 transition-all hover:-translate-y-2 hover:border-rose-500/40 hover:bg-white/[0.06] sm:p-7 lg:p-7";
 
           const content = (
             <>
               <div class={`case-study-glow ${study.gradient}`} />
               <div class="relative flex h-full flex-col justify-between space-y-6">
                 <div class="space-y-3">
+                  <img src={`/images/case-studies/${slug}.webp`} alt={`Aperçu du site public de ${study.title}`} width="1280" height="720" loading="lazy" class="mb-6 aspect-video w-full rounded-2xl border border-white/10 object-cover" />
                   <span class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-rose-200 sm:px-4">
                     {study.category}
                   </span>

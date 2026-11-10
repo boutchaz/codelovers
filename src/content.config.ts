@@ -40,6 +40,9 @@ const blog = defineCollection({
 });
 
 const caseStudySchema = z.object({
+  headline: z.string().optional(),
+  preview: z.string().optional(),
+  workflow: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
   title: z.string(),
   category: z.string(),
   description: z.string(),
