@@ -1,0 +1,16 @@
+---
+import BlogArticle from '@/components/blog/BlogArticle.astro';
+import {previewInput, previewHeaders, renderPreviewMarkdown} from '@/data/blog-preview.mjs';
+
+export const prerender = false;
+for (const [name, value] of Object.entries(previewHeaders)) Astro.response.headers.set(name, value);
+const post = await previewInput(Astro.request);
+if (post instanceof Response) {
+  for (const [name, value] of Object.entries(previewHeaders)) post.headers.set(name, value);
+  return post;
+}
+const rendered = await renderPreviewMarkdown(post.body);
+---
+<BlogArticle post={post} headings={rendered.metadata.headings} preview>
+  <Fragment set:html={rendered.code} />
+</BlogArticle>

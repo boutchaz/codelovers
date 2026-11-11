@@ -60,7 +60,7 @@ export function getSeries(posts: Post[]) {
 
 // Where an article sits in its series: its place, the planned total, and the neighbouring guides that are published.
 // `nextSoon` is true when a later guide is planned but not released yet. Null for a post outside any series.
-export function getSeriesNav(post: Post, published: Post[]) {
+export function getSeriesNav(post: Pick<Post, "data">, published: Post[]) {
   const info = seriesInfo[post.data.series];
   const position = post.data.seriesOrder;
   if (!info || !position) return null;

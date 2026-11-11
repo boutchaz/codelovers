@@ -3,12 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: runner
       args:
         PUBLIC_NEWSLETTER_ENABLED: ${PUBLIC_NEWSLETTER_ENABLED:-false}
         PUBLIC_INQUIRY_ENABLED: ${PUBLIC_INQUIRY_ENABLED:-false}
         PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
     depends_on:
       - inquiry
+      - preview
     restart: unless-stopped
     # No `ports`: Dokploy's Traefik owns host 80/443. It reaches the container
     # over dokploy-network; routing is declared via the labels below.
@@ -34,6 +36,20 @@ services:
       - traefik.http.routers.cl-website-web.service=cl-website
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.scheme=https
       - traefik.http.middlewares.cl-website-redirect.redirectscheme.permanent=true
+
+  preview:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: preview
+      args:
+        PUBLIC_NEWSLETTER_ENABLED: ${PUBLIC_NEWSLETTER_ENABLED:-false}
+        PUBLIC_INQUIRY_ENABLED: ${PUBLIC_INQUIRY_ENABLED:-false}
+        PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
+    restart: unless-stopped
+    mem_limit: 256m
+    networks:
+      - inquiry-private
 
   inquiry:
     build:

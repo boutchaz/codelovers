@@ -4,9 +4,10 @@ import { classifyClick, pageContext, shareKind } from '@/scripts/track';
 import { currentCampaign, isInternalTraffic } from '@/scripts/attribution';
 
 // Capture attribution on every landing, even without an analytics key.
-currentCampaign();
+const preview = document.body.hasAttribute("data-preview");
+if (!preview) currentCampaign();
 const key=import.meta.env.PUBLIC_POSTHOG_KEY;
-if(key){
+if(key && !preview){
   const pending:Array<[string,Record<string,unknown>]> = [];
   let send=(name:string,properties:Record<string,unknown>)=>{if(pending.length<100)pending.push([name,properties]);};
   const context=()=>{

@@ -7,7 +7,7 @@ Agency website for [wearecodelovers](https://wearecodelovers.com) — built with
 ```bash
 bun install
 bun run dev       # dev server at http://localhost:4321
-bun run build     # static build to dist/
+bun run build     # build public pages to dist/client/ and the private preview renderer to dist/server/
 bun run preview   # preview the production build
 ```
 
@@ -16,7 +16,7 @@ bun run preview   # preview the production build
 | Command | Description |
 | --- | --- |
 | `bun run dev` | Start the Astro dev server |
-| `bun run build` | Build the static site to `dist/` |
+| `bun run build` | Build public pages and the draft preview renderer |
 | `bun run preview` | Serve the production build locally |
 | `bun run encode-hero-video -- <video>` | Encode the hero background video (WebM, MP4, poster) |
 
@@ -26,7 +26,7 @@ bun run preview   # preview the production build
 docker compose up --build
 ```
 
-Multi-stage Docker build: Bun builds the site, nginx serves it with clean URLs, gzip, immutable asset caching, and a reverse proxy for PostHog analytics (`/ingest` → `eu.posthog.com`).
+Multi-stage Docker build: Bun builds the site, nginx serves its static pages with clean URLs, gzip, immutable asset caching, and a reverse proxy for PostHog analytics (`/ingest` → `eu.posthog.com`).
 
 ## Site Structure
 
@@ -97,3 +97,13 @@ The site has two languages. English pages live at `/<page>/` and French ones at 
 - Services, about stats and the French case-study summaries live in `src/data/constants-fr.ts`.
 - The privacy and terms pages are English only.
 - Do not add an nginx redirect for a French page that exists: an exact `location =` match would hide it.
+
+### ERP article preview
+
+Content Studio opens Website Blog posts in the real blog layout. The editor's **Preview website layout** action renders unsaved values; **Back to editing** preserves them. Desktop (1280px) and Mobile (390px) change the iframe viewport. Saving, approval and publication remain separate actions.
+
+Public articles and previews share `BlogArticle.astro`, `SiteShell`, cover components, CSS and `src/data/markdown.mjs`. The stateless `/preview/blog/` route accepts a bounded form POST only from `https://erp.boutchaz.dev`; GET cannot retrieve a draft. Only public article fields are sent, in the request body. No draft files, public URLs, approval changes, indexing or analytics events are created. Scripts/forms are disabled in the preview frame. The preview uses the planned article date; missing date/slug get explicit preview-only defaults. It reflects this deployed website build, including the articles currently available for related/series links.
+
+Redeploy **both website and ERP**. The website Compose stack now builds an internal `preview` service (official Astro Node adapter); nginx continues serving all public pages statically and forwards only the preview POST and the two header-logo transforms. No extra secret or public service port is needed. Dockerfile-only hosting must use the Compose stack to include the renderer.
+
+Verify with `bun test`, `bunx astro check`, `bun run build`, then `node scripts/check-blog-preview.mjs`. The last check starts a temporary local server and compares the preview Markdown, title, description and cover against a built French article, and checks private response headers and rejected GET/foreign-origin requests.

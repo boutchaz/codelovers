@@ -5,6 +5,7 @@ import "../styles/global.css";
 import { hasTranslation, pathIn } from "@/data/i18n";
 
 interface Props {
+  preview?: boolean;
   title: string;
   description: string;
   canonical?: string;
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const {
+  preview = false,
   title,
   description,
   canonical,
@@ -61,7 +63,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
 
     <meta
       name="robots"
-      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+      content={preview ? "noindex, nofollow, noarchive" : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"}
     />
 
     <!-- Open Graph -->
@@ -93,7 +95,7 @@ const ogImageUrl = new URL(ogImage, siteUrl).toString();
 
     <slot name="head" />
   </head>
-  <body class="antialiased">
+  <body class="antialiased" data-preview={preview || undefined}>
     <slot />
     <script>
       // PostHog analytics (no-op when PUBLIC_POSTHOG_KEY is not set).

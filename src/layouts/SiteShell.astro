@@ -4,6 +4,7 @@ import Footer from "@/components/Footer.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
 interface Props {
+  preview?: boolean;
   title: string;
   description: string;
   canonical?: string;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const {
+  preview = false,
   title,
   description,
   canonical,
@@ -24,7 +26,7 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} ogType={ogType} ogImage={ogImage} publishedTime={publishedTime} lang={lang}>
+<BaseLayout preview={preview} title={title} description={description} canonical={canonical} ogType={ogType} ogImage={ogImage} publishedTime={publishedTime} lang={lang}>
   <slot name="head" slot="head" />
   <div class="site-shell min-h-screen overflow-x-clip bg-slate-950 text-slate-100">
     <a
