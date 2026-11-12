@@ -69,3 +69,5 @@ or cleanup policy for responses is implied by the article access expiry.
 Run `bun test scripts/review-participation.test.mjs scripts/stakeholder-review.test.mjs scripts/blog-preview.test.mjs`.
 Test real successful writes only in isolated local storage. Do not create fake
 production survey responses when checking the deployed form.
+
+An unapproved working draft can be revised in place at the owner’s explicit request. Preserve the earlier JSON source, increment `article.visualRevision`, check that ERP remains unapproved, and notify existing reviewers which revision is current. The link/code can stay unchanged for the same recipients and expiry. Signed form tickets bind the new article hash, so earlier form sessions cannot submit against a changed snapshot. Approved content must receive a new review record rather than being silently replaced.

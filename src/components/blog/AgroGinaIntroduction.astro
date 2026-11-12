@@ -7,11 +7,14 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
   <p class="intro">{c.lead}</p>
   <figure class="workflow" aria-label={c.workflow.description}>
     <figcaption><span class="eyebrow">THE DIRECTION</span><h2>{c.workflow.title}</h2><p>{c.workflow.description}</p></figcaption>
+    {c.workflow.imageSrc?.match(/^data:image\/(?:png|jpeg);base64,/) && <img class="editorial-image" src={c.workflow.imageSrc} alt={c.workflow.imageAlt} width="1536" height="1024"/>}
+    <details class="workflow-key"><summary>How the pieces connect</summary>
     <div class="inputs">{c.workflow.inputs.map((label:string)=><div>{label}</div>)}</div>
     <div class="connector" aria-hidden="true">↓</div>
     <div class="core"><strong>AgroGina</strong><span>{c.workflow.core}</span></div>
     <div class="connector" aria-hidden="true">↓</div>
     <div class="outputs">{c.workflow.outputs.map((label:string)=><div>{label}</div>)}</div>
+    </details>
     <small>{c.workflow.caveat}</small>
   </figure>
   <section aria-labelledby="local-first"><span class="eyebrow">WHY WE STARTED</span><h2 id="local-first">{c.why.title}</h2><p>{c.why.text}</p></section>
@@ -62,6 +65,21 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
   .participation :is(select,textarea,input[type="checkbox"]){color-scheme:light}
   .participation textarea::placeholder{color:#05060f;opacity:1}
   .participation button:hover{background:#05060f}
+  .editorial-image{display:block;width:100%;height:auto;border-radius:10px;margin:24px 0;object-fit:contain}
+  .workflow-key{margin-top:20px}.workflow-key summary{font-weight:600;cursor:pointer;font-size:16px}
+  .scope-card.light{background:#fff;color:#05060f}
+  :global(.blog-prose) .story .scope-card.light :is(ul,ol,li,p,small,strong){color:#05060f}
+  .scope-card ul{padding-left:0}.scope-card.light li::before{border-color:#d32223}
+  .participation{background:#05060f;color:#ededed;border:1px solid #ededed}
+  .participation :is(h2,p,legend,label,small,strong){color:#ededed}
+  .participation .eyebrow{color:#fff;border-left:3px solid #d32223;padding-left:10px}
+  .participation .answers label{background:#fff;color:#05060f}
+  .participation .answers label:has(input:checked){background:#d32223;color:#fff;outline:2px solid #fff;outline-offset:2px}
+  .participation :is(input,select,textarea,button):focus-visible{outline-color:#fff}
+  .participation .answers label:focus-within{outline:3px solid #fff;outline-offset:4px}
+  .participation :is(select,textarea){color:#05060f}
+  .participation .pilot,.participation .receipt{border-color:#ededed}
+  .participation button{border:1px solid #fff}
   @media(min-width:1000px){.inputs{grid-template-columns:repeat(4,minmax(0,1fr))}.outputs{grid-template-columns:repeat(4,minmax(0,1fr))}.scope{grid-template-columns:1fr 1fr}.evidence-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.evidence-card{padding:20px}.roadmap{grid-template-columns:repeat(3,minmax(0,1fr))}}
   @media(max-width:480px){.story{gap:40px}.workflow,.participation,.collaboration,.scope-card{padding:20px}.intro{font-size:20px}.answers{grid-template-columns:1fr}}
 </style>

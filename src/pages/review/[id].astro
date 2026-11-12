@@ -23,6 +23,7 @@ const headings=input?.visuals ? [
 {post && rendered ? <BlogArticle post={post} headings={headings} preview>
   <aside style="padding:20px;background:#ededed;color:#05060f;font-family:Geist,sans-serif;text-align:center">
     <strong style="color:#05060f">PRIVATE DRAFT · Stakeholder review</strong><br />
+    {input.visualRevision && <span>Visual revision {input.visualRevision}<br /></span>}
     Not published. Reply to the review email with comments or corrections. This is not a publication approval.<br />
     Access expires {new Date(result.expiresAt).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})} UTC.
   </aside>
