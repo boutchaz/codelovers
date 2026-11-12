@@ -2,6 +2,8 @@
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import ReviewHeader from "@/components/ReviewHeader.astro";
+import PreviewAppearance from "@/components/PreviewAppearance.astro";
 
 interface Props {
   preview?: boolean;
@@ -35,11 +37,12 @@ const {
     >
       {lang === "fr" ? "Aller au contenu" : "Skip to content"}
     </a>
-    <Header lang={lang} />
+    {preview ? <ReviewHeader lang={lang}/> : <Header lang={lang} />}
+    {preview && <PreviewAppearance/>}
     <main id="main-content" class="relative">
       <slot />
     </main>
-    <Footer lang={lang} />
+    <Footer lang={lang} preview={preview}/>
 
     <script>
       import "@/scripts/reveal";

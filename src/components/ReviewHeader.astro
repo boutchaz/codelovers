@@ -1,0 +1,24 @@
+---
+import {Image} from 'astro:assets';
+import logoMark from '@/assets/logo-mark.png';
+interface Props {lang?:'en'|'fr'}
+const {lang='en'}=Astro.props;
+---
+<header id="site-header" class="review-header">
+  <a class="review-brand" href={lang==='fr'?'/fr/':'/'} aria-label="CodeLovers home">
+    <Image src={logoMark} alt="" width="48" height="48" widths={[48,96]} sizes="48px" format="webp" loading="eager"/>
+    <span>Code<span class="accent">Lovers</span></span>
+  </a>
+  <nav aria-label={lang==='fr'?'Navigation de relecture':'Review navigation'}>
+    <a href="#main-content">{lang==='fr'?'Article':'Article'}</a>
+    <a href="#contact">{lang==='fr'?'Contact':'Contact'}</a>
+    <span class="review-label">{lang==='fr'?'Aperçu privé':'Private preview'}</span>
+  </nav>
+</header>
+<style>
+  .review-header{position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px 24px;min-height:80px;max-width:1200px;margin:auto;padding:16px 24px;background:#05060f;color:#fff;border-bottom:1px solid #737b8b;font-family:Geist,sans-serif}
+  .review-brand{display:flex;align-items:center;gap:12px;min-height:48px;font-size:22px;font-weight:600;color:#fff;text-decoration:none}.review-brand img{width:40px;height:40px}.accent{color:#fda4af}
+  nav{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px;font-size:14px}nav a{display:inline-flex;align-items:center;min-height:44px;color:#fff;text-decoration:underline;text-underline-offset:5px}.review-label{font-size:12px;color:#cbd5e1;border:1px solid #737b8b;border-radius:24px;padding:5px 10px}
+  a:focus-visible{outline:3px solid #fff;outline-offset:4px;border-radius:4px}
+  @media(max-width:480px){.review-header{padding:12px 20px}nav{gap:12px 18px}.review-label{font-size:11px}}
+</style>
