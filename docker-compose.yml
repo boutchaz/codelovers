@@ -49,6 +49,8 @@ services:
     restart: unless-stopped
     mem_limit: 256m
     environment:
+      POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
+      POSTHOG_HOST: ${POSTHOG_HOST:-}
       STAKEHOLDER_REVIEW_DIR: /var/lib/codelovers-reviews
       STAKEHOLDER_RESPONSE_DIR: /var/lib/codelovers-responses
     volumes:
@@ -72,6 +74,8 @@ services:
       ERP_URL: ${ERP_URL:-https://erp.boutchaz.dev}
       ERP_INTAKE_API_KEY: ${ERP_INTAKE_API_KEY:-}
       ERP_INTAKE_API_SECRET: ${ERP_INTAKE_API_SECRET:-}
+      POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
+      POSTHOG_HOST: ${POSTHOG_HOST:-}
       CAL_WEBHOOK_SECRET: ${CAL_WEBHOOK_SECRET:-}
     networks:
       - inquiry-private

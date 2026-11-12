@@ -28,8 +28,18 @@ if(key && !preview){
     if(share){const kind=shareKind(share.getAttribute('data-share'));if(kind)send('share_click',{...context(),kind});return;}
     const link=target?.closest?.('a[href]');
     const click=link&&classifyClick(link.getAttribute('href')??'',location.origin);
-    if(click)send('cta_click',{...context(),kind:click.kind,host:click.host});
+    if(click)send('cta_click',{...context(),kind:click.kind,host:click.host,placement:link?.closest('footer')?'footer':link?.getAttribute('data-track-placement')||'page'});
   },{capture:true});
+  if(typeof IntersectionObserver!=='undefined'){
+    const seen=new Set<Element>();
+    const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(!entry.isIntersecting||seen.has(entry.target))continue;seen.add(entry.target);
+      const target=entry.target as HTMLElement;
+      if(target.matches('a'))send('booking_cta_viewed',{...context(),placement:target.closest('footer')?'footer':'page'});
+      else if(target.id)send('article_section_reached',{...context(),section:target.id});
+    }},{threshold:0.5});
+    document.querySelectorAll('a[href^="https://cal.com/"], [data-article] section[id]').forEach(el=>observer.observe(el));
+  }
+  document.addEventListener('toggle',event=>{const el=event.target as HTMLDetailsElement;if(el?.tagName==='DETAILS'&&el.open&&el.closest('[data-article]'))send('article_detail_opened',{...context(),detail:el.classList.contains('workflow-key')?'workflow':'full-story'});},true);
   send('$pageview',context());
   afterLoadIdle(()=>{
     void import('posthog-js').then(({default:posthog})=>{

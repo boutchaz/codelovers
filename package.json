@@ -24,6 +24,7 @@
     "gray-matter": "^4.0.3",
     "gsap": "^3.14.2",
     "posthog-js": "^1.310.1",
+    "posthog-node": "5",
     "rehype-sanitize": "^6",
     "tailwindcss": "^4.1.16"
   },
