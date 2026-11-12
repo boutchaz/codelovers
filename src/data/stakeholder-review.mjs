@@ -3,6 +3,7 @@ import {resolve} from 'node:path';
 import {scrypt, timingSafeEqual} from 'node:crypto';
 import {promisify} from 'node:util';
 import {participationTicket,verifyParticipationTicket,recordParticipation} from './review-participation.mjs';
+import {reviewSessionCookie,readReviewSession} from './review-session.mjs';
 
 const derive = promisify(scrypt);
 const ID = /^[a-f0-9]{32}$/;
@@ -24,7 +25,13 @@ export async function reviewRequest(request, id, {directory=process.env.STAKEHOL
     if (!Number.isFinite(Date.parse(record.expiresAt)) || Date.parse(record.expiresAt)<=now ||
         !/^[a-f0-9]{32}$/.test(record.salt) || !/^[a-f0-9]{64}$/.test(record.codeHash)) return denied();
   } catch { return denied(); }
-  if (request.method==='GET') return {status:200, locked:true,error:null,article:null,expiresAt:null};
+  if (request.method==='GET') {
+    const session=readReviewSession(request.headers.get('cookie'),id,record,now);
+    if(!session)return {status:200, locked:true,error:null,article:null,expiresAt:null};
+    const p=record.article;
+    if(!p||typeof p.body!=='string'||p.body.length>60000||typeof p.title!=='string'||!Array.isArray(p.tags))return denied();
+    return {status:200,locked:false,error:null,article:p,expiresAt:record.expiresAt,survey:session.feedback,ticket:responseDirectory&&!session.feedback?.saved?participationTicket(id,record,now):null};
+  }
   if (!['https://wearecodelovers.com','https://www.wearecodelovers.com'].includes(request.headers.get('origin'))) return denied(403);
   if (request.headers.get('content-type')?.split(';')[0]!=='application/x-www-form-urlencoded') return denied(415);
   const reader=request.body?.getReader();
@@ -53,6 +60,6 @@ export async function reviewRequest(request, id, {directory=process.env.STAKEHOL
     }
     const p=record.article;
     if (!p || typeof p.body!=='string' || p.body.length>60000 || typeof p.title!=='string' || !Array.isArray(p.tags)) return denied();
-    return {status:200, article:p, expiresAt:record.expiresAt,locked:false,error:null,survey,ticket:responseDirectory&&!survey?.saved?participationTicket(id,record,now):null};
+    return {status:200, article:p, expiresAt:record.expiresAt,locked:false,error:null,survey,ticket:responseDirectory&&!survey?.saved?participationTicket(id,record,now):null,redirect:true,accessCookie:reviewSessionCookie(id,record,survey,now)};
   } catch {return denied(400);}
 }

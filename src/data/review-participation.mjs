@@ -7,7 +7,7 @@ export const roles=['farm-team','agronomy','research','technology','other'];
 export const articleRevision=article=>createHash('sha256').update(JSON.stringify(article)).digest('hex');
 const signature=(data,key)=>createHmac('sha256',Buffer.from(key,'hex')).update(data).digest();
 export function participationTicket(id,record,now=Date.now()) {
- const payload={id,nonce:randomBytes(16).toString('hex'),until:Math.min(now+20*60*1000,Date.parse(record.expiresAt)),revision:articleRevision(record.article)};
+ const payload={purpose:'participation',id,nonce:randomBytes(16).toString('hex'),until:Math.min(now+20*60*1000,Date.parse(record.expiresAt)),revision:articleRevision(record.article)};
  const data=Buffer.from(JSON.stringify(payload)).toString('base64url');
  return data+'.'+signature(data,record.codeHash).toString('hex');
 }
@@ -17,7 +17,7 @@ export function verifyParticipationTicket(token,id,record,now=Date.now()) {
   if(extra.length || !data || data.length>700 || !/^[a-f0-9]{64}$/.test(mac))return null;
   if(!timingSafeEqual(signature(data,record.codeHash),Buffer.from(mac,'hex')))return null;
   const p=JSON.parse(Buffer.from(data,'base64url').toString());
-  return p.id===id && /^[a-f0-9]{32}$/.test(p.nonce) && Number.isFinite(p.until) && p.until>now && p.until<=now+20*60*1000 && p.until<=Date.parse(record.expiresAt) && p.revision===articleRevision(record.article) ? p:null;
+  return p.purpose==='participation' && p.id===id && /^[a-f0-9]{32}$/.test(p.nonce) && Number.isFinite(p.until) && p.until>now && p.until<=now+20*60*1000 && p.until<=Date.parse(record.expiresAt) && p.revision===articleRevision(record.article) ? p:null;
  }catch{return null;}
 }
 export async function recordParticipation(params,ticket,{directory,now=Date.now(),write=writeFile}={}) {
