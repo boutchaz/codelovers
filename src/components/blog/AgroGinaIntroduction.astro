@@ -30,7 +30,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     <ol class="roadmap">{c.roadmap.stages.map((stage:any,i:number)=><li><span class="stage">0{i+1} / {stage.label}</span><h3>{stage.title}</h3><p>{stage.text}</p><span class="status">{stage.status}</span></li>)}</ol>
     <small>{c.roadmap.caveat}</small>
   </section>
-  <section class="collaboration" aria-labelledby="collaborate"><span class="eyebrow">BUILD WITH US</span><h2 id="collaborate">{c.collaboration.title}</h2><p>{c.collaboration.text}</p><div class="roles">{c.collaboration.roles.map((role:string)=><span>{role}</span>)}</div><p>{c.collaboration.ask}</p><a href="https://wearecodelovers.com/#contact">Explore a collaboration →</a></section>
+  {c.collaboration && <section class="collaboration" aria-labelledby="collaborate"><span class="eyebrow">BUILD WITH US</span><h2 id="collaborate">{c.collaboration.title}</h2><p>{c.collaboration.text}</p><div class="roles">{c.collaboration.roles.map((role:string)=><span>{role}</span>)}</div><p>{c.collaboration.ask}</p><a href="https://wearecodelovers.com/#contact">Explore a collaboration →</a></section>}
   <section class="participation light" id="participate" aria-labelledby="research-question">
     <span class="eyebrow">YOUR EXPERIENCE MATTERS</span><h2 id="research-question">What is hardest to keep connected in your operation?</h2>
     <p>Choose one challenge. A short example can help us understand what to build and validate next.</p>
@@ -38,7 +38,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     {ticket && !survey?.saved ? <form method="post" action="#participate">
       <input type="hidden" name="action" value="participate"/><input type="hidden" name="ticket" value={ticket}/>
       <fieldset><legend>Your main challenge</legend><div class="answers">{answers.map(([value,label])=><label><input type="radio" name="choice" value={value} required/><span>{label}</span></label>)}</div></fieldset>
-      <label class="field">Your perspective<select name="role" required><option value="" disabled selected>Select a role</option><option value="farm-team">Farm owner / farm team</option><option value="agronomy">Agronomy / advisory</option><option value="research">Research / education</option><option value="technology">Technology / collaboration</option><option value="other">Another perspective</option></select></label>
+      <label class="field">Your perspective<select name="role" required><option value="" disabled selected>Select a role</option><option value="farm-team">Farm owner / farm team</option><option value="agronomy">Agronomy / advisory</option><option value="research">Research / education</option><option value="technology">Technology</option><option value="other">Another perspective</option></select></label>
       <label class="field">What should we understand? <small>Optional · 500 characters</small><textarea name="comment" maxlength="500" rows="3" placeholder="One example from your experience…"></textarea></label>
       <label class="consent"><input type="checkbox" name="consent" value="yes" required/><span>I agree to share this response with CodeLovers for AgroGina product research.</span></label>
       <small>Responses are stored privately. Your email and IP address are not included in the response record. Please avoid personal or confidential farm information. This does not subscribe you to marketing.</small>
