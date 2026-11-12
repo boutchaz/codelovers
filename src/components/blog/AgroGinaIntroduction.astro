@@ -113,8 +113,9 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
 .field select,.field textarea { font:inherit; box-sizing:border-box; width:100%; max-width:100%; color:var(--paper); background:#111521; border:1px solid #9da5b4; border-radius:8px; padding:12px; color-scheme:dark; }
 .field select option { color:var(--paper); background:#111521; }
 .field textarea::placeholder { color:#b9c0ce; opacity:1; }
-.consent { display:flex; gap:10px; align-items:start; font-size:14px; }
-.consent input { flex-shrink:0; margin-top:5px; width:18px; height:18px; accent-color:var(--accent); color-scheme:dark; }
+.consent { display:grid; grid-template-columns:18px minmax(0,1fr); column-gap:12px; align-items:start; font-size:14px; line-height:1.6; cursor:pointer; }
+.consent span { min-width:0; }
+.consent input { box-sizing:border-box; display:block; margin:calc((1.6em - 18px)/2) 0 0; padding:0; width:18px; height:18px; accent-color:var(--accent); color-scheme:dark; }
 .participation button { border:1px solid #fff; background:var(--accent); color:#fff; border-radius:8px; padding:14px 20px; font:inherit; font-weight:600; cursor:pointer; justify-self:start; }
 .participation button:hover { background:var(--ink); }
 .receipt { padding:16px; border:2px solid #fff; margin-top:20px!important; }
