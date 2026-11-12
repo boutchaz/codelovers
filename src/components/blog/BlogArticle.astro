@@ -395,7 +395,7 @@ const sectionLabel = "font-mono text-[11px] font-medium uppercase tracking-[0.2e
   .reading-progress { display:none; }
   @supports (animation-timeline: --article-reading) and (timeline-scope: --article-reading) {
     .reading-progress { display:block; position:fixed; inset:0 0 auto; height:4px; z-index:1000; background:#333b4c; pointer-events:none; }
-    .reading-progress span { display:block; width:100%; height:100%; background:#f43f5e; transform-origin:left; animation:reading-progress linear both; animation-timeline:--article-reading; animation-range:contain 0% contain 100%; }
+    .reading-progress span { display:block; width:100%; height:100%; background:#f43f5e; transform-origin:left; --reading-timeline:--article-reading; animation:reading-progress 1s linear both; animation-timeline:var(--reading-timeline); animation-range:contain 0% contain 100%; }
   }
   @keyframes reading-progress { from { transform:scaleX(0); } to { transform:scaleX(1); } }
 </style>
