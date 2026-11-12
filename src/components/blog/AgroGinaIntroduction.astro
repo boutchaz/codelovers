@@ -23,7 +23,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     <p class="principle">{c.evidence.takeaway}</p>
   </section>
   <section class="scope" id="scope" aria-label="Scope and limits">
-    <article class="scope-card light"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
+    <article class="scope-card"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
     <article class="scope-card"><span class="eyebrow">WHAT WE DO NOT CLAIM</span><h2>{c.scope.notTitle}</h2><ul>{c.scope.not.map((item:string)=><li>{item}</li>)}</ul></article>
   </section>
   <section aria-labelledby="roadmap"><span class="eyebrow">WHERE WE ARE GOING</span><h2 id="roadmap">{c.roadmap.title}</h2>
@@ -60,8 +60,8 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
 .intro { font-size:22px; }
 .eyebrow,.stage,.number { color:var(--accent-text); font-weight:700; }
 .eyebrow,.stage { font-size:12px; letter-spacing:.12em; }
-.workflow,.scope-card.light { background:#fff; color:var(--ink); }
-.workflow .eyebrow,.scope-card.light .eyebrow { color:var(--accent); }
+.workflow { background:#fff; color:var(--ink); }
+.workflow .eyebrow { color:var(--accent); }
 .workflow { margin:0; padding:28px; border:1px solid var(--accent); border-radius:16px; }
 .workflow figcaption p { font-size:16px; }
 .editorial-image { display:block; width:100%; height:auto; border-radius:10px; margin:24px 0; object-fit:contain; }
