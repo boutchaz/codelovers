@@ -19,7 +19,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     <div class="evidence-grid">{c.evidence.cards.map((card:any,i:number)=><article class="evidence-card"><span class="number">0{i+1}</span><h3>{card.title}</h3><p>{card.value}</p><div class="limit"><strong>Check the limits</strong><p>{card.limit}</p></div></article>)}</div>
     <p class="principle">{c.evidence.takeaway}</p>
   </section>
-  <section class="scope" aria-label="Scope and limits">
+  <section class="scope" id="scope" aria-label="Scope and limits">
     <article class="scope-card light"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
     <article class="scope-card"><span class="eyebrow">WHAT WE DO NOT CLAIM</span><h2>{c.scope.notTitle}</h2><ul>{c.scope.not.map((item:string)=><li>{item}</li>)}</ul></article>
   </section>

@@ -11,8 +11,16 @@ Astro.response.status=result.status;
 const input=result.article;
 const post=input?{id:input.slug,body:input.body,data:{...input,date:new Date(input.date+'T00:00:00Z'),resources:[],draft:true,unlisted:true}}:null;
 const rendered=input?await renderPreviewMarkdown(input.body):null;
+const headings=input?.visuals ? [
+  {depth:2,slug:'local-first',text:'Why we started'},
+  {depth:2,slug:'evidence',text:'Field evidence, IoT & satellite'},
+  {depth:2,slug:'scope',text:'Scope and limits'},
+  {depth:2,slug:'roadmap',text:'Today, next & longer term'},
+  {depth:2,slug:'collaborate',text:'Collaborate with us'},
+  {depth:2,slug:'participate',text:'Share your perspective'},
+] : rendered?.metadata.headings || [];
 ---
-{post && rendered ? <BlogArticle post={post} headings={rendered.metadata.headings} preview>
+{post && rendered ? <BlogArticle post={post} headings={headings} preview>
   <aside style="padding:20px;background:#ededed;color:#05060f;font-family:Geist,sans-serif;text-align:center">
     <strong style="color:#05060f">PRIVATE DRAFT · Stakeholder review</strong><br />
     Not published. Reply to the review email with comments or corrections. This is not a publication approval.<br />
