@@ -48,6 +48,10 @@ services:
         PUBLIC_POSTHOG_KEY: ${PUBLIC_POSTHOG_KEY:-}
     restart: unless-stopped
     mem_limit: 256m
+    environment:
+      STAKEHOLDER_REVIEW_DIR: /var/lib/codelovers-reviews
+    volumes:
+      - stakeholder-reviews:/var/lib/codelovers-reviews:ro
     networks:
       - inquiry-private
 
@@ -75,3 +79,6 @@ networks:
   inquiry-private:
   dokploy-network:
     external: true
+
+volumes:
+  stakeholder-reviews:

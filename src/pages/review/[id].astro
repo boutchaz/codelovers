@@ -1,0 +1,31 @@
+---
+import BlogArticle from '@/components/blog/BlogArticle.astro';
+import {renderPreviewMarkdown} from '@/data/blog-preview.mjs';
+import {reviewRequest,reviewHeaders} from '@/data/stakeholder-review.mjs';
+import '@/styles/global.css';
+export const prerender=false;
+for(const [key,value] of Object.entries(reviewHeaders))Astro.response.headers.set(key,value);
+const result=await reviewRequest(Astro.request,Astro.params.id);
+Astro.response.status=result.status;
+const input=result.article;
+const post=input?{id:input.slug,body:input.body,data:{...input,date:new Date(input.date+'T00:00:00Z'),resources:[],draft:true,unlisted:true}}:null;
+const rendered=input?await renderPreviewMarkdown(input.body):null;
+---
+{post && rendered ? <>
+  <aside style="padding:20px;background:#ededed;color:#05060f;font-family:Geist,sans-serif;text-align:center">
+    <strong>PRIVATE DRAFT · Stakeholder review</strong><br />
+    Not published. Reply to the review email with comments or corrections. This is not a publication approval.<br />
+    Access expires {new Date(result.expiresAt).toLocaleString('en-GB',{timeZone:'Africa/Casablanca',dateStyle:'medium',timeStyle:'short'})} (Casablanca).
+  </aside>
+  <BlogArticle post={post} headings={rendered.metadata.headings} preview><Fragment set:html={rendered.code} /></BlogArticle>
+</> : <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex,nofollow"/><title>CodeLovers · Private article review</title></head>
+<body style="margin:0;background:#05060f;color:#ededed;font-family:Geist,sans-serif;min-height:100vh;display:grid;place-items:center">
+  <main style="padding:32px;max-width:480px"><p style="color:#d32223">CODELOVERS / PRIVATE REVIEW</p><h1>Review an unpublished article</h1>
+  <p>The article is available only with the access code provided in your review email.</p>
+  {result.error && <p role="alert">{result.error}</p>}
+  {(result.locked || result.status===401) && <form method="post">
+    <label for="review-code">Access code</label><input id="review-code" name="code" type="password" required maxlength="64" autocomplete="off" style="display:block;box-sizing:border-box;width:100%;padding:14px;margin:12px 0 20px;color:#05060f;background:#fff;border:1px solid #ededed;border-radius:8px"/>
+    <button type="submit" style="background:#d32223;color:white;border:0;padding:14px 24px;border-radius:8px;font:inherit">Open draft</button>
+  </form>}
+  <p style="font-size:14px;margin-top:24px">This page does not publish or approve the article.</p></main>
+</body></html>}
