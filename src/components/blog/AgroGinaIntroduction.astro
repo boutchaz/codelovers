@@ -23,7 +23,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     <p class="principle">{c.evidence.takeaway}</p>
   </section>
   <section class="scope" id="scope" aria-label="Scope and limits">
-    <article class="scope-card light"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
+    <article class="scope-card"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
     <article class="scope-card"><span class="eyebrow">WHAT WE DO NOT CLAIM</span><h2>{c.scope.notTitle}</h2><ul>{c.scope.not.map((item:string)=><li>{item}</li>)}</ul></article>
   </section>
   <section aria-labelledby="roadmap"><span class="eyebrow">WHERE WE ARE GOING</span><h2 id="roadmap">{c.roadmap.title}</h2>
@@ -60,8 +60,8 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
 .intro { font-size:22px; }
 .eyebrow,.stage,.number { color:var(--accent-text); font-weight:700; }
 .eyebrow,.stage { font-size:12px; letter-spacing:.12em; }
-.workflow,.scope-card.light { background:#fff; color:var(--ink); }
-.workflow .eyebrow,.scope-card.light .eyebrow { color:var(--accent); }
+.workflow { background:#fff; color:var(--ink); }
+.workflow .eyebrow { color:var(--accent); }
 .workflow { margin:0; padding:28px; border:1px solid var(--accent); border-radius:16px; }
 .workflow figcaption p { font-size:16px; }
 .editorial-image { display:block; width:100%; height:auto; border-radius:10px; margin:24px 0; object-fit:contain; }
@@ -103,18 +103,18 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
 .participation fieldset { margin:0; padding:0; border:0; }
 .participation legend { font-size:14px; font-weight:700; margin-bottom:12px; }
 .answers { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-.answers label { display:flex; align-items:center; gap:8px; padding:12px; background:#fff; color:var(--ink); border:2px solid #fff; border-radius:8px; cursor:pointer; font-size:15px; }
+.answers label { display:flex; align-items:center; gap:8px; padding:12px; background:#111521; color:var(--paper); border:2px solid #9da5b4; border-radius:8px; cursor:pointer; font-size:15px; }
 .answers label:has(input:checked) { background:var(--accent); color:#fff; outline:2px solid #fff; outline-offset:2px; }
-.answers input[type=radio] { appearance:none; -webkit-appearance:none; box-sizing:border-box; width:20px; height:20px; min-width:20px; margin:0; border:2px solid var(--ink); border-radius:50%; background:#fff; flex-shrink:0; }
-.answers input[type=radio]:checked { background:var(--ink); box-shadow:inset 0 0 0 4px #fff; }
+.answers input[type=radio] { appearance:none; -webkit-appearance:none; box-sizing:border-box; width:20px; height:20px; min-width:20px; margin:0; border:2px solid #ededed; border-radius:50%; background:#111521; flex-shrink:0; }
+.answers input[type=radio]:checked { background:#fff; box-shadow:inset 0 0 0 4px #111521; }
 .answers label:focus-within { outline:3px solid #fff; outline-offset:4px; }
 .answers input[type=radio]:focus-visible { outline:none!important; }
 .field { display:grid; gap:8px; font-size:14px; font-weight:600; }
-.field select,.field textarea { font:inherit; box-sizing:border-box; width:100%; max-width:100%; color:var(--ink); background:#fff; border:1px solid #fff; border-radius:8px; padding:12px; color-scheme:light; }
-.field select option { color:var(--ink); background:#fff; }
-.field textarea::placeholder { color:#3c4353; opacity:1; }
+.field select,.field textarea { font:inherit; box-sizing:border-box; width:100%; max-width:100%; color:var(--paper); background:#111521; border:1px solid #9da5b4; border-radius:8px; padding:12px; color-scheme:dark; }
+.field select option { color:var(--paper); background:#111521; }
+.field textarea::placeholder { color:#b9c0ce; opacity:1; }
 .consent { display:flex; gap:10px; align-items:start; font-size:14px; }
-.consent input { flex-shrink:0; margin-top:5px; width:18px; height:18px; accent-color:var(--accent); color-scheme:light; }
+.consent input { flex-shrink:0; margin-top:5px; width:18px; height:18px; accent-color:var(--accent); color-scheme:dark; }
 .participation button { border:1px solid #fff; background:var(--accent); color:#fff; border-radius:8px; padding:14px 20px; font:inherit; font-weight:600; cursor:pointer; justify-self:start; }
 .participation button:hover { background:var(--ink); }
 .receipt { padding:16px; border:2px solid #fff; margin-top:20px!important; }
