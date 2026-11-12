@@ -50,8 +50,10 @@ services:
     mem_limit: 256m
     environment:
       STAKEHOLDER_REVIEW_DIR: /var/lib/codelovers-reviews
+      STAKEHOLDER_RESPONSE_DIR: /var/lib/codelovers-responses
     volumes:
       - stakeholder-reviews:/var/lib/codelovers-reviews:ro
+      - stakeholder-responses:/var/lib/codelovers-responses
     networks:
       - inquiry-private
 
@@ -82,3 +84,4 @@ networks:
 
 volumes:
   stakeholder-reviews:
+  stakeholder-responses:
