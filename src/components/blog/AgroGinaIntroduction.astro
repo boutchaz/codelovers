@@ -1,0 +1,55 @@
+---
+interface Props { content:any; ticket?:string|null; survey?:{saved:boolean;message:string}|null; }
+const {content:c,ticket,survey}=Astro.props;
+const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],['costs','Costs'],['reliable-data','Reliable data']];
+---
+<div class="story">
+  <p class="intro">{c.lead}</p>
+  <figure class="workflow" aria-label={c.workflow.description}>
+    <figcaption><span class="eyebrow">THE DIRECTION</span><h2>{c.workflow.title}</h2><p>{c.workflow.description}</p></figcaption>
+    <div class="inputs">{c.workflow.inputs.map((label:string)=><div>{label}</div>)}</div>
+    <div class="connector" aria-hidden="true">↓</div>
+    <div class="core"><strong>AgroGina</strong><span>{c.workflow.core}</span></div>
+    <div class="connector" aria-hidden="true">↓</div>
+    <div class="outputs">{c.workflow.outputs.map((label:string)=><div>{label}</div>)}</div>
+    <small>{c.workflow.caveat}</small>
+  </figure>
+  <section aria-labelledby="local-first"><span class="eyebrow">WHY WE STARTED</span><h2 id="local-first">{c.why.title}</h2><p>{c.why.text}</p></section>
+  <section aria-labelledby="evidence"><span class="eyebrow">TRUST THE EVIDENCE</span><h2 id="evidence">{c.evidence.title}</h2><p>{c.evidence.intro}</p>
+    <div class="evidence-grid">{c.evidence.cards.map((card:any,i:number)=><article class="evidence-card"><span class="number">0{i+1}</span><h3>{card.title}</h3><p>{card.value}</p><div class="limit"><strong>Check the limits</strong><p>{card.limit}</p></div></article>)}</div>
+    <p class="principle">{c.evidence.takeaway}</p>
+  </section>
+  <section class="scope" aria-label="Scope and limits">
+    <article class="scope-card light"><span class="eyebrow">WHAT WE ARE BUILDING</span><h2>{c.scope.isTitle}</h2><ul>{c.scope.is.map((item:string)=><li>{item}</li>)}</ul></article>
+    <article class="scope-card"><span class="eyebrow">WHAT WE DO NOT CLAIM</span><h2>{c.scope.notTitle}</h2><ul>{c.scope.not.map((item:string)=><li>{item}</li>)}</ul></article>
+  </section>
+  <section aria-labelledby="roadmap"><span class="eyebrow">WHERE WE ARE GOING</span><h2 id="roadmap">{c.roadmap.title}</h2>
+    <ol class="roadmap">{c.roadmap.stages.map((stage:any,i:number)=><li><span class="stage">0{i+1} / {stage.label}</span><h3>{stage.title}</h3><p>{stage.text}</p><span class="status">{stage.status}</span></li>)}</ol>
+    <small>{c.roadmap.caveat}</small>
+  </section>
+  <section class="collaboration" aria-labelledby="collaborate"><span class="eyebrow">BUILD WITH US</span><h2 id="collaborate">{c.collaboration.title}</h2><p>{c.collaboration.text}</p><div class="roles">{c.collaboration.roles.map((role:string)=><span>{role}</span>)}</div><p>{c.collaboration.ask}</p><a href="https://wearecodelovers.com/#contact">Explore a collaboration →</a></section>
+  <section class="participation light" id="participate" aria-labelledby="research-question">
+    <span class="eyebrow">YOUR EXPERIENCE MATTERS</span><h2 id="research-question">What is hardest to keep connected in your operation?</h2>
+    <p>Choose one challenge. A short example can help us understand what to build and validate next.</p>
+    {survey && <p class:list={['receipt',{'saved':survey.saved}]} role={survey.saved?'status':'alert'}>{survey.message}</p>}
+    {ticket && !survey?.saved ? <form method="post" action="#participate">
+      <input type="hidden" name="action" value="participate"/><input type="hidden" name="ticket" value={ticket}/>
+      <fieldset><legend>Your main challenge</legend><div class="answers">{answers.map(([value,label])=><label><input type="radio" name="choice" value={value} required/><span>{label}</span></label>)}</div></fieldset>
+      <label class="field">Your perspective<select name="role" required><option value="" disabled selected>Select a role</option><option value="farm-team">Farm owner / farm team</option><option value="agronomy">Agronomy / advisory</option><option value="research">Research / education</option><option value="technology">Technology / collaboration</option><option value="other">Another perspective</option></select></label>
+      <label class="field">What should we understand? <small>Optional · 500 characters</small><textarea name="comment" maxlength="500" rows="3" placeholder="One example from your experience…"></textarea></label>
+      <label class="consent"><input type="checkbox" name="consent" value="yes" required/><span>I agree to share this response with CodeLovers for AgroGina product research.</span></label>
+      <small>Responses are stored privately. Your email and IP address are not included in the response record. Please avoid personal or confidential farm information. This does not subscribe you to marketing.</small>
+      <button type="submit">Share my perspective →</button>
+    </form> : !survey?.saved && <p>Participation is not enabled in this preview. You can still share feedback by replying to the review email.</p>}
+    <small class="pilot">Stakeholder preview: responses are feedback, not a representative survey of farms. No results are claimed or displayed.</small>
+  </section>
+</div>
+<style>
+  .story{--ink:#05060f;--paper:#ededed;--red:#d32223;display:grid;gap:56px;margin-bottom:48px;color:var(--paper);font-family:Geist,sans-serif}
+  .story p,.story h2,.story h3,.story strong,.story li,.story small{color:inherit}.story p{margin:0;line-height:1.65}.story h2{font-size:clamp(25px,3vw,36px);line-height:1.18;margin:12px 0 20px;letter-spacing:-.025em}.story h3{font-size:22px;line-height:1.25;margin:16px 0}.story small{font-size:13px;line-height:1.55;display:block}.intro{font-size:22px}.eyebrow{font-size:12px;letter-spacing:.12em;font-weight:700;color:var(--red)}
+  .workflow{margin:0;padding:28px;border:1px solid var(--red);border-radius:16px;background:var(--paper);color:var(--ink)}.workflow h2{color:var(--ink)}.workflow figcaption p{font-size:16px}.inputs,.outputs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.inputs{margin-top:28px}.inputs div,.outputs div{text-align:center;padding:16px 8px;border:1px solid var(--ink);border-radius:8px;font-size:15px;font-weight:600}.core{display:grid;text-align:center;gap:6px;padding:20px;background:var(--red);color:white;border-radius:8px}.core strong{font-size:30px;color:white}.core span{font-size:15px}.connector{text-align:center;font-size:26px;line-height:1.6}.workflow small{margin-top:20px}.evidence-grid{display:grid;gap:14px;margin-top:24px}.evidence-card{padding:24px;border:1px solid #ededed;border-radius:12px}.number{font-size:14px;font-weight:700;color:var(--red)}.limit{margin-top:20px;border-top:1px solid #ededed;padding-top:16px;font-size:15px}.limit strong{font-size:12px;text-transform:uppercase;letter-spacing:.08em}.limit p{margin-top:8px}.principle{border-left:3px solid var(--red);padding:16px 20px;margin-top:24px!important;font-weight:600}
+  .scope{display:grid;gap:16px}.scope-card{padding:24px;border:1px solid var(--paper);border-radius:12px}.light{background:var(--paper);color:var(--ink)}.scope-card ul{padding-left:20px;margin:0;display:grid;gap:12px}.roadmap{list-style:none;padding:0;margin:24px 0;display:grid;gap:14px;counter-reset:none}.roadmap li{margin:0;padding:24px;border:1px solid var(--paper);border-radius:12px}.stage{font-size:12px;color:var(--red);font-weight:700;letter-spacing:.1em;text-transform:uppercase}.status{display:inline-block;border:1px solid var(--red);padding:5px 10px;border-radius:20px;font-size:12px;margin-top:18px}.collaboration{padding:28px;border:1px solid var(--red);border-radius:16px}.roles{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.roles span{border:1px solid var(--paper);border-radius:24px;padding:6px 12px;font-size:13px}.collaboration a{display:inline-block;color:var(--paper);margin-top:20px;text-decoration:underline;text-underline-offset:5px}
+  .participation{padding:28px;border-radius:16px}.participation form{margin-top:24px;display:grid;gap:20px}.participation fieldset{margin:0;padding:0;border:0}.participation legend{font-size:14px;font-weight:700;margin-bottom:12px}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.answers label{display:flex;align-items:center;gap:8px;padding:12px;border:1px solid var(--ink);border-radius:8px;cursor:pointer;font-size:15px}.answers label:has(input:checked){outline:2px solid var(--red)}input{accent-color:var(--red)}.field{display:grid;gap:8px;font-size:14px;font-weight:600}.field select,.field textarea{font:inherit;box-sizing:border-box;width:100%;max-width:100%;color:var(--ink);background:white;border:1px solid var(--ink);border-radius:8px;padding:12px}.consent{display:flex;gap:10px;align-items:start;font-size:14px}.consent input{flex-shrink:0;margin-top:5px}.participation button{border:0;background:var(--red);color:white;border-radius:8px;padding:14px 20px;font:inherit;font-weight:600;cursor:pointer;justify-self:start}.receipt{padding:16px;border:2px solid var(--red);margin-top:20px!important}.pilot{margin-top:24px;padding-top:16px;border-top:1px solid var(--ink)}
+  @media(min-width:1000px){.inputs{grid-template-columns:repeat(4,minmax(0,1fr))}.outputs{grid-template-columns:repeat(4,minmax(0,1fr))}.scope{grid-template-columns:1fr 1fr}.evidence-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.evidence-card{padding:20px}.roadmap{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:480px){.story{gap:40px}.workflow,.participation,.collaboration,.scope-card{padding:20px}.intro{font-size:20px}.answers{grid-template-columns:1fr}}
+</style>

@@ -31,3 +31,41 @@ version in ERP; publication remains a separate action.
 Verify with `node --test scripts/stakeholder-review.test.mjs` and the existing blog
 preview tests, then build. Check the deployed GET, wrong-code POST, correct-code
 POST and a separate browser session before sending a review invitation.
+
+## Visual story and participation
+
+An optional private `article.visuals` object supplies the editable copy for the
+AgroGina visual template. The diagram, evidence cards, scope cards and roadmap are
+native HTML/CSS, not raster images. The full Markdown context stays available in
+an expandable section. Keep the complete JSON snapshot attached privately to the
+ERP draft. Publishing the public article and its visual layout is a separate step.
+
+Optional participation uses a second volume, `stakeholder-responses`, mounted
+read/write at `/var/lib/codelovers-responses` with node-user ownership. The review
+content volume remains read-only. Configure `STAKEHOLDER_RESPONSE_DIR`; without it
+the page does not offer a working submission button or claim to save answers.
+
+Code authentication issues a signed, random, 20-minute form ticket bound to the
+review ID and exact snapshot. Survey POSTs retain the same-site Origin check and
+8 KiB request limit. The handler validates choices, role, consent and a maximum
+500-character optional comment before writing one mode-0600 JSON record per
+ticket with an exclusive create. Replays do not overwrite records. Storage
+failure displays an error, never a success receipt. The access code is not
+included in the form or response file.
+
+Response records contain review ID, article revision, survey version, choice,
+role, comment and creation time. They contain no email, IP address or access code.
+Infrastructure logs are separate. No newsletter signup or third-party analytics
+is triggered. No counts or representative-survey claims are shown. A code holder
+can reopen the article and obtain another ticket; submissions are not verified
+unique people or identified stakeholder approvals.
+
+Operators can export the response JSON from the private volume using an
+administrator-only Docker helper or `docker cp` from the preview container. Keep
+exports private; never mount that volume in nginx or expose a response-list API.
+Review and remove research data when it is no longer needed. No automatic expiry
+or cleanup policy for responses is implied by the article access expiry.
+
+Run `bun test scripts/review-participation.test.mjs scripts/stakeholder-review.test.mjs scripts/blog-preview.test.mjs`.
+Test real successful writes only in isolated local storage. Do not create fake
+production survey responses when checking the deployed form.

@@ -25,7 +25,7 @@ test('rejects foreign origin, unsupported type, oversized body and methods',asyn
  for (const origin of ['https://other.example','null']) assert.equal((await reviewRequest(request(code,origin),id,options)).status,403);
  const wrongType=new Request('https://example.com',{method:'POST',headers:{origin:'https://wearecodelovers.com'},body:'{}'});
  assert.equal((await reviewRequest(wrongType,id,options)).status,415);
- assert.equal((await reviewRequest(request('A'.repeat(3000)),id,options)).status,413);
+ assert.equal((await reviewRequest(request('A'.repeat(9000)),id,options)).status,413);
  assert.equal((await reviewRequest(new Request('https://example.com',{method:'DELETE'}),id,options)).status,405);
 });
 test('private headers prevent caching, indexing, framing and analytics',()=>{

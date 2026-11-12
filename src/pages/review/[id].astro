@@ -1,5 +1,6 @@
 ---
 import BlogArticle from '@/components/blog/BlogArticle.astro';
+import AgroGinaIntroduction from '@/components/blog/AgroGinaIntroduction.astro';
 import {renderPreviewMarkdown} from '@/data/blog-preview.mjs';
 import {reviewRequest,reviewHeaders} from '@/data/stakeholder-review.mjs';
 import '@/styles/global.css';
@@ -13,11 +14,14 @@ const rendered=input?await renderPreviewMarkdown(input.body):null;
 ---
 {post && rendered ? <BlogArticle post={post} headings={rendered.metadata.headings} preview>
   <aside style="padding:20px;background:#ededed;color:#05060f;font-family:Geist,sans-serif;text-align:center">
-    <strong>PRIVATE DRAFT · Stakeholder review</strong><br />
+    <strong style="color:#05060f">PRIVATE DRAFT · Stakeholder review</strong><br />
     Not published. Reply to the review email with comments or corrections. This is not a publication approval.<br />
     Access expires {new Date(result.expiresAt).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})} UTC.
   </aside>
-  <Fragment set:html={rendered.code} />
+  {input.visuals ? <>
+    <AgroGinaIntroduction content={input.visuals} ticket={'ticket' in result?result.ticket:null} survey={'survey' in result?result.survey:null}/>
+    <details><summary style="cursor:pointer;font-weight:600">Read the full story and context</summary><Fragment set:html={rendered.code}/></details>
+  </> : <Fragment set:html={rendered.code} />}
 </BlogArticle> : <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex,nofollow"/><title>CodeLovers · Private article review</title></head>
 <body style="margin:0;background:#05060f;color:#ededed;font-family:Geist,sans-serif;min-height:100vh;display:grid;place-items:center">
   <main style="padding:32px;max-width:480px"><p style="color:#d32223">CODELOVERS / PRIVATE REVIEW</p><h1>Review an unpublished article</h1>
