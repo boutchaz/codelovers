@@ -8,7 +8,7 @@ const ID = /^[a-f0-9]{32}$/;
 export const reviewHeaders = {
   'Cache-Control': 'private, no-store',
   'X-Robots-Tag': 'noindex, nofollow, noarchive',
-  'Referrer-Policy': 'no-referrer',
+  'Referrer-Policy': 'same-origin',
   'X-Content-Type-Options': 'nosniff',
   'Content-Security-Policy': "frame-ancestors 'none'; script-src 'none'; connect-src 'none'; form-action 'self'; object-src 'none'; base-uri 'none'",
 };

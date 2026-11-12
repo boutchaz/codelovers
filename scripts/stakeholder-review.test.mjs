@@ -22,13 +22,14 @@ test('expired, missing, malformed and traversal records fail closed',async()=>{
  assert.equal((await reviewRequest(request(),id,{...options,directory:undefined})).status,404);
 });
 test('rejects foreign origin, unsupported type, oversized body and methods',async()=>{
- assert.equal((await reviewRequest(request(code,'https://other.example'),id,options)).status,403);
+ for (const origin of ['https://other.example','null']) assert.equal((await reviewRequest(request(code,origin),id,options)).status,403);
  const wrongType=new Request('https://example.com',{method:'POST',headers:{origin:'https://wearecodelovers.com'},body:'{}'});
  assert.equal((await reviewRequest(wrongType,id,options)).status,415);
  assert.equal((await reviewRequest(request('A'.repeat(3000)),id,options)).status,413);
  assert.equal((await reviewRequest(new Request('https://example.com',{method:'DELETE'}),id,options)).status,405);
 });
 test('private headers prevent caching, indexing, framing and analytics',()=>{
+ assert.equal(reviewHeaders['Referrer-Policy'],'same-origin','Keep same-site form Origin while withholding cross-site referrers');
  assert.match(reviewHeaders['Cache-Control'],/no-store/);
  assert.match(reviewHeaders['X-Robots-Tag'],/noindex/);
  assert.match(reviewHeaders['Content-Security-Policy'],/frame-ancestors 'none'/);
