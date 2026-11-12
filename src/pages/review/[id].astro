@@ -20,7 +20,7 @@ const headings=input?.visuals ? [
   {depth:2,slug:'evidence',text:'Field evidence, IoT & satellite'},
   {depth:2,slug:'scope',text:'Scope and limits'},
   {depth:2,slug:'roadmap',text:'Today, next & longer term'},
-  {depth:2,slug:'collaborate',text:'Collaborate with us'},
+  ...(input.visuals.collaboration?[{depth:2,slug:'collaborate',text:'Collaborate with us'}]:[]),
   {depth:2,slug:'participate',text:'Share your perspective'},
 ] : rendered?.metadata.headings || [];
 ---
