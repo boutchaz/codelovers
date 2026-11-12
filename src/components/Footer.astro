@@ -7,9 +7,10 @@ import { contactInfoFr, navigationFr, servicesFr } from "@/data/constants-fr";
 
 interface Props {
   lang?: "en" | "fr";
+  preview?: boolean;
 }
 
-const { lang = "en" } = Astro.props;
+const { lang = "en", preview=false } = Astro.props;
 const isFr = lang === "fr";
 const year = new Date().getFullYear();
 
@@ -114,8 +115,8 @@ const socials = [
         </div>
       </div>
 
-      <NewsletterForm lang={lang} />
-      <InquiryForm lang={lang} defaultOffering={Astro.url.pathname.startsWith("/case-studies") ? "services" : ""} />
+      {!preview && <NewsletterForm lang={lang} />}
+      {!preview && <InquiryForm lang={lang} defaultOffering={Astro.url.pathname.startsWith("/case-studies") ? "services" : ""} />}
 
       <div class="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
         <div class="space-y-6 text-left">

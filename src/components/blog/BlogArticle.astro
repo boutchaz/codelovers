@@ -198,7 +198,7 @@ const sectionLabel = "font-mono text-[11px] font-medium uppercase tracking-[0.2e
                     <a
                       href={`#${item.slug}`}
                       data-toc-link={item.slug}
-                      aria-current={i === 0 ? "true" : undefined}
+                      aria-current={!preview && i === 0 ? "true" : undefined}
                       class="flex min-h-10 items-center border-l-2 border-white/10 pl-3.5 text-sm text-slate-400 transition hover:text-white aria-[current=true]:border-red-400 aria-[current=true]:font-medium aria-[current=true]:text-white"
                     >
                       {item.text}

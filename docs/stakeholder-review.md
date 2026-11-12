@@ -1,7 +1,7 @@
 # Private stakeholder article review
 
 `/review/<32 lowercase hexadecimal characters>/` uses the existing internal preview
-service. GET displays an access-code form. POST checks the code and renders a fixed
+service. GET displays an access-code form unless a valid short-lived review session exists. POST checks the code and redirects to a normal GET for the fixed
 article snapshot with the shared sanitized blog renderer. Public blog content,
 feeds, sitemap and publication workflows are unchanged.
 
@@ -16,7 +16,7 @@ Generate a random 20-character base32 code with a cryptographic RNG; normalize t
 uppercase and omit whitespace/hyphens before hashing. Keep the plaintext code out
 of source, logs, URLs and ERP records. Send it only to authorized reviewers. Anyone
 with the link and code can read the snapshot until expiry: it is a bearer secret,
-not verification of the reviewer's identity. No session or cookie is stored.
+not verification of the reviewer's identity. A signed, purpose-bound read cookie lasts at most 20 minutes and never beyond the article expiry. It is HttpOnly, Secure, SameSite=Strict and restricted to that review path; it contains no access code or personal data. There is no server-side session database.
 
 The endpoint fails closed when unconfigured, unknown or expired. Nginx limits body
 size and requests per IP and globally. Responses are no-store/noindex; scripts,
@@ -71,3 +71,7 @@ Test real successful writes only in isolated local storage. Do not create fake
 production survey responses when checking the deployed form.
 
 An unapproved working draft can be revised in place at the owner’s explicit request. Preserve the earlier JSON source, increment `article.visualRevision`, check that ERP remains unapproved, and notify existing reviewers which revision is current. The link/code can stay unchanged for the same recipients and expiry. Signed form tickets bind the new article hash, so earlier form sessions cannot submit against a changed snapshot. Approved content must receive a new review record rather than being silently replaced.
+
+Successful access and participation POSTs use 303 redirects so browser refresh and tab restoration do not replay a no-store POST. Signed read sessions bind the exact article hash and cannot be used as participation tickets. Nginx forwards only the essential `cl_review` cookie to this route; other cookies remain stripped. The ERP preview route is unchanged.
+
+Private previews use a static, opaque, normal-flow review header because scripts remain disabled. Script-dependent marketing forms are omitted in preview mode. Light/dark article colors have one authoritative definition; public-page defaults are unchanged. Verify normal and expanded text, controls, placeholders and keyboard focus at mobile and desktop widths.

@@ -7,6 +7,9 @@ import '@/styles/global.css';
 export const prerender=false;
 for(const [key,value] of Object.entries(reviewHeaders))Astro.response.headers.set(key,value);
 const result=await reviewRequest(Astro.request,Astro.params.id);
+if('redirect' in result && result.redirect && 'accessCookie' in result) {
+  return new Response(null,{status:303,headers:{...reviewHeaders,Location:Astro.url.pathname+(result.survey?'#participate':''),'Set-Cookie':result.accessCookie}});
+}
 Astro.response.status=result.status;
 const input=result.article;
 const post=input?{id:input.slug,body:input.body,data:{...input,date:new Date(input.date+'T00:00:00Z'),resources:[],draft:true,unlisted:true}}:null;
