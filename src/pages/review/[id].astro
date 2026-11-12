@@ -11,14 +11,14 @@ const input=result.article;
 const post=input?{id:input.slug,body:input.body,data:{...input,date:new Date(input.date+'T00:00:00Z'),resources:[],draft:true,unlisted:true}}:null;
 const rendered=input?await renderPreviewMarkdown(input.body):null;
 ---
-{post && rendered ? <>
+{post && rendered ? <BlogArticle post={post} headings={rendered.metadata.headings} preview>
   <aside style="padding:20px;background:#ededed;color:#05060f;font-family:Geist,sans-serif;text-align:center">
     <strong>PRIVATE DRAFT · Stakeholder review</strong><br />
     Not published. Reply to the review email with comments or corrections. This is not a publication approval.<br />
-    Access expires {new Date(result.expiresAt).toLocaleString('en-GB',{timeZone:'Africa/Casablanca',dateStyle:'medium',timeStyle:'short'})} (Casablanca).
+    Access expires {new Date(result.expiresAt).toLocaleString('en-GB',{timeZone:'UTC',dateStyle:'medium',timeStyle:'short'})} UTC.
   </aside>
-  <BlogArticle post={post} headings={rendered.metadata.headings} preview><Fragment set:html={rendered.code} /></BlogArticle>
-</> : <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex,nofollow"/><title>CodeLovers · Private article review</title></head>
+  <Fragment set:html={rendered.code} />
+</BlogArticle> : <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex,nofollow"/><title>CodeLovers · Private article review</title></head>
 <body style="margin:0;background:#05060f;color:#ededed;font-family:Geist,sans-serif;min-height:100vh;display:grid;place-items:center">
   <main style="padding:32px;max-width:480px"><p style="color:#d32223">CODELOVERS / PRIVATE REVIEW</p><h1>Review an unpublished article</h1>
   <p>The article is available only with the access code provided in your review email.</p>
