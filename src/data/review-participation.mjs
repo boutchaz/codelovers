@@ -1,3 +1,4 @@
+import {captureServer} from '../../server/analytics.mjs';
 import {createHmac,createHash,randomBytes,timingSafeEqual} from 'node:crypto';
 import {writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
@@ -20,7 +21,7 @@ export function verifyParticipationTicket(token,id,record,now=Date.now()) {
   return p.purpose==='participation' && p.id===id && /^[a-f0-9]{32}$/.test(p.nonce) && Number.isFinite(p.until) && p.until>now && p.until<=now+20*60*1000 && p.until<=Date.parse(record.expiresAt) && p.revision===articleRevision(record.article) ? p:null;
  }catch{return null;}
 }
-export async function recordParticipation(params,ticket,{directory,now=Date.now(),write=writeFile}={}) {
+export async function recordParticipation(params,ticket,{directory,now=Date.now(),write=writeFile,track=captureServer}={}) {
  if(!ticket || !/^[a-f0-9]{32}$/.test(ticket.id) || !/^[a-f0-9]{32}$/.test(ticket.nonce) || !/^[a-f0-9]{64}$/.test(ticket.revision))throw new Error('Invalid form session. Reopen the article with its access code.');
  const choice=params.get('choice'),role=params.get('role'),comment=(params.get('comment')||'').trim();
  if(!directory)throw new Error('Participation is not enabled for this preview.');
@@ -28,5 +29,6 @@ export async function recordParticipation(params,ticket,{directory,now=Date.now(
  const response={reviewId:ticket.id,articleRevision:ticket.revision,surveyVersion:1,choice,role,comment,createdAt:new Date(now).toISOString()};
  try {await write(resolve(directory,ticket.id+'-'+ticket.nonce+'.json'),JSON.stringify(response)+'\n',{flag:'wx',mode:0o600});}
  catch(error){if(error.code==='EEXIST')return 'Your response was already received. Thank you.';throw new Error('We could not save your response. Please retry; nothing has been marked as received.');}
+ track('article_response_saved',ticket.nonce,{article:'why-we-are-building-agrogina',product:'agrogina',audience:'private-review',choice,role});
  return 'Your response has been recorded privately. Thank you for helping shape AgroGina.';
 }

@@ -1,3 +1,4 @@
+import {captureServer} from './analytics.mjs';
 import {createHash,createHmac,timingSafeEqual} from 'node:crypto';
 // Cal.com booking webhooks -> ERP. A booking is a visitor asking for a call, so it becomes the same lead,
 // inquiry receipt and follow-up task as a form submission. Nothing is sent to the booker.
@@ -64,6 +65,7 @@ export function makeBookingHandler(env=process.env,requestFetch=fetch){
     if(event?.triggerEvent!=='BOOKING_CREATED')return json({ignored:true});
     const payload=bookingPayload(event);
     if(!payload)return json({error:'Booking has no usable attendee or time'},400);
+    captureServer('working_session_booked',payload.request_id,{audience:'public'},env);
     if(!env.ERP_INTAKE_API_KEY||!env.ERP_INTAKE_API_SECRET)return json({error:'Booking sync unavailable'},503);
     let base;
     try{base=new URL(env.ERP_URL||'https://erp.boutchaz.dev');}catch{return json({error:'Booking sync unavailable'},503);}
@@ -74,7 +76,8 @@ export function makeBookingHandler(env=process.env,requestFetch=fetch){
         headers:{Authorization:`token ${env.ERP_INTAKE_API_KEY}:${env.ERP_INTAKE_API_SECRET}`,'Content-Type':'application/json'},
         body:JSON.stringify({payload})});
       if(!response.ok)return json({error:'Booking was not recorded'},503);
-      return (await response.json()).message?.accepted===true?json({accepted:true}):json({error:'Booking was not confirmed'},503);
+      const confirmed=(await response.json()).message?.accepted===true;
+      return confirmed?json({accepted:true}):json({error:'Booking was not confirmed'},503);
     }catch{return json({error:'Booking was not recorded'},503);}
   };
 }

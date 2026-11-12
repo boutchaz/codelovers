@@ -1,3 +1,4 @@
+import {captureServer} from '../../server/analytics.mjs';
 import {readFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {scrypt, timingSafeEqual} from 'node:crypto';
@@ -15,7 +16,7 @@ export const reviewHeaders = {
   'Content-Security-Policy': "frame-ancestors 'none'; script-src 'none'; connect-src 'none'; form-action 'self'; object-src 'none'; base-uri 'none'",
 };
 
-export async function reviewRequest(request, id, {directory=process.env.STAKEHOLDER_REVIEW_DIR,responseDirectory=process.env.STAKEHOLDER_RESPONSE_DIR, now=Date.now(), load=readFile}={}) {
+export async function reviewRequest(request, id, {directory=process.env.STAKEHOLDER_REVIEW_DIR,responseDirectory=process.env.STAKEHOLDER_RESPONSE_DIR, now=Date.now(), load=readFile, track=captureServer}={}) {
   const denied = (status=404) => ({status, error:'This review is unavailable, expired, or the access code is incorrect.',locked:false,article:null,expiresAt:null});
   if (!directory || !ID.test(id || '')) return denied();
   if (!['GET','POST'].includes(request.method)) return denied(405);
@@ -30,6 +31,11 @@ export async function reviewRequest(request, id, {directory=process.env.STAKEHOL
     if(!session)return {status:200, locked:true,error:null,article:null,expiresAt:null};
     const p=record.article;
     if(!p||typeof p.body!=='string'||p.body.length>60000||typeof p.title!=='string'||!Array.isArray(p.tags))return denied();
+    if(new URL(request.url).searchParams.get('action')==='book'){
+      track('article_booking_clicked',session.nonce,{article:p.slug,product:p.product||'agrogina',audience:'private-review'});
+      return {status:302,bookingRedirect:true,article:null};
+    }
+    track('article_review_opened',session.nonce,{article:p.slug,product:p.product||'agrogina',audience:'private-review',visual_revision:p.visualRevision||1});
     return {status:200,locked:false,error:null,article:p,expiresAt:record.expiresAt,survey:session.feedback,ticket:responseDirectory&&!session.feedback?.saved?participationTicket(id,record,now):null};
   }
   if (!['https://wearecodelovers.com','https://www.wearecodelovers.com'].includes(request.headers.get('origin'))) return denied(403);

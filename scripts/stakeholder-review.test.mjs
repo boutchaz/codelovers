@@ -35,3 +35,15 @@ test('private headers prevent caching, indexing, framing and analytics',()=>{
  assert.match(reviewHeaders['Content-Security-Policy'],/frame-ancestors 'none'/);
  assert.match(reviewHeaders['Content-Security-Policy'],/script-src 'none'/);
 });
+test('private analytics exclude credentials and booking redirect requires a valid session',async()=>{
+ const events=[];const opts={...options,track:(...args)=>events.push(args)};
+ const locked=await reviewRequest(new Request('https://wearecodelovers.com/review/'+id+'/?action=book'),id,opts);
+ assert.equal(locked.locked,true);assert.equal(events.length,0);
+ const auth=await reviewRequest(request(),id,opts);
+ const headers={cookie:auth.accessCookie.split(';')[0]};
+ const opened=await reviewRequest(new Request('https://wearecodelovers.com/review/'+id+'/',{headers}),id,opts);
+ assert.equal(opened.status,200);assert.equal(events[0][0],'article_review_opened');
+ const redirected=await reviewRequest(new Request('https://wearecodelovers.com/review/'+id+'/?action=book',{headers}),id,opts);
+ assert.equal(redirected.bookingRedirect,true);assert.equal(events[1][0],'article_booking_clicked');
+ assert.ok(!JSON.stringify(events).includes(code));assert.ok(!JSON.stringify(events).includes(record.codeHash));assert.ok(!JSON.stringify(events).includes(body));assert.ok(!JSON.stringify(events).includes(id));
+});
