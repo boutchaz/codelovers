@@ -33,6 +33,7 @@ const blog = defineCollection({
         }),
       )
       .default([]),
+    heroImage: z.string().regex(/^\/images\/[a-z0-9-]+\.jpg$/).optional(),
     erpId: z.string().optional(),
     erpRevision: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     tags: z.array(z.string()).default([]),

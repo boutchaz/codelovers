@@ -1,4 +1,5 @@
 ---
+import FullStory from '@/components/blog/FullStory.astro';
 import BlogArticle from '@/components/blog/BlogArticle.astro';
 import AgroGinaIntroduction from '@/components/blog/AgroGinaIntroduction.astro';
 import {renderPreviewMarkdown} from '@/data/blog-preview.mjs';
@@ -33,7 +34,7 @@ const headings=input?.visuals ? [
   </aside>
   {input.visuals ? <>
     <AgroGinaIntroduction content={input.visuals} ticket={'ticket' in result?result.ticket:null} survey={'survey' in result?result.survey:null}/>
-    <details class="full-story"><summary><span class="story-copy"><strong>Read the full story and context</strong><span>Why we started, what we are learning with farms, and what comes next.</span></span><span class="story-cue" aria-hidden="true"></span></summary><Fragment set:html={rendered.code}/></details>
+    <FullStory><Fragment set:html={rendered.code}/></FullStory>
   </> : <Fragment set:html={rendered.code} />}
 </BlogArticle> : <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width"/><meta name="robots" content="noindex,nofollow"/><title>CodeLovers · Private article review</title></head>
 <body style="margin:0;background:#05060f;color:#ededed;font-family:Geist,sans-serif;min-height:100vh;display:grid;place-items:center">
@@ -46,16 +47,3 @@ const headings=input?.visuals ? [
   </form>}
   <p style="font-size:14px;margin-top:24px">This page does not publish or approve the article.</p></main>
 </body></html>}
-
-<style>
-  .full-story summary { display:flex; align-items:center; justify-content:space-between; gap:20px; list-style:none; }
-  .full-story summary::-webkit-details-marker { display:none; }
-  .story-copy { display:grid; gap:8px; }
-  .story-copy strong { color:#ededed; }
-  .story-copy>span { font-size:14px; line-height:1.6; font-weight:400; color:#b9c0ce; }
-  .story-cue { width:12px; height:12px; min-width:12px; border-radius:50%; background:#fda4af; box-shadow:0 0 0 0 #fda4af55; }
-  .full-story:not([open]) .story-cue { animation:story-curiosity 3s ease-out infinite; }
-  .full-story[open] .story-cue { background:#ededed; box-shadow:none; }
-  @keyframes story-curiosity { 0%,65%,100% { box-shadow:0 0 0 0 #fda4af00; } 20% { box-shadow:0 0 0 9px #fda4af22; } }
-  @media(prefers-reduced-motion:reduce) { .full-story:not([open]) .story-cue { animation:none; } }
-</style>

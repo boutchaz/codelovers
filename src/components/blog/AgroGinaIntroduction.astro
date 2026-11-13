@@ -1,13 +1,13 @@
 ---
-interface Props { content:any; ticket?:string|null; survey?:{saved:boolean;message:string}|null; }
-const {content:c,ticket,survey}=Astro.props;
+interface Props { publicFeedback?:boolean; content:any; ticket?:string|null; survey?:{saved:boolean;message:string}|null; }
+const {content:c,ticket,survey,publicFeedback=false}=Astro.props;
 const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],['costs','Costs'],['reliable-data','Reliable data']];
 ---
 <div class="story">
   <p class="intro">{c.lead}</p>
   <figure class="workflow" aria-label={c.workflow.description}>
     <figcaption><span class="eyebrow">THE DIRECTION</span><h2>{c.workflow.title}</h2><p>{c.workflow.description}</p></figcaption>
-    {c.workflow.imageSrc?.match(/^data:image\/(?:png|jpeg);base64,/) && <img class="editorial-image" src={c.workflow.imageSrc} alt={c.workflow.imageAlt} width="1536" height="1024"/>}
+    {(c.workflow.imageSrc?.match(/^data:image\/(?:png|jpeg);base64,/) || c.workflow.imageSrc === "/images/agrogina-field-evidence.jpg") && <img class="editorial-image" src={c.workflow.imageSrc} alt={c.workflow.imageAlt} width="1536" height="1024"/>}
     <details class="workflow-key" open><summary>How the pieces connect</summary>
     <div class="inputs">{c.workflow.inputs.map((label:string)=><div>{label}</div>)}</div>
     <div class="connector" aria-hidden="true">↓</div>
@@ -35,8 +35,8 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
     <span class="eyebrow">YOUR EXPERIENCE MATTERS</span><h2 id="research-question">What is hardest to keep connected in your operation?</h2>
     <p>Choose one challenge. A short example can help us understand what to build and validate next.</p>
     {survey && <p class:list={['receipt',{'saved':survey.saved}]} role={survey.saved?'status':'alert'}>{survey.message}</p>}
-    {ticket && !survey?.saved ? <form method="post" action="#participate">
-      <input type="hidden" name="action" value="participate"/><input type="hidden" name="ticket" value={ticket}/>
+    {(ticket || publicFeedback) && !survey?.saved ? <form method="post" action={publicFeedback?"/api/article-feedback/":"#participate"} data-public-feedback={publicFeedback || undefined}>
+      {publicFeedback && <input type="hidden" name="request_id" value=""/>}<input type="hidden" name="action" value="participate"/><input type="hidden" name="ticket" value={ticket}/>
       <fieldset><legend>Your main challenge</legend><div class="answers">{answers.map(([value,label])=><label><input type="radio" name="choice" value={value} required/><span>{label}</span></label>)}</div></fieldset>
       <label class="field">Your perspective<select name="role" required><option value="" disabled selected>Select a role</option><option value="farm-team">Farm owner / farm team</option><option value="agronomy">Agronomy / advisory</option><option value="research">Research / education</option><option value="technology">Technology</option><option value="other">Another perspective</option></select></label>
       <label class="field">What should we understand? <small>Optional · 500 characters</small><textarea name="comment" maxlength="500" rows="3" placeholder="One example from your experience…"></textarea></label>
@@ -44,7 +44,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
       <small>Responses are stored privately. Your email and IP address are not included in the response record. Please avoid personal or confidential farm information. This does not subscribe you to marketing.</small>
       <button type="submit">Share my perspective →</button>
     </form> : !survey?.saved && <p>Participation is not enabled in this preview. You can still share feedback by replying to the review email.</p>}
-    <small class="pilot">Stakeholder preview: responses are feedback, not a representative survey of farms. No results are claimed or displayed.</small>
+    <small class="pilot">{publicFeedback?"Responses help us learn from individual experiences; they are not a representative survey of farms.":"Stakeholder preview: responses are feedback, not a representative survey of farms. No results are claimed or displayed."}</small>
   </section>
 </div>
 <style>
@@ -133,3 +133,10 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
   .answers { grid-template-columns:1fr; }
 }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-public-feedback]').forEach(form=>{
+    const field=form.elements.namedItem('request_id') as HTMLInputElement;
+    if(field && !field.value)field.value=crypto.randomUUID().replaceAll('-','');
+  });
+</script>
