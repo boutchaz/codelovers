@@ -1,6 +1,9 @@
 ---
 import { render } from "astro:content";
 import BlogArticle from "@/components/blog/BlogArticle.astro";
+import AgroGinaIntroduction from "@/components/blog/AgroGinaIntroduction.astro";
+import FullStory from "@/components/blog/FullStory.astro";
+import intro from "@/data/agrogina-introduction.json";
 import { getPosts } from "@/data/blog";
 
 export async function getStaticPaths() {
@@ -8,6 +11,9 @@ export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({params: {slug: post.id}, props: {post}}));
 }
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
+const { Content, headings: markdownHeadings } = await render(post);
+const introduction=post.id==='why-we-are-building-agrogina';
+const headings=introduction?[
+{depth:2,slug:'local-first',text:'Why we started'},{depth:2,slug:'evidence',text:'Field evidence, IoT & satellite'},{depth:2,slug:'scope',text:'Scope and limits'},{depth:2,slug:'roadmap',text:'Today, next & longer term'},{depth:2,slug:'participate',text:'Share your perspective'}]:markdownHeadings;
 ---
-<BlogArticle post={post} headings={headings}><Content /></BlogArticle>
+<BlogArticle post={post} headings={headings}>{introduction?<><AgroGinaIntroduction content={intro} publicFeedback/><FullStory><Content /></FullStory></>:<Content />}</BlogArticle>

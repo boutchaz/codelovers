@@ -125,6 +125,7 @@ const sectionLabel = "font-mono text-[11px] font-medium uppercase tracking-[0.2e
   description={description}
   canonical={preview ? undefined : `/blog/${post.id}/`}
   ogType="article"
+  ogImage={post.data.heroImage}
   publishedTime={preview ? undefined : date.toISOString()}
 >
   {!preview && <script is:inline type="application/ld+json" set:html={JSON.stringify(articleJsonLd).replace(/</g, "\\u003c")} slot="head" />}
