@@ -8,7 +8,7 @@ const answers=[['field-work','Field work'],['teams','Teams'],['stock','Stock'],[
   <figure class="workflow" aria-label={c.workflow.description}>
     <figcaption><span class="eyebrow">THE DIRECTION</span><h2>{c.workflow.title}</h2><p>{c.workflow.description}</p></figcaption>
     {c.workflow.imageSrc?.match(/^data:image\/(?:png|jpeg);base64,/) && <img class="editorial-image" src={c.workflow.imageSrc} alt={c.workflow.imageAlt} width="1536" height="1024"/>}
-    <details class="workflow-key"><summary>How the pieces connect</summary>
+    <details class="workflow-key" open><summary>How the pieces connect</summary>
     <div class="inputs">{c.workflow.inputs.map((label:string)=><div>{label}</div>)}</div>
     <div class="connector" aria-hidden="true">↓</div>
     <div class="core"><strong>AgroGina</strong><span>{c.workflow.core}</span></div>
