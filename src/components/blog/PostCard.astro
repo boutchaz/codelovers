@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { post, category, featured = false } = Astro.props;
-const { title, description, date, language, tags, cover } = post.data;
+const { title, description, date, language, tags, cover, heroImage } = post.data;
 const dateLabel = date.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
 const minutes = readingTime(post.body);
 ---
@@ -28,9 +28,9 @@ const minutes = readingTime(post.body);
   class="group flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition hover:border-rose-500/30 hover:bg-white/[0.05] data-[featured=true]:rounded-[28px] lg:data-[featured=true]:flex-row"
 >
   {
-    cover && (
+    (cover || heroImage) && (
       <div class="border-b border-white/5 bg-[#0b0d1a] lg:group-data-[featured=true]:order-last lg:group-data-[featured=true]:flex lg:group-data-[featured=true]:flex-1 lg:group-data-[featured=true]:basis-1/2 lg:group-data-[featured=true]:items-center lg:group-data-[featured=true]:border-b-0 lg:group-data-[featured=true]:border-l">
-        <PostCover kind={cover} />
+        {heroImage ? <img src={heroImage} alt="" width="1536" height="1024" loading={featured ? "eager" : "lazy"} class="aspect-[3/2] w-full object-cover" /> : cover && <PostCover kind={cover} />}
       </div>
     )
   }
