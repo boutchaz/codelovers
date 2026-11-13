@@ -319,9 +319,9 @@ const sectionLabel = "font-mono text-[11px] font-medium uppercase tracking-[0.2e
             <div class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((item) => (
                 <a href={`/blog/${item.id}/`} class="flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition hover:border-rose-500/30 hover:bg-white/[0.05]">
-                  {item.data.cover && (
+                  {(item.data.cover || item.data.heroImage) && (
                     <div class="border-b border-white/5 bg-[#0b0d1a]">
-                      <PostCover kind={item.data.cover} />
+                      {item.data.heroImage ? <img src={item.data.heroImage} alt="" width="1536" height="1024" loading="lazy" class="aspect-[3/2] w-full object-cover" /> : item.data.cover && <PostCover kind={item.data.cover} />}
                     </div>
                   )}
                   <div class="flex flex-col gap-2.5 p-6">
